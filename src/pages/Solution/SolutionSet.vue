@@ -80,10 +80,11 @@
                   <td>{{item.solutionId}}</td>
                   <td>{{item.user.userName}}</td>
                   <td>
-                    <a :href="'/p/'+item.problem.problemId">{{item.problem.title}}</a>
+                    <router-link
+                      :to="'/problem/problemView/' + item.problem.problemId"
+                    >{{item.problem.title}}</router-link>
                   </td>
                   <td>{{item.submitTime.substr(0, 10) + ' ' +item.submitTime.substr(11, 8)}}</td>
-
                   <td>{{item.languageStr}}</td>
                   <td>{{item.resultStr}}</td>
                   <td>{{item.runtime ? item.runtime + 'ms' : " " }}</td>
@@ -163,10 +164,10 @@ export default {
   methods: {
     toPage(index) {
       request({
-        url: "/s/set/" + index
+        url: "/solution/set/" + index
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           // console.log(result.extend.pageInfo.list)
           this.solutionList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;

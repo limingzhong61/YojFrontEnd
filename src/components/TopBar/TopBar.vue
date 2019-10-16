@@ -25,27 +25,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- =============== 跳转标题 ==================== -->
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a :class="{'nav-link': true,'active': isCurrent('/home')}" href="/home">
-            首页
-            <span class="sr-only">(current)</span>
+        <li class="nav-item" v-for="(item,index) in routes" :key="index">
+          <a  :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
+            {{item.name}}
+            <!-- <span class="sr-only">(current)</span> -->
           </a>
-        </li>
-        <li class="nav-item">
-          <router-link :class="{'nav-link': true,'active': isCurrent('/problem')}"
-           to="/problem">题库</router-link>
-        </li>
-        <li class="nav-item">
-          <a :class="{'nav-link': true,'active': isCurrent('/consest')}"
-           th:href="@{/contest/contestSet}">比赛</a>
-        </li>
-        <li class="nav-item">
-          <a :class="{'nav-link': true,'active': isCurrent('/user')}"
-           href="#">用户</a>
-        </li>
-        <li class="nav-item">
-          <router-link :class="{'nav-link': true,'active': isCurrent('/solution')}"
-           to="/solution">评测状态</router-link>
         </li>
         <li class="nav-item">
           <a
@@ -148,10 +132,25 @@
 
 <script>
 export default {
+  data(){
+    return {
+      routes: [
+          {path: 'home', name: '首页'},
+          {path: '/problem', name: '题库'},
+          {path: '/contest', name: '比赛'},
+          {path: '/user', name: '用户'},
+          {path: '/solution', name: '评测状态'},
+      ]
+    }
+  },
   methods: {
+    goto(path) {
+        this.$router.replace(path)
+    },
     isCurrent(path) {
-      // console.log(this.$route.path)
-      return this.$route.path === path;
+      var regExp = new RegExp(path)
+      // console.log(regExp.test(this.$route.path))
+      return regExp.test(this.$route.path)
     }
   }
 };

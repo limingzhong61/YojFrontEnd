@@ -1,11 +1,13 @@
 // vue.config.js
 const webpack = require("webpack");
 module.exports = {
+    publicPath: './',
+    assetsDir: './',
     devServer: {
-        // host: "localhost",
-        // port: 8888,
+        host: "localhost",
+        port: 8888,
         // hot: true,
-        // open: true,
+        open: true,
         proxy: {
             '/api': {
                 target: 'http://localhost:8080',

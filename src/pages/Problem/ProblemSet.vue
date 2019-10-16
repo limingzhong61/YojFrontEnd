@@ -2,7 +2,7 @@
   <div id="app" class="container" style="margin-top: 80px;">
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <a th:href="@{/problem/addProblem}">添加题目</a>
+        <a href="/problem/addProblem">添加题目</a>
         <table class="table table-hover table-bordered">
           <!---->
           <thead class="thead-light">
@@ -20,7 +20,7 @@
               <td>{{item.problemId}}</td>
               <td>{{item.solved ? '已解决' : '未提交'}}</td>
               <td>
-                <a :href="'/p/'+item.problemId">{{item.title}}</a>
+                <router-link :to="'/problem/problemView/' + item.problemId">{{item.title}}</router-link>
               </td>
               <td>入门</td>
               <td>{{item.submissions}}</td>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import request from '../../api/ajax.js'
+import request from "../../api/ajax.js";
 export default {
   data() {
     return {
@@ -91,23 +91,21 @@ export default {
   },
   methods: {
     toPage(index) {
-        console.log('topage')
-                request({
-         url: '/p/getProblemSet/'+index
-        }).then(
-          res =>{
-            console.log(res);
+      // console.log("topage");
+      request({
+        url: "/problem/getProblemSet/" + index
+      })
+        .then(res => {
+          // console.log(res);
           // console.log(result.extend.pageInfo.list)
           this.problemList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
           this.navigatepageNums = res.data.extend.pageInfo.navigatepageNums;
           // console.log(vue.pageInfo)
-          }
-        ).catch(
-          err =>{
-            console.log(err)
-          }
-        )
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   mounted() {
