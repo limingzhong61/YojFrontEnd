@@ -26,7 +26,7 @@
       <!-- =============== 跳转标题 ==================== -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" v-for="(item,index) in routes" :key="index">
-          <a  :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
+          <a :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
             {{item.name}}
             <!-- <span class="sr-only">(current)</span> -->
           </a>
@@ -110,11 +110,11 @@
             aria-haspopup="true"
             aria-expanded="false"
             sec:authentication="name"
-          ></a>
+          >{{user.userName}}</a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-            <a class="dropdown-item" th:href="@{/user/userInfo}">个人信息</a>
+            <a class="dropdown-item" href="#">个人信息</a>
             <div class="dropdown-divider"></div>
-            <form th:action="@{/logout}" method="post">
+            <form action="http://localhost:8080/logout" method="post">
               <button class="dropdown-item" type="submit">退出</button>
             </form>
             <!--<a class="dropdown-item" th:href="@{/logout}">退出</a>-->
@@ -131,26 +131,29 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  data(){
+  data() {
     return {
       routes: [
-          {path: 'home', name: '首页'},
-          {path: '/problem', name: '题库'},
-          {path: '/contest', name: '比赛'},
-          {path: '/user', name: '用户'},
-          {path: '/solution', name: '评测状态'},
+        { path: "/home", name: "首页" },
+        { path: "/problem", name: "题库" },
+        { path: "/contest", name: "比赛" },
+        { path: "/user", name: "用户" },
+        { path: "/solution", name: "评测状态" }
       ]
-    }
+    };
   },
+  computed: mapState(["user"]),
   methods: {
     goto(path) {
-        this.$router.replace(path)
+      this.$router.replace(path);
+      console.log(this.user.userName)
     },
     isCurrent(path) {
-      var regExp = new RegExp(path)
+      var regExp = new RegExp(path);
       // console.log(regExp.test(this.$route.path))
-      return regExp.test(this.$route.path)
+      return regExp.test(this.$route.path);
     }
   }
 };

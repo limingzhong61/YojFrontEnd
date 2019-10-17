@@ -7,13 +7,9 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import TopBar from "./components/TopBar/TopBar.vue";
 import Footer from "./components/Footer/Footer.vue";
 import router from "./router";
-// import $ from 'jquery'
-// import request from './api/ajax.js'
-// import axios from 'axios'
 export default {
   name: "app",
   components: {
@@ -21,10 +17,9 @@ export default {
     Footer
   },
   router,
-  mounted(){
-        // console.log('topage')
-
-    }
+  created() {
+    this.$store.dispatch("getUser");
+  }
 };
 </script>
 

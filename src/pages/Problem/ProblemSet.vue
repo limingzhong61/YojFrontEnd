@@ -2,7 +2,7 @@
   <div id="app" class="container" style="margin-top: 80px;">
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <a href="/problem/addProblem">添加题目</a>
+        <router-link to="/problem/add">添加题目</router-link>
         <table class="table table-hover table-bordered">
           <!---->
           <thead class="thead-light">
@@ -20,7 +20,7 @@
               <td>{{item.problemId}}</td>
               <td>{{item.solved ? '已解决' : '未提交'}}</td>
               <td>
-                <router-link :to="'/problem/problemView/' + item.problemId">{{item.title}}</router-link>
+                <router-link :to="'/problem/view/' + item.problemId">{{item.title}}</router-link>
               </td>
               <td>入门</td>
               <td>{{item.submissions}}</td>

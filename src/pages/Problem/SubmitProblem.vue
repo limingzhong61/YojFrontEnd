@@ -8,17 +8,19 @@
             <div sec:authorize="!isAuthenticated()">
               <p id="user" style="color: red; text-align: center;">提交代码前，请先登录</p>
             </div>
-            <!--判断-->
-            <!--<p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>-->
           </div>
           <input hidden="hidden" value="${pid}" name="problemId" />
           <div class="section__body">
-            <form th:action="@{/s/submit}" method="post">
+            <form method="post">
               <div class="input-group mb-4 col-6" style="padding-left: 0;">
                 <div class="input-group-prepend">
                   <label class="input-group-text" for="inputGroupSelect01">代码语言</label>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01" name="language">
+                <select
+                  :class="{'is-invalid': language == -1,'is-valid': language != -1,'custom-select':true}"
+                  id="inputGroupSelect01"
+                  v-model="language"
+                >
                   <option selected value="-1">请选择语言</option>
                   <option value="0">C</option>
                   <option value="1">C++</option>
@@ -31,20 +33,19 @@
               <div class="mb-4">
                 <div name="code" class="textarea-container monospace">
                   <textarea
-                    name="code"
+                    v-model="code"
                     placeholder
-                    class="textbox form-control"
+                    :class="{'is-invalid': code.trim() == '','is-valid': code.trim() == '',
+                    'textbox':true,'form-control':true}"
                     autofocus
                     data-autofocus
                   ></textarea>
                   <div class="invalid-feedback">代码不能为空。</div>
                 </div>
               </div>
-
               <div class="mb-4">
                 <div class="columns">
-                  <input type="hidden" name="problemId" th:value="${pid}" />
-                  <input type="submit" class="btn btn-danger" value="提交评测" />
+                  <input @click="submitSolution" type="button" class="btn btn-danger" value="提交评测" />
                 </div>
               </div>
             </form>
@@ -56,35 +57,52 @@
 </template>
 
 <script>
-// $(function () {
-//     $("form").submit(function () {
-//         if(document.getElementById("user")){
-//             return false;
-//         }
-//         if(!validate($("select"),$("select").val() != "-1")){
-//             return false;
-//         }
-//         if(!validate($("textarea"),$("textarea").val() != "")){
-//             return false;
-//         }
-//         // return false;
-//     });
-//     $("select").change(function () {
-//         validate(this,this.value != "-1");
-//     });
-//     $("textarea").change(function () {
-//         validate(this,this.value != "");
-//     });
-
-// });
-export default {};
+import request from "../../api/ajax.js";
+export default {
+  data() {
+    return {
+      language: -1,
+      code: ""
+    };
+  },
+  // watch: {
+  // },
+  methods: {
+    submitSolution() {
+      var solution = {
+        language: this.language,
+        code: this.code.trim(),
+        problemId: this.$route.params.id
+      };
+      console.log(solution);
+      if(solution.code == '' || solution.language == -1){
+        return
+      }
+      console.log('in')
+      request({
+        url: "/solution/submit",
+        method: "post",
+        data: solution
+      })
+        .then(res => {
+          console.log(res);
+          if (res.data.success) {
+            this.$router.replace("/solution");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+};
 </script>
 <style>
 .section__title {
   font-size: 1.125em;
 }
 
-textarea.textbox {
+.textbox.form-control {
   height: 295px;
 }
 .invalid-feedback {

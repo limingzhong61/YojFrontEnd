@@ -81,7 +81,7 @@
                 @click="addProblem"
                 class="btn btn-primary btn-lg justify-content-sm-center"
                 type="submit"
-              >修改题目</button>
+              >添加题目</button>
             </div>
           </div>
         </div>
@@ -94,7 +94,6 @@
 import TextEditor from "../../components/TextEditor/TextEditor.vue";
 import JudgeCase from "../../components/JudgeCase/JudgeCase.vue";
 import request from "../../api/ajax.js";
-import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -132,23 +131,6 @@ export default {
       judgeData: []
     };
   },
-  computed: mapState({
-    stateProblem(state) {
-      this.problem = state.problem;
-      this.title = state.problem.title;
-      this.timeLimit = state.problem.timeLimit;
-      this.memoryLimit = state.problem.memoryLimit;
-      this.judgeData = JSON.parse(state.problem.judgeData);
-      return state.problem;
-    }
-
-    // judgeData(state) {
-    //   // var judgeData = state.problem.judgeData
-    //   // console.log("1"+judgeData)
-
-    //   return JSON.parse(state.problem.judgeData);
-    // }
-  }),
   components: {
     TextEditor,
     JudgeCase
@@ -168,19 +150,21 @@ export default {
       if (
         this.problem.title == "" ||
         this.problem.timeLimit == "" ||
-        this.problem.memoryLimit == "[]"
+        this.problem.memoryLimit == "" ||
+        this.problem.JudgeCase == "[]"
       ) {
         return;
       }
+      console.log('in')
       request({
-        url: "/problem/alter",
+        url: "/problem/add",
         method: "POST",
         data: this.problem
       })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.data.success) {
-            this.$router.replace("/problem/view/" + this.$route.params.id)
+            this.$router.replace("/problem/view/" + res.data.extend.pid)
           }
         })
         .catch(err => {
@@ -190,13 +174,6 @@ export default {
     toDelCase(index) {
       this.judgeData.splice(index - 1, 1);
     },
-    ...mapActions([
-      "getProblem" // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
-    ])
-  },
-  created() {
-    this.getProblem(this.$route.params.id);
-    this.stateProblem;
   }
 };
 </script>

@@ -81,7 +81,7 @@
                   <td>{{item.user.userName}}</td>
                   <td>
                     <router-link
-                      :to="'/problem/problemView/' + item.problem.problemId"
+                      :to="'/problem/view/' + item.problem.problemId"
                     >{{item.problem.title}}</router-link>
                   </td>
                   <td>{{item.submitTime.substr(0, 10) + ' ' +item.submitTime.substr(11, 8)}}</td>

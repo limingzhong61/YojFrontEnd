@@ -52,27 +52,16 @@
 </template>
 
 <script>
-import request from "../../api/ajax.js";
+// import request from "../../api/ajax.js";
 export default {
-  data() {
-    return {
-      problem: {}
-    };
+  computed: {
+    problem(){
+      return this.$store.state.problem
+    }
   },
   mounted() {
-    // console.log(this.$route.params.id)
-    request({
-      url: "/problem/" + this.$route.params.id,
-      method: "GET"
-    })
-      .then(res => {
-        // console.log(res);
-        this.problem = res.data.extend.problem;
-        // console.log(this.problem)
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    console.log(this.$route.params.id)
+    this.$store.dispatch("getProblem", this.$route.params.id);
   }
 };
 </script>

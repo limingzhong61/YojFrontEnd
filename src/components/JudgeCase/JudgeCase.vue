@@ -45,11 +45,11 @@ export default {
   },
   watch: {
     caseIn(value) {
-      this.judgeCase.in = this.caseIn.trim();
+      this.judgeCase.in = value.trim();
     },
     caseOut(value) {
 
-      this.judgeCase.out = this.caseOut.trim();
+      this.judgeCase.out = value.trim();
     }
   },
   mounted() {

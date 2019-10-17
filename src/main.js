@@ -5,10 +5,11 @@ import App from './App.vue'
 import $ from 'jquery'
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-
+import store from "./store"
 Vue.config.productionTip = false
 
 new Vue({
   $,
   render: h => h(App),
+  store
 }).$mount('#app')
