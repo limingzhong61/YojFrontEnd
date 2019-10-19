@@ -9,24 +9,26 @@ import {
 import request from '../api/ajax.js'
 
 export default {
-  // 异步获取地址
-  async getUser({commit}) {
-    await request({
+  // 异步获取用户信息
+   getUser({commit}) {
+     request({
         url: "/user/info",
         method: "GET"
       })
       .then(res => {
-        // console.log(res);
-        const user = res.data;
-        commit(RECEIVE_USER, {
-          user
-        })
+        console.log(res);
+        if(res.data.success){
+          const user = res.data.extend.user;
+          commit(RECEIVE_USER, {
+            user
+          })
+        }
       })
       .catch(err => {
         console.log(err);
       });
   },
-  // 异步获取地址
+  // 异步获取问题
   async getProblem({commit}, pid) {
     await request({
         url: "/problem/" + pid,
@@ -34,9 +36,9 @@ export default {
       })
       .then(res => {
         // console.log(res);
-        const user = res.data.extend.user;
-        commit(RECEIVE_USER, {
-          user
+        const problem = res.data.extend.problem;
+        commit(RECEIVE_PROBLEM, {
+          problem
         })
       })
       .catch(err => {

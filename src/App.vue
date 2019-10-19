@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TopBar></TopBar>
+    <TopBar v-show="!$route.meta.hideTopBar"></TopBar>
     <router-view></router-view>
     <Footer></Footer>
   </div>
@@ -9,17 +9,12 @@
 <script>
 import TopBar from "./components/TopBar/TopBar.vue";
 import Footer from "./components/Footer/Footer.vue";
-import router from "./router";
 export default {
   name: "app",
   components: {
     TopBar,
     Footer
   },
-  router,
-  created() {
-    this.$store.dispatch("getUser");
-  }
 };
 </script>
 

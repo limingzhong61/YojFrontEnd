@@ -1,81 +1,90 @@
 <template>
-  <div class="container" style="margin-top: 80px;">
-    <div class="row">
-      <div class="col-md-12 order-md-1">
-        <form class="form-signin" th:action="@{/user/login}" method="post">
-          <img
-            class="mb-4"
-            src="../../assets/images/bootstrap-solid.svg"
-            alt
-            width="72"
-            height="72"
-          />
-          <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
-          <!--判断-->
-          <p th:if="${loginError}" style="color: red" class="error">用户名/密码错误</p>
-          <label class="sr-only">用户名</label>
-          <input
-            type="text"
-            name="userName"
-            class="form-control"
-            placeholder="用户名"
-            required
-            autofocus
-            v-model="userName"
-          />
-          <label class="sr-only">密码</label>
-          <input
-            type="password"
-            name="password"
-            class="form-control"
-            placeholder="密码"
-            required
-            v-model="password"
-          />
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" name="remember" />记住我
-            </label>
-          </div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit" @click.prevent="login">登录</button>
-          <a class="btn btn-lg btn-primary btn-block" th:href="@{/user/register}">注册</a>
-          <!--<a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>-->
-          <!--<a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>-->
-        </form>
+  <div class="wrapper">
+    <div class="container login">
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+          <form class="form-signin">
+            <div class="imgDiv">
+              <img class="mb-8" src="../../assets/images/astronaut.jpg" alt width="72" height="72" />
+            </div>
+            <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">请登录</h1>
+            <!--判断-->
+            <p
+              class="mb-3 loginFail"
+              v-show="loginFail"
+            >用户名/密码错误</p>
+            <label class="sr-only">用户名</label>
+            <input
+              type="text"
+              name="userName"
+              class="form-control"
+              placeholder="用户名"
+              required
+              autofocus
+              v-model="userName"
+            />
+            <label class="sr-only">密码</label>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              placeholder="密码"
+              required
+              v-model="password"
+            />
+            <div class="checkbox mb-3 d-flex justify-content-center">
+              <label>
+                <input type="checkbox" name="remember" />记住我
+              </label>
+            </div>
+            <button
+              class="btn btn-lg btn-primary btn-block mb-3"
+              type="submit"
+              @click.prevent="login"
+            >登录</button>
+            <router-link href="#" to="/register" class="d-flex justify-content-center">没有账号，快去注册</router-link>
+            <!--<a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>-->
+            <!--<a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>-->
+          </form>
+        </div>
       </div>
+      <!--引入footer-->
+      <footer th:replace="commons/bar::footer"></footer>
     </div>
-    <!--引入footer-->
-    <footer th:replace="commons/bar::footer"></footer>
   </div>
 </template>
 <script>
 // /user/login
-// import request from "../../api/ajax";
-import axios from 'axios'
+import request from "../../api/ajax";
+// import axios from "axios";
 export default {
   data() {
     return {
       userName: "",
-      password: ""
+      password: "",
+      loginFail: false
     };
   },
   methods: {
     login() {
       const username = this.userName;
       const password = this.password;
-      console.log(username + this.password);
-      axios({
-          url: "http://localhost:8080/user/login",
-          method: "post",
-              // res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-          // 封装JSON
-          data: {
-            username,
-            password
-          }
-        })
+      request({
+        url: "/login",
+        method: "post",
+        params: {
+          username,
+          password
+        }
+      })
         .then(res => {
           console.log(res);
+          if (res.data.success) {
+            this.$router.replace("/home")
+            this.$store.dispatch('getUser')
+          } else {
+            this.loginFail = true;
+          }
         })
         .catch(err => {
           console.log(err);
@@ -85,12 +94,12 @@ export default {
 };
 </script>
 <style>
-html,
-container {
-  height: 100%;
+.loginFail{
+  text-align: center;
+  color: red;
 }
-
-container {
+.wrapper {
+  /* margin-top: -10px; */
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;
@@ -100,9 +109,9 @@ container {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  /*background-color: #f5f5f5;*/
+  /* padding-top: 40px; */
+  padding-bottom: 35px;
+  /* background-color: #f5f5f5; */
 }
 
 .form-signin {
@@ -138,5 +147,10 @@ container {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.imgDiv {
+  display: flex;
+  justify-content: center;
 }
 </style>

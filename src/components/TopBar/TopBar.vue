@@ -110,6 +110,7 @@
             aria-haspopup="true"
             aria-expanded="false"
             sec:authentication="name"
+            v-if="user"
           >{{user.userName}}</a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
             <a class="dropdown-item" href="#">个人信息</a>
@@ -132,6 +133,7 @@
 
 <script>
 import { mapState } from "vuex";
+import request from "../../api/ajax";
 export default {
   data() {
     return {
@@ -144,17 +146,38 @@ export default {
       ]
     };
   },
-  computed: mapState(["user"]),
+  computed: mapState({
+    user(state){
+      // if(!state.user){
+      //   this.$store.dispatch('getUser')
+      // }
+      // console.log(state.user)
+      return state.user;
+    }
+  }),
   methods: {
     goto(path) {
       this.$router.replace(path);
-      console.log(this.user.userName)
     },
     isCurrent(path) {
       var regExp = new RegExp(path);
       // console.log(regExp.test(this.$route.path))
       return regExp.test(this.$route.path);
+    },
+    logout() {
+      request({
+        url: "/user/login"
+      })
+        .then(res => {
+          console.log(res);
+          this.goto("/login");
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },mounted(){
+    console.log(this.user)
   }
 };
 </script>

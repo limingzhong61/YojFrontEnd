@@ -11,6 +11,9 @@ import SubmitProblem from '../pages/Problem/SubmitProblem.vue'
 import AlterProblem from '../pages/Problem/AlterProblem.vue'
 import AddProblem from '../pages/Problem/AddProblem.vue'
 
+import Login from '../pages/Login/Login.vue'
+import Register from '../pages/Register/Register.vue'
+
 import SolutionSet from '../pages/Solution/SolutionSet.vue'
 
 Vue.use(VueRouter)
@@ -24,6 +27,20 @@ export default new VueRouter({
         {
             path: '/home',
             component: Home
+        },{
+            path: '/login',
+            component: Login,
+            meta: {
+                hideTopBar: true,
+                withOutLogin: true,
+            }
+        },{
+            path: '/register',
+            component: Register,
+            meta: {
+                hideTopBar: true,
+                withOutLogin: true,
+            }
         }, {
             path: '/problem',
             component: ProblemSet,
@@ -46,3 +63,4 @@ export default new VueRouter({
         }
     ]
 })
+

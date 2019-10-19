@@ -1,8 +1,8 @@
 // vue.config.js
 const webpack = require("webpack");
 module.exports = {
-    publicPath: './',
-    assetsDir: './',
+    // publicPath: './',
+    // assetsDir: './',
     devServer: {
         host: "localhost",
         port: 8888,

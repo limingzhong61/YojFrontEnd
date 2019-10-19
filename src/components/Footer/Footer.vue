@@ -1,5 +1,5 @@
 <template>
-<footer th:fragment="footer" class="my-5 pt-5 text-muted text-center text-small">
+<footer th:fragment="footer" class="my-3 pt-3 text-muted text-center text-small">
     <p class="mb-1">All Rights Reserved © 2019- Li Mingzhong</p>
     <ul class="list-inline">
         <li class="list-inline-item"><a href="#">Privacy</a></li>
