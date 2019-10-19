@@ -9,10 +9,6 @@
         height="72"
       />
       <h2>注册账号</h2>
-      <!--<p class="lead">Below is an example form built entirely with-->
-      <!--Bootstrap's form controls. Each required form group has a validation-->
-      <!--state that can be triggered by attempting to submit the form without-->
-      <!--completing it.</p>-->
     </div>
     <div class="row">
       <div class="col-md-8 order-md-1 offset-md-2">
@@ -31,20 +27,39 @@
             />
             <div class="invalid-feedback">{{userNameMsg}}</div>
           </div>
+
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="password">密码:</label>
             </div>
             <input
               type="password"
-              :class="{'form-control': true,'is-invalid': !passwordJudge,'is-valid': passwordJudge}"
+              :class="{'col-7': true,'form-control': true,'is-invalid': passwordStrength < 2,'is-valid': passwordStrength >= 2}"
               id="password"
               v-model="password"
               placeholder
               required="required"
             />
+            <ul class="list-group list-group-horizontal col-4 ml-3">
+              <li
+                :class="{'list-group-item': true,'bg-secondary': passwordStrength == 1}"
+              >{{passwordStrength==1 ? '弱':''}}</li>
+              <li
+                :class="{'list-group-item': true,'bg-info': passwordStrength == 2}"
+              >{{passwordStrength==2 ? '中':''}}</li>
+              <li
+                :class="{'list-group-item': true,'bg-warning': passwordStrength == 3}"
+              >{{passwordStrength==3 ? '强':''}}</li>
+              <li
+                :class="{'list-group-item': true,'bg-danger': passwordStrength == 4}"
+              >{{passwordStrength==4 ? '牛':''}}</li>
+            </ul>
             <div class="invalid-feedback">{{passwordMsg}}</div>
           </div>
+
+
+
+          
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="secondPassword">确认密码:</label>
@@ -71,6 +86,9 @@
             />
             <div class="invalid-feedback">{{emailMsg}}</div>
           </div>
+
+
+
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="emailCheckCode">邮箱验证码:</label>
@@ -93,7 +111,7 @@
             <div class="invalid-feedback">验证码错误.</div>
           </div>
           <div class="input-group mb-1" style="text-align: center;">
-            <p  style="text-align: center;">邮箱验证码仅在10分钟内有效</p>
+            <p style="text-align: center;">邮箱验证码仅在10分钟内有效</p>
           </div>
           <hr class="mb-3 mt-0" />
           <div style="display: flex; justify-content: center;">
@@ -125,7 +143,7 @@
 
 <script>
 import request from "../../api/ajax.js";
-import $ from 'jquery'
+import $ from "jquery";
 export default {
   data() {
     return {
@@ -134,7 +152,7 @@ export default {
       userNameMsg: "",
 
       password: "",
-      passwordJudge: true,
+      passwordStrength: 0,
       passwordMsg: "",
 
       secondPassword: "",
@@ -179,7 +197,7 @@ export default {
           // console.log(res)
           this.emailJudge = res.data.success;
           if (res.data.success) {
-            this.$options.methods.countDown(5, this.$refs.emailBtn)
+            this.$options.methods.countDown(5, this.$refs.emailBtn);
           } else {
             this.emailMsg = res.data.msg;
           }
@@ -192,13 +210,13 @@ export default {
     register() {
       if (
         !this.userNameJudge ||
-        !this.passwordJudge ||
+        this.passwordJudge < 2 ||
         !this.secondPasswordJudge ||
         !this.emailJudge
       ) {
         return;
       }
-      // console.log("register");
+      console.log(this.password)
       // console.log(this.headers);
       request({
         url: "/user/r/register",
@@ -214,7 +232,7 @@ export default {
         .then(res => {
           // console.log(res);
           if (res.data.success) {
-            this.$router.replace('/login')
+            this.$router.replace("/login");
           } else {
             for (var obj in res.extend) {
               // console.log("form input[id=" + obj + "]");
@@ -260,15 +278,26 @@ export default {
       this.secondPasswordJudge = value == this.secondPassword;
       if (this.secondPasswordJudge) {
         this.secondPasswordMsg = "两次密码不一致";
-      }else{
+      } else {
         this.secondPasswordMsg = "";
       }
-      this.passwordJudge = value != "";
-      if (this.passwordJudge) {
-        this.passwordMsg = "密码不能为空.";
-        return;
+
+      //   console.log(this.length);
+      this.passwordStrength = 0;
+      var passwordStrength = this.passwordStrength;
+      if (value.length > 6) {
+        if (/\d/.test(value)) passwordStrength++; //数字
+        if (/[a-z]/.test(value)) passwordStrength++; //小写
+        if (/[A-Z]/.test(value)) passwordStrength++; //大写
+        if (/\W/.test(value)) passwordStrength++; //特殊字符
       }
-      this.passwordMsg = "";
+      this.passwordStrength = passwordStrength;
+      if(this.passwordStrength > 2){
+        this.passwordMsg = ""
+      }else{
+        this.passwordMsg = "密码强度不够。数字、字母大小写、特殊字符能增加密码强度"
+      }
+      // console.log(this.passwordpasswordStrength);
     },
     secondPassword: function(value) {
       this.secondPasswordJudge = value == this.password;
@@ -313,6 +342,15 @@ export default {
 };
 </script>
 <style>
+/* 密码框样式 */
+.list-group-horizontal {
+  text-align: center;
+}
+.list-group-item {
+  background-color: #28a745;
+  text-align: center;
+}
+
 .register.container {
   margin-top: -40px;
 }

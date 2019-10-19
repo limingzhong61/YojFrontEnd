@@ -24,8 +24,8 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
   }
   const flag = to.meta.withOutLogin
-  console.log(flag)
-  console.log(store.state.user)
+  // console.log(flag)
+  // console.log(store.state.user)
   // 判断该路由是否需要登录权限
   if (!flag && !store.state.user) {
     request({

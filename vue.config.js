@@ -1,8 +1,12 @@
 // vue.config.js
 const webpack = require("webpack");
 module.exports = {
-    // publicPath: './',
-    // assetsDir: './',
+    // publicPath: process.env.NODE_ENV === 'production' ?
+    //     './' :
+    //     '/',
+    // assetsDir: process.env.NODE_ENV === 'production' ?
+    //     './' :
+    //     '/',
     devServer: {
         host: "localhost",
         port: 8888,

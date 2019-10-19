@@ -15,6 +15,7 @@ import Login from '../pages/Login/Login.vue'
 import Register from '../pages/Register/Register.vue'
 
 import SolutionSet from '../pages/Solution/SolutionSet.vue'
+import ResetPassword from '../pages/User/ResetPassword/ResetPassword.vue'
 
 Vue.use(VueRouter)
 
@@ -26,22 +27,27 @@ export default new VueRouter({
         },
         {
             path: '/home',
-            component: Home
-        },{
+            component: Home,
+        }, {
             path: '/login',
             component: Login,
             meta: {
                 hideTopBar: true,
                 withOutLogin: true,
             }
-        },{
+        }, {
             path: '/register',
             component: Register,
             meta: {
                 hideTopBar: true,
                 withOutLogin: true,
             }
-        }, {
+        },
+         {
+            path: '/user/resetPassWord',
+            component: ResetPassword
+        },
+        {
             path: '/problem',
             component: ProblemSet,
         }, {
@@ -50,10 +56,10 @@ export default new VueRouter({
         }, {
             path: '/problem/submit/:id',
             component: SubmitProblem
-        },{
+        }, {
             path: '/problem/alter/:id',
             component: AlterProblem
-        },{
+        }, {
             path: '/problem/add',
             component: AddProblem
         },
@@ -63,4 +69,3 @@ export default new VueRouter({
         }
     ]
 })
-

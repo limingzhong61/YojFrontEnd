@@ -1,6 +1,13 @@
 # yoj-front-end
 
+### 完成了未登录时访问其他路由时，前端路由重定向到登录页面
+
+### 使用vue重构了前端代码
+
+
+
 ## Project setup
+
 ```
 npm install
 ```
@@ -28,4 +35,3 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## 使用vue重构了前端代码

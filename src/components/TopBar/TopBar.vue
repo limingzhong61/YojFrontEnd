@@ -148,10 +148,7 @@ export default {
   },
   computed: mapState({
     user(state){
-      // if(!state.user){
-      //   this.$store.dispatch('getUser')
-      // }
-      // console.log(state.user)
+      console.log(state.user)
       return state.user;
     }
   }),
@@ -176,8 +173,6 @@ export default {
           console.log(err);
         });
     }
-  },mounted(){
-    console.log(this.user)
   }
 };
 </script>

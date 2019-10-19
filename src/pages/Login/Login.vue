@@ -78,7 +78,7 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.success) {
             this.$router.replace("/home")
             this.$store.dispatch('getUser')

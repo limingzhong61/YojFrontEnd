@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.params.id)
+    // console.log(this.$route.params.id)
     this.$store.dispatch("getProblem", this.$route.params.id);
   }
 };

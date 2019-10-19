@@ -5,9 +5,9 @@
         <div class="section visible mx-3">
           <div class="section__header">
             <h2 class="section__title my-4">递交以评测</h2>
-            <div sec:authorize="!isAuthenticated()">
+            <!-- <div sec:authorize="!isAuthenticated()">
               <p id="user" style="color: red; text-align: center;">提交代码前，请先登录</p>
-            </div>
+            </div> -->
           </div>
           <input hidden="hidden" value="${pid}" name="problemId" />
           <div class="section__body">

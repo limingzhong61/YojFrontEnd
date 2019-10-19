@@ -138,7 +138,9 @@ export default {
       this.title = state.problem.title;
       this.timeLimit = state.problem.timeLimit;
       this.memoryLimit = state.problem.memoryLimit;
-      this.judgeData = JSON.parse(state.problem.judgeData);
+      if(state.problem.judgeData){
+        this.judgeData = JSON.parse(state.problem.judgeData);
+      }
       return state.problem;
     }
 
@@ -195,8 +197,13 @@ export default {
     ])
   },
   created() {
-    this.getProblem(this.$route.params.id);
-    this.stateProblem;
+    if(!this.$store.state.problem.problemId){
+      this.getProblem(this.$route.params.id);
+      console.log('reload')
+    }
+  },beforeMount(){
+        this.stateProblem;
+        
   }
 };
 </script>

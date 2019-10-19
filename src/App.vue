@@ -9,12 +9,40 @@
 <script>
 import TopBar from "./components/TopBar/TopBar.vue";
 import Footer from "./components/Footer/Footer.vue";
+import request from './api/ajax'
+import {RECEIVE_USER} from './store/mutations-types'
 export default {
   name: "app",
   components: {
     TopBar,
     Footer
   },
+  beforeCreate() {
+    const href = window.location.href;
+    const index = href.indexOf("/#/");
+    const path = href.slice(index + 2);
+    // console.log(path);
+    if (path != "/register" && path != "/login") {
+      request({
+        url: "/user/info",
+        method: "GET"
+      })
+        .then(res => {
+          // console.log(res);
+          if (res.data.success) {
+            const user = res.data.extend.user;
+            this.$store.commit(RECEIVE_USER, {
+              user
+            });
+          } else {
+            this.$router.replace('/login')
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>
 
