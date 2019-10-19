@@ -9,10 +9,7 @@
             </div>
             <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">请登录</h1>
             <!--判断-->
-            <p
-              class="mb-3 loginFail"
-              v-show="loginFail"
-            >用户名/密码错误</p>
+            <p class="mb-3 loginFail" v-show="loginFail">用户名/密码错误</p>
             <label class="sr-only">用户名</label>
             <input
               type="text"
@@ -43,6 +40,11 @@
               @click.prevent="login"
             >登录</button>
             <router-link href="#" to="/register" class="d-flex justify-content-center">没有账号，快去注册</router-link>
+            <router-link
+              href="#"
+              to="/user/resetPassword"
+              class="d-flex justify-content-center"
+            >忘记密码，快去找回</router-link>
             <!--<a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>-->
             <!--<a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>-->
           </form>
@@ -80,8 +82,8 @@ export default {
         .then(res => {
           // console.log(res);
           if (res.data.success) {
-            this.$router.replace("/home")
-            this.$store.dispatch('getUser')
+            this.$router.replace("/home");
+            this.$store.dispatch("getUser");
           } else {
             this.loginFail = true;
           }
@@ -94,7 +96,7 @@ export default {
 };
 </script>
 <style>
-.loginFail{
+.loginFail {
   text-align: center;
   color: red;
 }

@@ -21,8 +21,9 @@ export default {
     const href = window.location.href;
     const index = href.indexOf("/#/");
     const path = href.slice(index + 2);
-    // console.log(path);
-    if (path != "/register" && path != "/login") {
+    console.log(path);
+    if (path != "/register" && path != "/login" && path != '/user/resetPassword') {
+      console.log('in')
       request({
         url: "/user/info",
         method: "GET"
@@ -40,6 +41,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          this.$router.replace('/login')
         });
     }
   }

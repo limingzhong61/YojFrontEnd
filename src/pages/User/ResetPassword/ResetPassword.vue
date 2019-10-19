@@ -1,78 +1,166 @@
 <template>
-  <div class="container reset-password">
-    <div class="row">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="password">密码:</label>
-        </div>
-        <input
-          type="password"
-          :class="{'col-9': true,'form-control': true,'is-invalid': false,'is-valid': false}"
-          id="password"
-          v-model="password"
-          placeholder
-          required="required"
-        />
-        <ul class="list-group list-group-horizontal col-3 md-1 ml-3">
-          <li
-            :class="{'col-1':true,'list-group-item': true,'bg-secondary': strength >= 1}"
-          >{{strength==1 ? '弱':''}}xxx</li>
-          <li
-            :class="{'col-1':true,'list-group-item': true,'bg-info': strength >= 2}"
-          >{{strength==2 ? '中':''}}</li>
-          <li
-            :class="{'col-1':true,'list-group-item': true,'bg-warning': strength >= 3}"
-          >{{strength==3 ? '强':''}}</li>
-          <li
-            :class="{'col-1':true,'list-group-item': true,'bg-danger': strength >= 4}"
-          >{{strength==4 ? '超强':''}}</li>
-        </ul>
-        <div class="invalid-feedback">{{}}</div>
+  <div class="container register">
+    <div class="py-3 text-center">
+      <img
+        class="d-block mx-auto mb-3"
+        src="../../../assets/images/astronaut.jpg"
+        alt
+        width="72"
+        height="72"
+      />
+      <h2>找回密码</h2>
+      <router-link href="#" to="/login" class="d-flex justify-content-center">已有账号，快去登录</router-link>
+      <p>请输入你的账号邮箱地址，以便找回密码</p>
+    </div>
+    <JudgePassword v-model="passwordJudge"></JudgePassword>
+
+    <!--加载图片model-->
+    <div class="container">
+      <div
+        id="myModal"
+        class="modal"
+        data-keyboard="false"
+        data-backdrop="static"
+        data-role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+      >
+        <div id="loading" class="loading">发送邮件中。。。</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import JudgePassword from "../../../components/user/JudgePassword/JudgePassword.vue";
+import request from "../../../api/ajax.js";
+import $ from "jquery";
 export default {
+  components: {
+    JudgePassword
+  },
   data() {
     return {
-      strength: 0,
-      password: "",
-      length: 0
+      passwordJudge: {
+        password: "",
+        strength: 0
+      },
+
+      email: "",
+      emailJudge: false,
+      emailMsg: "",
+
+      emailCheckCode: "",
+      emailCheckJudge: true,
+      emailCheckMsg: "",
+      headers: {},
+      maxTime: 60
     };
   },
-  watch: {
-    password(val) {
-      this.length = val.length;
-      //   console.log(this.length);
-      this.strength = 0;
-      var strength = this.strength;
-      if (val.length > 6) {
-        if (/\d/.test(val)) strength++; //数字
-        if (/[a-z]/.test(val)) strength++; //小写
-        if (/[A-Z]/.test(val)) strength++; //大写
-        if (/\W/.test(val)) strength++; //特殊字符
+  methods: {
+    countDown(maxTime, emailBtn) {
+      var countDownVar = window.setInterval(() => {
+        if (maxTime == 0) {
+          emailBtn.disabled = "";
+          emailBtn.innerHTML = "获取验证码";
+          clearInterval(countDownVar);
+        } else {
+          emailBtn.disabled = "disabled";
+          emailBtn.innerHTML = maxTime + "秒后重新获取";
+          maxTime--;
+        }
+      }, 1000);
+    },
+    sendEmail() {
+      if (!this.emailJudge) {
+        return;
       }
-      this.strength = strength;
-      console.log(this.strength);
-      //   if (val.length > 12) return 4;
+      $("#myModal").modal("show");
+      request({
+        url: "/user/r/getEmailCheckCode/" + this.email
+      })
+        .then(res => {
+          $("#myModal").modal("hide");
+          // console.log(res)
+          this.emailJudge = res.data.success;
+          if (res.data.success) {
+            this.$options.methods.countDown(5, this.$refs.emailBtn);
+          } else {
+            this.emailMsg = res.data.msg;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          $("#myModal").modal("hide");
+        });
+    },
+    resetPassword() {
+      if (!this.emailJudge) {
+        return;
+      }
+      console.log(this.password);
+      // console.log(this.headers);
+      request({
+        url: "#",
+        method: "POST",
+        data: {
+          userName: this.userName,
+          password: this.password,
+          email: this.email,
+          emailCheckCode: this.emailCheckCode
+          //  headers: this.headers
+        }
+      })
+        .then(res => {
+          // console.log(res);
+          if (res.data.success) {
+            this.$router.replace("/login");
+          } else {
+            for (var obj in res.extend) {
+              this[obj] = false;
+            }
+            // console.log('error')
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+  watch: {
+    email: function(value) {
+      var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i;
+      this.emailJudge = emailReg.test(value);
+      if (!this.emailJudge) {
+        this.emailMsg = "请输入一个有效的电子邮件地址.";
+        return;
+      }
+      request({
+        url: "/user/r/validateEmail/" + value
+      })
+        .then(res => {
+          // console.log(res);
+          res = res.data;
+          this.emailJudge = res.success;
+          if (this.emailJudge) {
+            this.emailMsg = "";
+          } else {
+            this.emailMsg = res.msg;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  mounted() {
+    // var csrfHeader = this.$("meta[name='_csrf_header']").attr("content");
+    // var csrfToken = this.$("meta[name='_csrf']").attr("content");
+    // var headers = {};
+    // headers[csrfHeader] = csrfToken;
+    // this.headers = headers;
   }
 };
 </script>
 <style>
-/* .reset-password {
-  margin-top: 100px;
-} */
-.list-group-horizontal {
-  text-align: center;
-}
-.list-group-item {
-  width: 90px;
-  height: 36px;
-  background-color: #28a745;
-  text-align: center;
-  padding-top: 5px;
-}
 </style>

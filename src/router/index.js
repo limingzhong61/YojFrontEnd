@@ -45,7 +45,11 @@ export default new VueRouter({
         },
          {
             path: '/user/resetPassWord',
-            component: ResetPassword
+            component: ResetPassword,
+            meta: {
+                hideTopBar: true,
+                withOutLogin: true,
+            }
         },
         {
             path: '/problem',

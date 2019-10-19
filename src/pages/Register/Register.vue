@@ -9,6 +9,7 @@
         height="72"
       />
       <h2>注册账号</h2>
+      <router-link href="#" to="/login" class="d-flex justify-content-center">已有账号，快去登录</router-link>
     </div>
     <div class="row">
       <div class="col-md-8 order-md-1 offset-md-2">
@@ -28,54 +29,11 @@
             <div class="invalid-feedback">{{userNameMsg}}</div>
           </div>
 
+          <JudgePassword v-model="passwordJudge"></JudgePassword>
+
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="password">密码:</label>
-            </div>
-            <input
-              type="password"
-              :class="{'col-7': true,'form-control': true,'is-invalid': passwordStrength < 2,'is-valid': passwordStrength >= 2}"
-              id="password"
-              v-model="password"
-              placeholder
-              required="required"
-            />
-            <ul class="list-group list-group-horizontal col-4 ml-3">
-              <li
-                :class="{'list-group-item': true,'bg-secondary': passwordStrength == 1}"
-              >{{passwordStrength==1 ? '弱':''}}</li>
-              <li
-                :class="{'list-group-item': true,'bg-info': passwordStrength == 2}"
-              >{{passwordStrength==2 ? '中':''}}</li>
-              <li
-                :class="{'list-group-item': true,'bg-warning': passwordStrength == 3}"
-              >{{passwordStrength==3 ? '强':''}}</li>
-              <li
-                :class="{'list-group-item': true,'bg-danger': passwordStrength == 4}"
-              >{{passwordStrength==4 ? '牛':''}}</li>
-            </ul>
-            <div class="invalid-feedback">{{passwordMsg}}</div>
-          </div>
-
-
-
-          
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="secondPassword">确认密码:</label>
-            </div>
-            <input
-              type="password"
-              :class="{'form-control': true,'is-invalid': !secondPasswordJudge,'is-valid': secondPasswordJudge}"
-              id="secondPassword"
-              v-model="secondPassword"
-              placeholder
-            />
-            <div class="invalid-feedback">{{secondPasswordMsg}}</div>
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="secondPassword">Email:</label>
+              <label class="input-group-text" for="email">Email:</label>
             </div>
             <input
               type="email"
@@ -86,8 +44,6 @@
             />
             <div class="invalid-feedback">{{emailMsg}}</div>
           </div>
-
-
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -143,6 +99,7 @@
 
 <script>
 import request from "../../api/ajax.js";
+import JudgePassword from "../../components/user/JudgePassword/JudgePassword.vue";
 import $ from "jquery";
 export default {
   data() {
@@ -151,13 +108,10 @@ export default {
       userNameJudge: true,
       userNameMsg: "",
 
-      password: "",
-      passwordStrength: 0,
-      passwordMsg: "",
-
-      secondPassword: "",
-      secondPasswordJudge: false,
-      secondPasswordMsg: "",
+      passwordJudge: {
+        password: '',
+        strength: 0,
+      },
 
       email: "",
       emailJudge: false,
@@ -169,6 +123,9 @@ export default {
       headers: {},
       maxTime: 60
     };
+  },
+  components: {
+    JudgePassword
   },
   methods: {
     countDown(maxTime, emailBtn) {
@@ -210,20 +167,20 @@ export default {
     register() {
       if (
         !this.userNameJudge ||
-        this.passwordJudge < 2 ||
+        this.passwordJudge.strength < 2 ||
         !this.secondPasswordJudge ||
         !this.emailJudge
       ) {
         return;
       }
-      console.log(this.password)
+      console.log(this.passwordJudge);
       // console.log(this.headers);
       request({
         url: "/user/r/register",
         method: "POST",
         data: {
           userName: this.userName,
-          password: this.password,
+          password: this.passwordJudge.password,
           email: this.email,
           emailCheckCode: this.emailCheckCode
           //  headers: this.headers
@@ -274,39 +231,7 @@ export default {
           console.log(err);
         });
     },
-    password: function(value) {
-      this.secondPasswordJudge = value == this.secondPassword;
-      if (this.secondPasswordJudge) {
-        this.secondPasswordMsg = "两次密码不一致";
-      } else {
-        this.secondPasswordMsg = "";
-      }
 
-      //   console.log(this.length);
-      this.passwordStrength = 0;
-      var passwordStrength = this.passwordStrength;
-      if (value.length > 6) {
-        if (/\d/.test(value)) passwordStrength++; //数字
-        if (/[a-z]/.test(value)) passwordStrength++; //小写
-        if (/[A-Z]/.test(value)) passwordStrength++; //大写
-        if (/\W/.test(value)) passwordStrength++; //特殊字符
-      }
-      this.passwordStrength = passwordStrength;
-      if(this.passwordStrength > 2){
-        this.passwordMsg = ""
-      }else{
-        this.passwordMsg = "密码强度不够。数字、字母大小写、特殊字符能增加密码强度"
-      }
-      // console.log(this.passwordpasswordStrength);
-    },
-    secondPassword: function(value) {
-      this.secondPasswordJudge = value == this.password;
-      if (this.secondPasswordJudge) {
-        this.secondPasswordMsg = "两次密码不一致";
-        return;
-      }
-      this.secondPasswordMsg = "";
-    },
     email: function(value) {
       var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i;
       this.emailJudge = emailReg.test(value);
@@ -342,14 +267,6 @@ export default {
 };
 </script>
 <style>
-/* 密码框样式 */
-.list-group-horizontal {
-  text-align: center;
-}
-.list-group-item {
-  background-color: #28a745;
-  text-align: center;
-}
 
 .register.container {
   margin-top: -40px;
