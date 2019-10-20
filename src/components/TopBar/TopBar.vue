@@ -140,7 +140,7 @@ export default {
       routes: [
         { path: "/home", name: "首页" },
         { path: "/problem", name: "题库" },
-        { path: "/contest", name: "比赛" },
+        // { path: "/contest", name: "比赛" },
         { path: "/user", name: "用户" },
         { path: "/solution", name: "评测状态" }
       ]

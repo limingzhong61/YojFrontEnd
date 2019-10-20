@@ -80,7 +80,7 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.data.success) {
             this.$router.replace("/home");
             this.$store.dispatch("getUser");
@@ -96,6 +96,10 @@ export default {
 };
 </script>
 <style>
+.login{
+  margin-top: -0.5rem;
+}
+
 .loginFail {
   text-align: center;
   color: red;
@@ -111,8 +115,6 @@ export default {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-  /* padding-top: 40px; */
-  padding-bottom: 35px;
   /* background-color: #f5f5f5; */
 }
 

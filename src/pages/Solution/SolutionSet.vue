@@ -87,7 +87,7 @@
                   <td>{{item.submitTime.substr(0, 10) + ' ' +item.submitTime.substr(11, 8)}}</td>
                   <td>{{item.languageStr}}</td>
                   <td>{{item.resultStr}}</td>
-                  <td>{{item.runtime ? item.runtime + 'ms' : " " }}</td>
+                  <td>{{item.runtime != null ? item.runtime + 'ms' : " " }}</td>
                   <td>{{item.memory ? item.memory / 10 + "KB" : " "}}</td>
                   <td>
                     <a href="#">敬请期待</a>
