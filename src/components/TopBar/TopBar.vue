@@ -113,7 +113,7 @@
             v-if="user"
           >{{user.userName}}</a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-            <a class="dropdown-item" href="#">个人信息</a>
+            <a tag="a" @click.prevent="goto('/user/info')" class="dropdown-item" href="#" >个人信息</a>
             <div class="dropdown-divider"></div>
             <form action="http://localhost:8080/logout" method="post">
               <button class="dropdown-item" type="submit">退出</button>

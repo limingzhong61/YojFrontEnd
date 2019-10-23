@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12 order-md-1">
         <router-link to="/problem/add">添加题目</router-link>
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover table-bordered text-center">
           <!---->
           <thead class="thead-light">
             <tr>
@@ -17,14 +17,19 @@
           </thead>
           <tbody>
             <tr v-for="item in problemList" :key="item.problemId">
-              <td>{{item.problemId}}</td>
-              <td>{{item.solved ? '已解决' : '未提交'}}</td>
+              <th scope="row">{{item.problemId}}</th>
+              <td>
+                 <span v-if="item.state > 0" class="fa fa-check fa-lg text-success"></span>
+                 <span v-else-if="item.state < 0" class="fa fa-close fa-lg text-danger"></span>
+                 <span v-else class="fa fa-circle-o fa-lg text-warning"></span>
+                 
+              </td>
               <td>
                 <router-link :to="'/problem/view/' + item.problemId">{{item.title}}</router-link>
               </td>
               <td>入门</td>
               <td>{{item.submissions}}</td>
-              <td>{{item.acRate}}%</td>
+              <td>{{item.submissions ? Math.round(item.accepted / item.submissions * 100) + '%' : ''}}</td>
             </tr>
           </tbody>
         </table>
@@ -81,11 +86,7 @@ export default {
   data() {
     return {
       problemList: [],
-      // pageInfo.pageNum 当前页号
       pageInfo: {},
-      // pageNumber: 1,
-      // totalRecord: 0,
-      // currentPage: 1,
       navigatepageNums: []
     };
   },
@@ -96,7 +97,7 @@ export default {
         url: "/problem/getProblemSet/" + index
       })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           // console.log(result.extend.pageInfo.list)
           this.problemList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;

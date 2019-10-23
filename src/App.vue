@@ -9,8 +9,8 @@
 <script>
 import TopBar from "./components/TopBar/TopBar.vue";
 import Footer from "./components/Footer/Footer.vue";
-import request from './api/ajax'
-import {RECEIVE_USER} from './store/mutations-types'
+import request from "./api/ajax";
+import { RECEIVE_USER } from "./store/mutations-types";
 export default {
   name: "app",
   components: {
@@ -22,8 +22,12 @@ export default {
     const index = href.indexOf("/#/");
     const path = href.slice(index + 2);
     console.log(path);
-    if (path != "/register" && path != "/login" && path != '/user/resetPassword') {
-      console.log('in')
+    if (
+      path != "/register" &&
+      path != "/login" &&
+      path != "/user/resetPassword"
+    ) {
+      console.log("in");
       request({
         url: "/user/info",
         method: "GET"
@@ -36,12 +40,12 @@ export default {
               user
             });
           } else {
-            this.$router.replace('/login')
+            this.$router.replace("/login");
           }
         })
         .catch(err => {
           console.log(err);
-          this.$router.replace('/login')
+          this.$router.replace("/login");
         });
     }
   }
@@ -54,7 +58,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
-  color: #2c3e50;
+  /* color: #2c3e50; */
+  /* background-color: white; */
+
   margin-top: 60px;
 }
+/* body{
+    background-color: rgb(239, 239, 239);
+} */
 </style>

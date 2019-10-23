@@ -15,7 +15,9 @@ import Login from '../pages/Login/Login.vue'
 import Register from '../pages/Register/Register.vue'
 
 import SolutionSet from '../pages/Solution/SolutionSet.vue'
+
 import ResetPassword from '../pages/User/ResetPassword/ResetPassword.vue'
+import UserInfo from '../pages/User/UserInfo/UserInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -50,6 +52,9 @@ export default new VueRouter({
                 hideTopBar: true,
                 withOutLogin: true,
             }
+        },{
+            path: '/user/info',
+            component: UserInfo,
         },
         {
             path: '/problem',

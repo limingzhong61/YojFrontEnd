@@ -3,12 +3,14 @@ import App from './App.vue'
 
 //使用bootstarp
 import $ from 'jquery'
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.min.js";
+import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/js/bootstrap.min.js"
+import 'font-awesome/css/font-awesome.css'
 import store from "./store"
 import router from './router'
 import request from './api/ajax'
 import {RECEIVE_USER} from './store/mutations-types'
+
 
 Vue.config.productionTip = false
 
