@@ -12,7 +12,7 @@ export default {
   // 异步获取用户信息
    getUser({commit}) {
      request({
-        url: "/user/info",
+        url: "/user/currentInfo",
         method: "GET"
       })
       .then(res => {

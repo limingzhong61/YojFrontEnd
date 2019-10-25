@@ -40,46 +40,19 @@
           </caption>
           <thead class="thead-light">
             <tr>
-              <th scope="col">PID</th>
-              <th scope="col">状态</th>
-              <th scope="col">名称</th>
-              <th scope="col">标签</th>
-              <th scope="col">递交</th>
-              <th scope="col">AC%</th>
+              <th scope="col">Rank</th>
+              <th scope="col">用户名</th>
+              <th scope="col">通过</th>
+              <th scope="col">提交</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in problemList" :key="item.problemId">
-              <th scope="row">{{item.problemId}}</th>
-              <td>
-                <span
-                  v-if="item.userSolved"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="已通过"
-                  class="fa fa-check fa-lg text-success"
-                ></span>
-                <span
-                  v-else-if="item.userSubmitted"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="未通过"
-                  class="fa fa-close fa-lg text-danger"
-                ></span>
-                <span
-                  v-else
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="未提交"
-                  class="fa fa-circle-o fa-lg text-warning"
-                ></span>
+            <tr v-for="item in userList" :key="item.userId">
+              <th scope="row">{{item.rank}}</th>
+              <td> <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
               </td>
-              <td>
-                <router-link :to="'/problem/view/' + item.problemId">{{item.title}}</router-link>
-              </td>
-              <td>入门</td>
+              <td>{{item.accepted}}</td>
               <td>{{item.submissions}}</td>
-              <td>{{item.submissions ? Math.round(item.accepted / item.submissions * 100) + '%' : ''}}</td>
             </tr>
           </tbody>
         </table>
@@ -127,8 +100,8 @@
 </template>
 
 <script>
-import request from "../../api/ajax.js";
-import $ from "jquery";
+import request from "../../../api/ajax.js";
+// import $ from "jquery";
 // $(function () {
 
 // })
@@ -138,7 +111,7 @@ export default {
       problemId: null,
       title: null,
 
-      problemList: [],
+      userList: [],
       pageInfo: {},
       navigatepageNums: []
     };
@@ -149,16 +122,16 @@ export default {
       this.elderProblemId = this.problemId;
       this.elderTitle = this.title;
       request({
-        url: "/problem/getProblemSet/" + index,
+        url: "/user/set/" + index,
         params: {
-          problemId: this.problemId,
-          title: this.title
+          // problemId: this.problemId,
+          // title: this.title
         }
       })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           // console.log(result.extend.pageInfo.list)
-          this.problemList = res.data.extend.pageInfo.list;
+          this.userList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
           this.navigatepageNums = res.data.extend.pageInfo.navigatepageNums;
           // console.log(vue.pageInfo)
@@ -172,8 +145,7 @@ export default {
     this.toPage(1);
   },
   updated() {
-    $('[data-toggle="tooltip"]').tooltip();
-    // console.log('update')
+    // $('[data-toggle="tooltip"]').tooltip();
   }
 };
 </script>

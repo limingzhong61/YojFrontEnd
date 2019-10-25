@@ -16,6 +16,7 @@ import Register from '../pages/Register/Register.vue'
 
 import SolutionSet from '../pages/Solution/SolutionSet.vue'
 
+import UserSet from '../pages/User/UserSet/UserSet.vue'
 import ResetPassword from '../pages/User/ResetPassword/ResetPassword.vue'
 import UserInfo from '../pages/User/UserInfo/UserInfo.vue'
 
@@ -44,6 +45,9 @@ export default new VueRouter({
                 hideTopBar: true,
                 withOutLogin: true,
             }
+        },{
+            path: '/user',
+            component: UserSet
         },
          {
             path: '/user/resetPassWord',
@@ -53,7 +57,7 @@ export default new VueRouter({
                 withOutLogin: true,
             }
         },{
-            path: '/user/info',
+            path: '/user/info/:id',
             component: UserInfo,
         },
         {

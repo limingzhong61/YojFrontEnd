@@ -87,20 +87,8 @@
       <!--</a>-->
       <!--</li>-->
       <!--</ul>-->
-      <!--判断用户是否存在-->
-      <!-- <div class="ml-auto" sec:authorize="!isAuthenticated()">
-        <a
-          id="login"
-          class="btn btn-bd-download d-none d-sm-inline-block cm-3 mb-sm-0 ml-sm-3"
-          th:href="@{/user/login}"
-        >登录</a>
-        <a
-          class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-sm-0 ml-sm-3"
-          th:href="@{/user/register}"
-        >注册</a>
-      </div>-->
       <!-- ===============个人按钮  ==================== -->
-      <ul class="navbar-nav flex-row ml-sm-auto d-none d-sm-flex">
+      <ul class="navbar-nav flex-row ml-sm-auto d-none d-sm-flex" v-if="user">
         <li class="nav-item dropdown">
           <a
             class="nav-item nav-link dropdown-toggle mr-sm-2"
@@ -110,10 +98,12 @@
             aria-haspopup="true"
             aria-expanded="false"
             sec:authentication="name"
-            v-if="user"
-          >{{user.userName}}</a>
+          >
+            <span class="fa fa-user-circle-o fa-lg text-primary" aria-label="GitHub"></span>
+            {{user.userName}}
+          </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-            <a tag="a" @click.prevent="goto('/user/info')" class="dropdown-item" href="#" >个人信息</a>
+            <router-link tag="a" :to="'/user/info/'+user.userId" class="dropdown-item" href="#">个人信息</router-link>
             <div class="dropdown-divider"></div>
             <form action="http://localhost:8080/logout" method="post">
               <button class="dropdown-item" type="submit">退出</button>
@@ -147,14 +137,14 @@ export default {
     };
   },
   computed: mapState({
-    user(state){
-      console.log(state.user)
+    user(state) {
+      // console.log(state.user)
       return state.user;
     }
   }),
   methods: {
     goto(path) {
-      this.$router.replace(path);
+      this.$router.push(path);
     },
     isCurrent(path) {
       var regExp = new RegExp(path);
@@ -163,10 +153,11 @@ export default {
     },
     logout() {
       request({
-        url: "/user/login"
+        url: "/user/logout"
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
+          res.data = "";
           this.goto("/login");
         })
         .catch(err => {

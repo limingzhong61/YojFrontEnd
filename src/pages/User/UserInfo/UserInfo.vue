@@ -35,16 +35,17 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import request from "../../../api/ajax.js";
 export default {
   data() {
     return {
       countAccepted: 0,
-      countSubmission: 0
+      countSubmission: 0,
+      user: {userName: ''},
     };
   },
-  computed: mapState(["user"]),
+  // computed: mapState(["user"]),
   methods: {
     toSolution(result) {
       this.$router.push({
@@ -54,9 +55,24 @@ export default {
     }
   },
   created() {
+     console.log('in')
+    request({
+      url: "/user/info/"+this.$route.params.id,
+      method: "get"
+    })
+      .then(res => {
+        console.log(res);
+        // console.log(result.extend.pageInfo.list)
+        this.user = res.data.extend.user;
+        // this.countAccepted = res.data.extend.accepted;
+        // this.countSubmission = res.data.extend.submission;
+      })
+      .catch(err => {
+        console.log(err);
+      });
     request({
       url: "/solution/countAcceptedAndSubmission",
-      method: "get",
+      method: "get"
     })
       .then(res => {
         console.log(res);
