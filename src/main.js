@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
   // 判断该路由是否需要登录权限
   if (!flag && !store.state.user) {
     request({
-      url: "/user/info",
+      url: "/user/currentInfo",
       method: "GET"
     })
     .then(res => {

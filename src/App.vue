@@ -21,7 +21,7 @@ export default {
     const href = window.location.href;
     const index = href.indexOf("/#/");
     const path = href.slice(index + 2);
-    console.log(path);
+    // console.log(path);
     if (
       path != "/register" &&
       path != "/login" &&
@@ -29,7 +29,7 @@ export default {
     ) {
       console.log("in");
       request({
-        url: "/user/info",
+        url: "/user/currentInfo",
         method: "GET"
       })
         .then(res => {

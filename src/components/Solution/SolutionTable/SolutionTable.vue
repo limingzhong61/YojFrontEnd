@@ -90,7 +90,7 @@
       <tbody>
         <tr class v-for="item in solutionList" :key="item.solutionId">
           <th scope="row">{{item.solutionId}}</th>
-          <td>{{item.userName}}</td>
+          <td><a userInfo="" href="#">{{item.userName}}</a></td>
           <td>
             <router-link
               :to="'/problem/view/' + item.problemId"
@@ -175,10 +175,9 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           // console.log(result.extend.pageInfo.list)
           this.solutionList = res.data.extend.pageInfo.list;
-          console.log(this.solutionList);
           this.pageInfo = res.data.extend.pageInfo;
           this.navigatepageNums = res.data.extend.pageInfo.navigatepageNums;
         })
@@ -193,10 +192,9 @@ export default {
   },
   created() {
     this.userName = this.$route.query.userName;
-    if (this.$route.query.result) {
+    if (/\d/.test(this.$route.query.result)) {
       this.result = this.$route.query.result;
     }
-    console.log(this.result);
     this.toPage(1);
   },
   beforeMount() {}
