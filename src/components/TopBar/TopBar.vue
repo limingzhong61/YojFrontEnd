@@ -111,7 +111,8 @@
             aria-expanded="false"
             sec:authentication="name"
             v-if="user"
-          >{{user.userName}}</a>
+          ><span  class="fa fa-user-circle-o fa-lg text-primary" aria-label="GitHub"></span>{{user.userName}}
+          </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
             <a tag="a" @click.prevent="goto('/user/info')" class="dropdown-item" href="#" >个人信息</a>
             <div class="dropdown-divider"></div>

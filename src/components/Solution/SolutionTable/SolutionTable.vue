@@ -112,10 +112,10 @@
       <div class="col-6"></div>
       <nav aria-label="navigation">
         <ul class="pagination">
-          <li :class="{'page-item': true, disable: !pageInfo.hasPreviousPage}">
+          <li :class="{'page-item': true, disabled: !pageInfo.hasPreviousPage}">
             <a class="page-link" href="#" @click.prevent="toPage(1)">首页</a>
           </li>
-          <li :class="{'page-item': true,disable: !pageInfo.hasPreviousPage}">
+          <li :class="{'page-item': true,disabled: !pageInfo.hasPreviousPage}">
             <a
               class="page-link"
               href="#"
@@ -131,14 +131,14 @@
             <a class="page-link" href="#" @click.prevent="toPage(index)">{{index}}</a>
           </li>
 
-          <li class="page-item disable: !pageInfo.hasNextPage}">
+          <li :class="{'page-item':true, disabled: !pageInfo.hasNextPage}">
             <a
               class="page-link"
               href="#"
               @click.prevent="pageInfo.hasNextPage && toPage(pageInfo.pageNum + 1)"
             >»</a>
           </li>
-          <li :class="{'page-item': true, disable: !pageInfo.hasNextPage}">
+          <li :class="{'page-item': true, disabled: !pageInfo.hasNextPage}">
             <a class="page-link" href="#" @click.prevent="toPage(pageInfo.pages)">末页</a>
           </li>
         </ul>
@@ -193,10 +193,10 @@ export default {
   },
   created() {
     this.userName = this.$route.query.userName;
-    if(this.$route.query.result){
+    if (this.$route.query.result) {
       this.result = this.$route.query.result;
     }
-    console.log(this.result)
+    console.log(this.result);
     this.toPage(1);
   },
   beforeMount() {}
