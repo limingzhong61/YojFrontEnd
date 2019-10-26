@@ -15,6 +15,7 @@ import Login from '../pages/Login/Login.vue'
 import Register from '../pages/Register/Register.vue'
 
 import SolutionSet from '../pages/Solution/SolutionSet.vue'
+import SolutionDetail from '../pages/Solution/SolutionDetail/SolutionDetail.vue'
 
 import UserSet from '../pages/User/UserSet/UserSet.vue'
 import ResetPassword from '../pages/User/ResetPassword/ResetPassword.vue'
@@ -79,6 +80,10 @@ export default new VueRouter({
         {
             path: '/solution',
             component: SolutionSet
+        },
+        {
+            path: '/solution/detail/:id',
+            component: SolutionDetail
         }
     ]
 })

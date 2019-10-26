@@ -140,6 +140,7 @@ export default {
       this.memoryLimit = state.problem.memoryLimit;
       if(state.problem.judgeData){
         this.judgeData = JSON.parse(state.problem.judgeData);
+        console.log(state.problem.judgeData)
       }
       return state.problem;
     }

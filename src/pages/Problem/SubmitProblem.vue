@@ -9,7 +9,6 @@
               <p id="user" style="color: red; text-align: center;">提交代码前，请先登录</p>
             </div> -->
           </div>
-          <input hidden="hidden" value="${pid}" name="problemId" />
           <div class="section__body">
             <form method="post">
               <div class="input-group mb-4 col-6" style="padding-left: 0;">

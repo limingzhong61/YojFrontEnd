@@ -28,7 +28,9 @@
               aria-describedby="button-addon2"
             />
             <div class="input-group-append ml-2">
-              <button @click="toPage(1)" class="btn btn-primary" type="button" id="button-addon2">Go</button>
+              <button @click="toPage(1)" class="btn btn-primary" type="button" id="button-addon2">
+                <!-- <span class="fa fa-search fa-lg text-secondary"></span> -->
+                Go</button>
             </div>
           </div>
         </div>
@@ -43,7 +45,9 @@
               <th scope="col">PID</th>
               <th scope="col">状态</th>
               <th scope="col">名称</th>
-              <th scope="col">标签</th>
+              <th scope="col">
+                <span class="fa fa-tags fa-lg text-secondary"></span>
+                标签</th>
               <th scope="col">递交</th>
               <th scope="col">AC%</th>
             </tr>

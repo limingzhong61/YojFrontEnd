@@ -42,15 +42,20 @@
             <tr>
               <th scope="col">Rank</th>
               <th scope="col">用户名</th>
+              <th scope="col">解决问题</th>
+              <th scope="col">尝试问题</th>
               <th scope="col">通过</th>
               <th scope="col">提交</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in userList" :key="item.userId">
-              <th scope="row">{{item.rank}}</th>
-              <td> <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
+            <tr v-for="(item,index) in userList" :key="item.userId">
+              <th scope="row">{{index+1}}</th>
+              <td>
+                <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
               </td>
+              <td>{{item.solved}}</td>
+              <td>{{item.attempted}}</td>
               <td>{{item.accepted}}</td>
               <td>{{item.submissions}}</td>
             </tr>

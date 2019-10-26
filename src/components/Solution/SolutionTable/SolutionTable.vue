@@ -52,7 +52,10 @@
             </select>-->
           </th>
           <th class>问题ID</th>
-          <th class style="vertical-align: middle;">提交时间</th>
+          <th class>
+            <span class="fa fa-calendar-check-o fa-lg text-secondary"></span>
+            提交时间
+          </th>
           <th class>
             <select v-model="language" @change="toPage(1)" class="custom-select">
               <option value="null">语言</option>
@@ -77,20 +80,25 @@
             </select>
           </th>
           <th class th:text="运行时间">
+            <span class="fa fa-clock-o fa-lg text-secondary"></span>
             CPU使用
-            <div class="updown">
-              <a class="up" href="###" onclick="cputimeup()"></a>
-              <a class="down" href="###" onclick="cputimedown()"></a>
-            </div>
           </th>
-          <th class>内存使用</th>
-          <th class>评测详情</th>
+          <th class>
+            <span class="fa fa-database fa-lg text-secondary"></span>
+            内存使用
+          </th>
+          <th class>
+            <span class="fa fa-file-code-o fa-lg text-secondary"></span>
+            评测详情
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr class v-for="item in solutionList" :key="item.solutionId">
           <th scope="row">{{item.solutionId}}</th>
-          <td><a userInfo="" href="#">{{item.userName}}</a></td>
+          <td>
+            <a href="#">{{item.userName}}</a>
+          </td>
           <td>
             <router-link
               :to="'/problem/view/' + item.problemId"
@@ -102,7 +110,7 @@
           <td>{{item.runtime != null ? item.runtime + 'ms' : " " }}</td>
           <td>{{item.memory ? item.memory / 10 + "KB" : " "}}</td>
           <td>
-            <a href="#">敬请期待</a>
+            <router-link :to="'/solution/detail/'+item.solutionId" href="#">敬请期待</router-link>
           </td>
         </tr>
       </tbody>
