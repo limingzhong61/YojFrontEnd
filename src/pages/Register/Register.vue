@@ -64,6 +64,27 @@
                 type="button"
               >获取验证码</button>
             </div>
+            <div class="invalid-feedback">邮箱验证码错误.</div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="emailCheckCode">验证码:</label>
+            </div>
+            <input
+              type="number"
+              :class="{'col-9': true,'form-control': true,
+              'is-invalid': !verifyImageJudge,'is-valid': verifyImageJudge}"
+              v-model="emailCheckCode"
+              placeholder
+            />
+            <div class="col-3 m-auto">
+              <img
+                ref="verifiedImg"
+                alt="验证码"
+                @click="getVerifyImage"
+                :src="verifiedImg"
+              />
+            </div>
             <div class="invalid-feedback">验证码错误.</div>
           </div>
           <div class="input-group mb-1" style="text-align: center;">
@@ -109,8 +130,8 @@ export default {
       userNameMsg: "",
 
       passwordJudge: {
-        password: '',
-        pass: false,
+        password: "",
+        pass: false
       },
 
       email: "",
@@ -121,7 +142,11 @@ export default {
       emailCheckJudge: true,
       emailCheckMsg: "",
       headers: {},
-      maxTime: 60
+      maxTime: 60,
+
+      verifiedImg: "",
+      verifyCode: "",
+      verifyImageJudge: true
     };
   },
   components: {
@@ -154,7 +179,7 @@ export default {
           // console.log(res)
           this.emailJudge = res.data.success;
           if (res.data.success) {
-            this.$options.methods.countDown(60, this.$refs.emailBtn);
+            this.$options.methods.countDown(maxTime, this.$refs.emailBtn);
           } else {
             this.emailMsg = res.data.msg;
           }
@@ -182,7 +207,8 @@ export default {
           userName: this.userName,
           password: this.passwordJudge.password,
           email: this.email,
-          emailCheckCode: this.emailCheckCode
+          emailCheckCode: this.emailCheckCode,
+          imageCheckCode: this.verifyCode
           //  headers: this.headers
         }
       })
@@ -198,6 +224,32 @@ export default {
             }
             // console.log('error')
           }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getVerifyImage() {
+      request({
+        url: "/verify/image",
+        method: "get",
+        responseType: "arraybuffer"
+      })
+        .then(response => {
+          //将从后台获取的图片流进行转换
+          return (
+            "data:image/png;base64," +
+            btoa(
+              new Uint8Array(response.data).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ""
+              )
+            )
+          );
+        })
+        .then(res => {
+          // console.log(res);
+          this.verifiedImg = res;
         })
         .catch(err => {
           console.log(err);
@@ -257,7 +309,8 @@ export default {
         });
     }
   },
-  mounted() {
+  created() {
+    this.getVerifyImage();
     // var csrfHeader = this.$("meta[name='_csrf_header']").attr("content");
     // var csrfToken = this.$("meta[name='_csrf']").attr("content");
     // var headers = {};
@@ -267,7 +320,6 @@ export default {
 };
 </script>
 <style>
-
 .register.container {
   margin-top: -40px;
 }

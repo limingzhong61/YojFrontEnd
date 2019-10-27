@@ -9,7 +9,7 @@
             </div>
             <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">请登录</h1>
             <!--判断-->
-            <p class="mb-3 loginFail" v-show="loginFail">用户名/密码错误</p>
+            <p class="mb-3 loginFail" v-show="loginFail" >{{loginMsg}}</p>
             <label class="sr-only">用户名</label>
             <input
               type="text"
@@ -29,6 +29,27 @@
               required
               v-model="password"
             />
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <!-- <span class="input-group-text" id="basic-addon1">@</span> -->
+                <img
+                  ref="verifiedImg"
+                  alt="验证码"
+                  @click="getVerifyImage"
+                  class="m-1"
+                  :src="verifiedImg"
+                />
+              </div>
+              <input
+                v-model="verifyCode"
+                type="text"
+                class="form-control m-1"
+                placeholder="验证码"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+
             <div class="checkbox mb-3 d-flex justify-content-center">
               <label>
                 <input type="checkbox" name="remember" />记住我
@@ -50,8 +71,6 @@
           </form>
         </div>
       </div>
-      <!--引入footer-->
-      <footer th:replace="commons/bar::footer"></footer>
     </div>
   </div>
 </template>
@@ -64,7 +83,10 @@ export default {
     return {
       userName: "",
       password: "",
-      loginFail: false
+      loginFail: false,
+      loginMsg: '',
+      verifiedImg: "",
+      verifyCode: ""
     };
   },
   methods: {
@@ -76,7 +98,8 @@ export default {
         method: "post",
         params: {
           username,
-          password
+          password,
+          tryCode: this.verifyCode
         }
       })
         .then(res => {
@@ -86,17 +109,47 @@ export default {
             this.$store.dispatch("getUser");
           } else {
             this.loginFail = true;
+            this.loginMsg = res.data.msg;
           }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    getVerifyImage() {
+      request({
+        url: "/verify/image",
+        method: "get",
+        responseType: "arraybuffer"
+      })
+        .then(response => {
+          //将从后台获取的图片流进行转换
+          return (
+            "data:image/png;base64," +
+            btoa(
+              new Uint8Array(response.data).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ""
+              )
+            )
+          );
+        })
+        .then(res => {
+          console.log(res);
+          this.verifiedImg = res;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+  created() {
+    this.getVerifyImage();
   }
 };
 </script>
 <style>
-.login{
+.login {
   margin-top: -0.5rem;
 }
 
