@@ -14,6 +14,14 @@ import {RECEIVE_USER} from './store/mutations-types'
 
 Vue.config.productionTip = false
 
+// 时间过滤器
+Vue.filter('timeFilter', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.substr(0, 10) + ' ' +value.substr(11, 8)
+})
+
+
 new Vue({
   $,
   render: h => h(App),

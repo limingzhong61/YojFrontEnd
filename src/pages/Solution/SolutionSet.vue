@@ -3,9 +3,6 @@
     <div class="row">
       <div class="col-md-12 order-md-1">
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <h2 class="panel-title">评测状态</h2>
-          </div>
           <solution-table></solution-table>
         </div>
       </div>

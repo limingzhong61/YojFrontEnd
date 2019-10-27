@@ -110,7 +110,7 @@ export default {
 
       passwordJudge: {
         password: '',
-        strength: 0,
+        pass: false,
       },
 
       email: "",
@@ -154,7 +154,7 @@ export default {
           // console.log(res)
           this.emailJudge = res.data.success;
           if (res.data.success) {
-            this.$options.methods.countDown(5, this.$refs.emailBtn);
+            this.$options.methods.countDown(60, this.$refs.emailBtn);
           } else {
             this.emailMsg = res.data.msg;
           }
@@ -165,10 +165,10 @@ export default {
         });
     },
     register() {
+      console.log(this.passwordJudge);
       if (
         !this.userNameJudge ||
         this.passwordJudge.strength < 2 ||
-        !this.secondPasswordJudge ||
         !this.emailJudge
       ) {
         return;

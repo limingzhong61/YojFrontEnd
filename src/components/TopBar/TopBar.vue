@@ -31,7 +31,7 @@
       <!-- =============== 跳转标题 ==================== -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" v-for="(item,index) in routes" :key="index">
-          <a :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
+          <a  :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
             <!-- 注意此间没有空格 -->
             <span :class="item.spanClass"></span>{{item.name}}
           </a>

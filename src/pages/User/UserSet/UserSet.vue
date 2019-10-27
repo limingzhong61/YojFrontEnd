@@ -2,28 +2,16 @@
   <div id="app" class="container" style="margin-top: 80px;">
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <router-link to="/problem/add">添加题目</router-link>
-        <div class="col-10 offset-1">
+        <div class="col-6 offset-3">
           <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">PID</span>
-            </div>
-            <input
-              v-model="problemId"
-              type="text"
-              class="form-control"
-              placeholder="PID"
-              aria-label="Recipient's username"
-              aria-describedby="button-addon2"
-            />
             <div class="input-group-prepend ml-3">
-              <span class="input-group-text">问题名称</span>
+              <span class="input-group-text">用户名</span>
             </div>
             <input
-              v-model="title"
+              v-model="userName"
               type="text"
               class="form-control"
-              placeholder="问题名称"
+              placeholder="用户名"
               aria-label="Recipient's username"
               aria-describedby="button-addon2"
             />
@@ -106,15 +94,10 @@
 
 <script>
 import request from "../../../api/ajax.js";
-// import $ from "jquery";
-// $(function () {
-
-// })
 export default {
   data() {
     return {
-      problemId: null,
-      title: null,
+      userName: null,
 
       userList: [],
       pageInfo: {},
@@ -129,12 +112,11 @@ export default {
       request({
         url: "/user/set/" + index,
         params: {
-          // problemId: this.problemId,
-          // title: this.title
+          userName: this.userName
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           // console.log(result.extend.pageInfo.list)
           this.userList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;

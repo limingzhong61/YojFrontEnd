@@ -8,8 +8,8 @@
             <tr>
               <th>解决问题</th>
               <th>尝试问题</th>
-              <!-- <th class="col-1">提交</th>
-              <th class="col-1">通过</th>-->
+              <th>通过评测</th>
+              <th>提交评测</th>
             </tr>
           </thead>
           <tbody>
@@ -20,12 +20,12 @@
               <td>
                 <a @click="toSolution(null)" href="#">{{user.attempted}}</a>
               </td>
-              <!-- <td>
-                <a @click.prevent="toSolution(null)" href="#">{{user.accepted}}</a>
+              <td>
+                <a @click.prevent="toSolution(0)" href="#">{{user.accepted}}</a>
               </td>
               <td>
-                <a @click.prevent="toSolution(null)" href="#">{{user.submissions}}</a>
-              </td>-->
+                <a @click.prevent="toSolution()" href="#">{{user.submissions}}</a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -34,7 +34,7 @@
     <div class="card shadow p-3 mb-5 bg-white rounded mx-5">
       <dl class="row text-left px-5">
         <dt class="col-3 font-weight-bold">注册时间：</dt>
-        <dd class="col-9 md-3">{{user.registerTime}}</dd>
+        <dd class="col-9 md-3">{{user.regTime | timeFilter}}</dd>
         <dt class="col-3 font-weight-bold">用户名：</dt>
         <dd class="col-9 md-3">{{user.userName}}</dd>
         <dt class="col-3 font-weight-bold">Email:</dt>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
 import request from "../../../api/ajax.js";
 export default {
   data() {
@@ -60,12 +59,12 @@ export default {
     toSolution(result) {
       this.$router.push({
         path: "/solution",
-        query: { userName: this.user.userName, result: result }
+        query: { userName: this.user.userName, result: result },
       });
     }
   },
   created() {
-    console.log("in");
+    // console.log("in");
     request({
       url: "/user/info/" + this.$route.params.id,
       method: "get"

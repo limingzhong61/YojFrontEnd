@@ -30,7 +30,8 @@
             <div class="input-group-append ml-2">
               <button @click="toPage(1)" class="btn btn-primary" type="button" id="button-addon2">
                 <!-- <span class="fa fa-search fa-lg text-secondary"></span> -->
-                Go</button>
+                Go
+              </button>
             </div>
           </div>
         </div>
@@ -45,9 +46,10 @@
               <th scope="col">PID</th>
               <th scope="col">状态</th>
               <th scope="col">名称</th>
-              <th scope="col">
+              <!-- <th scope="col">
                 <span class="fa fa-tags fa-lg text-secondary"></span>
-                标签</th>
+                标签
+              </th> -->
               <th scope="col">递交</th>
               <th scope="col">AC%</th>
             </tr>
@@ -81,7 +83,7 @@
               <td>
                 <router-link :to="'/problem/view/' + item.problemId">{{item.title}}</router-link>
               </td>
-              <td>入门</td>
+              <!-- <td>入门</td> -->
               <td>{{item.submissions}}</td>
               <td>{{item.submissions ? Math.round(item.accepted / item.submissions * 100) + '%' : ''}}</td>
             </tr>

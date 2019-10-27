@@ -93,15 +93,17 @@ export default {
         this.passwordMsg =
           "密码强度不够。数字、字母大小写、特殊字符能增加密码强度";
       }
-      this.$emit('change',{password:this.password,strength: passwordStrength})
+      this.$emit('change',{password:this.password,pass: passwordStrength < 2})
     },
     secondPassword: function(value) {
       this.secondPasswordJudge = value == this.password;
       if (this.secondPasswordJudge) {
         this.secondPasswordMsg = "两次密码不一致";
+        this.$emit('change',{password:this.password,pass: false})
         return;
       }
       this.secondPasswordMsg = "";
+      this.$emit('change',{password:this.password,pass: true})
     }
   }
 };

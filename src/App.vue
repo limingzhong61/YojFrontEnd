@@ -27,7 +27,7 @@ export default {
       path != "/login" &&
       path != "/user/resetPassword"
     ) {
-      console.log("in");
+      // console.log("in");
       request({
         url: "/user/currentInfo",
         method: "GET"

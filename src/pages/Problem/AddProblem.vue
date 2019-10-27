@@ -18,6 +18,21 @@
             />
             <div class="invalid-feedback">题目不能为空.</div>
           </div>
+          <!-- <div class="input-group mb-3 col-md-6 offset-md-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">标签</span>
+            </div>
+            <input
+              name="tag"
+              type="text"
+              v-model="tag"
+              :class="{'form-control': true,'is-invalid': title == '','is-valid': title != ''}"
+              placeholder="标签"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+            <div class="invalid-feedback">题目不能为空.</div>
+          </div> -->
           <div>
             <div class="input-group mb-3 col-md-6 offset-md-3">
               <div class="input-group-prepend">
@@ -126,6 +141,7 @@ export default {
       problem: {},
       isClear: false,
       title: "",
+      tag: '',
       timeLimit: "",
       memoryLimit: "",
       judgeData: []
@@ -137,6 +153,7 @@ export default {
   },
   methods: {
     addCase() {
+      if(this.judgeData.length >= 10) return
       this.judgeData.push({ in: "", out: "" });
     },
     addProblem() {

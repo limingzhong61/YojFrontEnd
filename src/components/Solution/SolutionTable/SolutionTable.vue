@@ -97,20 +97,20 @@
         <tr class v-for="item in solutionList" :key="item.solutionId">
           <th scope="row">{{item.solutionId}}</th>
           <td>
-            <a href="#">{{item.userName}}</a>
+            <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
           </td>
           <td>
             <router-link
               :to="'/problem/view/' + item.problemId"
             >{{item.title ?item.title: item.problemId}}</router-link>
           </td>
-          <td>{{item.submitTime.substr(0, 10) + ' ' +item.submitTime.substr(11, 8)}}</td>
+          <td>{{item.submitTime | timeFilter}}</td>
           <td>{{item.languageStr}}</td>
           <td>{{item.resultStr}}</td>
           <td>{{item.runtime != null ? item.runtime + 'ms' : " " }}</td>
           <td>{{item.memory ? item.memory / 10 + "KB" : " "}}</td>
           <td>
-            <router-link :to="'/solution/detail/'+item.solutionId" href="#">敬请期待</router-link>
+            <router-link :to="'/solution/detail/'+item.solutionId" href="#">评测详情</router-link>
           </td>
         </tr>
       </tbody>
@@ -200,6 +200,7 @@ export default {
   },
   created() {
     this.userName = this.$route.query.userName;
+    // console.log(this.$route.query.result)
     if (/\d/.test(this.$route.query.result)) {
       this.result = this.$route.query.result;
     }

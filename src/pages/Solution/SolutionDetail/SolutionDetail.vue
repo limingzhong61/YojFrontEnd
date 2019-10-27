@@ -119,6 +119,7 @@ export default {
   /* height: 295px; */
   min-height: 20px;
   max-height: 230px;
+  background-color: white;
 }
 .invalid-feedback {
   font-size: 15.2px;
