@@ -16,7 +16,7 @@ export default {
         method: "GET"
       })
       .then(res => {
-        console.log(res);
+        // console.log(res);
         if(res.data.success){
           const user = res.data.extend.user;
           commit(RECEIVE_USER, {

@@ -47,13 +47,13 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="emailCheckCode">邮箱验证码:</label>
+              <label class="input-group-text" for="emailCode">邮箱验证码:</label>
             </div>
             <input
               type="number"
-              :class="{'col-9': true,'form-control': true,'is-invalid': !emailCheckJudge,'is-valid': emailCheckJudge}"
-              id="emailCheckCode"
-              v-model="emailCheckCode"
+              :class="{'col-9': true,'form-control': true,'is-invalid': !emailCodeJudge,'is-valid': emailCodeJudge}"
+              id="emailCode"
+              v-model="emailCode"
               placeholder
             />
             <div class="col-3 md-1">
@@ -71,19 +71,14 @@
               <label class="input-group-text" for="emailCheckCode">验证码:</label>
             </div>
             <input
-              type="number"
+              type="text"
               :class="{'col-9': true,'form-control': true,
-              'is-invalid': !verifyImageJudge,'is-valid': verifyImageJudge}"
-              v-model="emailCheckCode"
+              'is-invalid': !imageCodeJudge,'is-valid': imageCodeJudge}"
+              v-model="imageCode"
               placeholder
             />
             <div class="col-3 m-auto">
-              <img
-                ref="verifiedImg"
-                alt="验证码"
-                @click="getVerifyImage"
-                :src="verifiedImg"
-              />
+              <VerifyImg></VerifyImg>
             </div>
             <div class="invalid-feedback">验证码错误.</div>
           </div>
@@ -122,6 +117,7 @@
 import request from "../../api/ajax.js";
 import JudgePassword from "../../components/user/JudgePassword/JudgePassword.vue";
 import $ from "jquery";
+import VerifyImg from  "../../components/VerifyImg/VerifyImg.vue"
 export default {
   data() {
     return {
@@ -135,22 +131,23 @@ export default {
       },
 
       email: "",
-      emailJudge: false,
+      emailJudge: true,
       emailMsg: "",
 
-      emailCheckCode: "",
-      emailCheckJudge: true,
-      emailCheckMsg: "",
+      emailCode: "",
+      emailCodeJudge: true,
+      emailCodeMsg: "",
       headers: {},
       maxTime: 60,
 
-      verifiedImg: "",
-      verifyCode: "",
-      verifyImageJudge: true
+      imageCode: "",
+      imageCodeJudge: true,
+      imageCodeMsg: ''
     };
   },
   components: {
-    JudgePassword
+    JudgePassword,
+    VerifyImg
   },
   methods: {
     countDown(maxTime, emailBtn) {
@@ -190,7 +187,7 @@ export default {
         });
     },
     register() {
-      console.log(this.passwordJudge);
+      // console.log(this.passwordJudge);
       if (
         !this.userNameJudge ||
         this.passwordJudge.strength < 2 ||
@@ -198,8 +195,7 @@ export default {
       ) {
         return;
       }
-      console.log(this.passwordJudge);
-      // console.log(this.headers);
+      // console.log(this.imageCode);
       request({
         url: "/user/r/register",
         method: "POST",
@@ -207,8 +203,8 @@ export default {
           userName: this.userName,
           password: this.passwordJudge.password,
           email: this.email,
-          emailCheckCode: this.emailCheckCode,
-          imageCheckCode: this.verifyCode
+          emailCode: this.emailCode,
+          imageCode: this.imageCode
           //  headers: this.headers
         }
       })
@@ -217,12 +213,12 @@ export default {
           if (res.data.success) {
             this.$router.replace("/login");
           } else {
-            for (var obj in res.extend) {
-              // console.log("form input[id=" + obj + "]");
-              // var this.$input = this.$("form input[id=" + obj + "]");
-              this[obj] = false;
+            // console.log(this.$data)
+            const extend = res.data.extend;
+            for (var obj in extend) {
+              this.$data[obj+'Judge'] = false
+              this.$data[obj+'Msg'] = extend[obj]
             }
-            // console.log('error')
           }
         })
         .catch(err => {
@@ -260,28 +256,17 @@ export default {
     userName: function(value) {
       // console.log(value)
       if (value === "") {
-        // validateWithMsg(this, false, "");
         this.userNameJudge = false;
         this.userNameMsg = "用户名不能为空";
         return;
       }
-      request({
-        url: "/user/r/validateUserName/" + value
-      })
-        .then(res => {
-          console.log(res);
-          res = res.data;
-          if (res.success) {
-            this.userNameJudge = true;
-            this.userNameMsg = "";
-          } else {
-            this.userNameJudge = false;
-            this.userNameMsg = "用户名已存在";
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      console.log(value.length)
+      if(value.length > 20){
+        this.userNameJudge = false;
+        this.userNameMsg = "用户名太长";
+        return;
+      }
+      this.userNameJudge = true;
     },
 
     email: function(value) {
@@ -291,22 +276,13 @@ export default {
         this.emailMsg = "请输入一个有效的电子邮件地址.";
         return;
       }
-      request({
-        url: "/user/r/validateEmail/" + value
-      })
-        .then(res => {
-          // console.log(res);
-          res = res.data;
-          this.emailJudge = res.success;
-          if (this.emailJudge) {
-            this.emailMsg = "";
-          } else {
-            this.emailMsg = res.msg;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    },
+    emailCode(value){
+      // console.log(value)
+      this.emailCodeJudge = true;
+    },
+    imageCode(value){
+      this.imageCodeJudge = true;
     }
   },
   created() {

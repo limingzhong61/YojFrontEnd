@@ -10,8 +10,7 @@
       />
       <h2>找回密码</h2>
       <div>
-        <router-link href="#" to="/login" class="justify-content-center">已有账号，快去登录</router-link>
-          &nbsp;
+        <router-link href="#" to="/login" class="justify-content-center">已有账号，快去登录</router-link>&nbsp;
         <router-link href="#" to="/login" class="justify-content-center">没有账号，快去注册</router-link>
       </div>
       <p>请输入你的账号邮箱地址，以便找回密码</p>
@@ -35,13 +34,13 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="emailCheckCode">邮箱验证码:</label>
+              <label class="input-group-text" for="emailCode">邮箱验证码:</label>
             </div>
             <input
               type="number"
-              :class="{'col-9': true,'form-control': true,'is-invalid': !emailCheckJudge,'is-valid': emailCheckJudge}"
-              id="emailCheckCode"
-              v-model="emailCheckCode"
+              :class="{'col-9': true,'form-control': true,'is-invalid': !emailCodeJudge,'is-valid': emailCodeJudge}"
+              id="emailCode"
+              v-model="emailCode"
             />
             <div class="col-3 md-1">
               <button
@@ -51,9 +50,26 @@
                 type="button"
               >获取验证码</button>
             </div>
-            <div class="invalid-feedback">验证码错误.</div>
+            <div class="invalid-feedback">{{emailCodeMsg}}</div>
           </div>
           <JudgePassword v-model="passwordJudge"></JudgePassword>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="emailCheckCode">验证码:</label>
+            </div>
+            <input
+              type="text"
+              :class="{'col-9': true,'form-control': true,
+              'is-invalid': !imageCodeJudge,'is-valid': imageCodeJudge}"
+              v-model="imageCode"
+              placeholder
+            />
+            <div class="col-3">
+              <verify-img ></verify-img>
+            </div>
+            <div class="invalid-feedback">验证码错误.</div>
+          </div>
+
           <div class="input-group" style="text-align: center;">
             <p style="text-align: center;">邮箱验证码仅在10分钟内有效</p>
           </div>
@@ -89,9 +105,11 @@
 import JudgePassword from "../../../components/user/JudgePassword/JudgePassword.vue";
 import request from "../../../api/ajax.js";
 import $ from "jquery";
+import VerifyImg from  "../../../components/VerifyImg/VerifyImg.vue"
 export default {
   components: {
-    JudgePassword
+    JudgePassword,
+    VerifyImg
   },
   data() {
     return {
@@ -104,10 +122,15 @@ export default {
       emailJudge: true,
       emailMsg: "",
 
-      emailCheckCode: "",
-      emailCheckJudge: true,
-      emailCheckMsg: "",
-      maxTime: 60
+      emailCode: "",
+      emailCodeJudge: true,
+      emailCodeMsg: "",
+      // emailcode btn time
+      maxTime: 5,
+
+      imageCode: "",
+      imageCodeJudge: true,
+      imageCodeMsg: ""
     };
   },
   methods: {
@@ -137,7 +160,7 @@ export default {
           // console.log(res)
           this.emailJudge = res.data.success;
           if (res.data.success) {
-            this.$options.methods.countDown(5, this.$refs.emailBtn);
+            this.$options.methods.countDown(this.maxTime, this.$refs.emailBtn);
           } else {
             this.emailMsg = res.data.msg;
           }
@@ -160,18 +183,21 @@ export default {
         data: {
           password: password,
           email: this.email,
-          emailCheckCode: this.emailCheckCode
+          emailCode: this.emailCode,
+          imageCode: this.imageCode
           //  headers: this.headers
         }
       })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.data.success) {
             this.$router.replace("/login");
           } else {
-            this.emailCheckJudge = false;
-            this.emailCheckMsg = res.data.msg;
-            // console.log('error')
+            const extend = res.data.extend;
+            for (var obj in extend) {
+              this.$data[obj+'Judge'] = false
+              this.$data[obj+'Msg'] = extend[obj]
+            }
           }
         })
         .catch(err => {
@@ -180,13 +206,20 @@ export default {
     }
   },
   watch: {
-    email: function(value) {
+   email: function(value) {
       var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i;
       this.emailJudge = emailReg.test(value);
       if (!this.emailJudge) {
         this.emailMsg = "请输入一个有效的电子邮件地址.";
         return;
       }
+    },
+    emailCode(value){
+      // console.log(value)
+      this.emailCodeJudge = true;
+    },
+    imageCode(value){
+      this.imageCodeJudge = true;
     }
   }
 };

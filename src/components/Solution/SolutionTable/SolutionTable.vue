@@ -59,24 +59,13 @@
           <th class>
             <select v-model="language" @change="toPage(1)" class="custom-select">
               <option value="null">语言</option>
-              <option value="0">C</option>
-              <option value="1">C++</option>
-              <option value="2">JAVA</option>
-              <option value="3">Python</option>
+              <option :value="index" v-for="(item,index) in judgeLanguage" :key="index">{{item}}</option>
             </select>
           </th>
           <th class>
             <select v-model="result" @change="toPage(1)" class="custom-select">
               <option value="null" selected="selected">评测状态</option>
-              <option value="0">Accepted</option>
-              <option value="1">Presentation Error</option>
-              <option value="2">Time Limit Exceeded</option>
-              <option value="3">Memory Limit Exceeded</option>
-              <option value="4">Wrong Answer</option>
-              <option value="5">Runtime Error</option>
-              <option value="6">Output Limit Exceeded</option>
-              <option value="7">Compile Error</option>
-              <option value="8">System Error</option>
+              <option :value="index" v-for="(item,index) in judgeResult" :key="index">{{item}}</option>
             </select>
           </th>
           <th class th:text="运行时间">
@@ -105,12 +94,17 @@
             >{{item.title ?item.title: item.problemId}}</router-link>
           </td>
           <td>{{item.submitTime | timeFilter}}</td>
-          <td>{{item.languageStr}}</td>
-          <td>{{item.resultStr}}</td>
+          <td>{{judgeLanguage[item.language]}}</td>
+          <td>{{judgeResult[item.result]}}</td>
           <td>{{item.runtime != null ? item.runtime + 'ms' : " " }}</td>
           <td>{{item.memory ? item.memory / 10 + "KB" : " "}}</td>
           <td>
-            <router-link :to="'/solution/detail/'+item.solutionId" href="#">评测详情</router-link>
+            <router-link
+              :to="'/solution/detail/'+item.solutionId"
+              v-if="item.share || user.userId == item.userId"
+              href="#"
+            >评测详情</router-link>
+            <a v-else>未分享</a>
           </td>
         </tr>
       </tbody>
@@ -157,14 +151,17 @@
 
 <script>
 import request from "../../../api/ajax.js";
+import { JUDGE_RESULT, JUDGE_LANGUAGE } from "../../../api/static.js";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      judgeResult: JUDGE_RESULT,
+      judgeLanguage: JUDGE_LANGUAGE,
       userName: null,
       problemId: null,
       language: null,
       result: null,
-
       solutionList: [],
       pageInfo: {},
       navigatepageNums: []
@@ -174,8 +171,8 @@ export default {
     toPage(index) {
       request({
         url: "/solution/set/" + index,
-        method: "post",
-        data: {
+        method: "get",
+        params: {
           userName: this.userName,
           problemId: this.problemId,
           result: this.result,
@@ -194,6 +191,7 @@ export default {
         });
     }
   },
+  computed: mapState(["user"]),
   watch: {
     // language(){
     // }

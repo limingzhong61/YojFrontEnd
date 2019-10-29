@@ -9,7 +9,7 @@
             </div>
             <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">请登录</h1>
             <!--判断-->
-            <p class="mb-3 loginFail" v-show="loginFail" >{{loginMsg}}</p>
+            <p class="mb-3 loginFail" v-show="loginFail">{{loginMsg}}</p>
             <label class="sr-only">用户名</label>
             <input
               type="text"
@@ -32,13 +32,7 @@
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <!-- <span class="input-group-text" id="basic-addon1">@</span> -->
-                <img
-                  ref="verifiedImg"
-                  alt="验证码"
-                  @click="getVerifyImage"
-                  class="m-1"
-                  :src="verifiedImg"
-                />
+                <VerifyImg class="m-1"></VerifyImg>
               </div>
               <input
                 v-model="verifyCode"
@@ -77,17 +71,19 @@
 <script>
 // /user/login
 import request from "../../api/ajax";
-// import axios from "axios";
+import VerifyImg from "../../components/VerifyImg/VerifyImg";
 export default {
   data() {
     return {
       userName: "",
       password: "",
       loginFail: false,
-      loginMsg: '',
-      verifiedImg: "",
+      loginMsg: "",
       verifyCode: ""
     };
+  },
+  components: {
+    VerifyImg
   },
   methods: {
     login() {
@@ -103,7 +99,7 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.success) {
             this.$router.replace("/home");
             this.$store.dispatch("getUser");
@@ -115,36 +111,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
-    getVerifyImage() {
-      request({
-        url: "/verify/image",
-        method: "get",
-        responseType: "arraybuffer"
-      })
-        .then(response => {
-          //将从后台获取的图片流进行转换
-          return (
-            "data:image/png;base64," +
-            btoa(
-              new Uint8Array(response.data).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-              )
-            )
-          );
-        })
-        .then(res => {
-          console.log(res);
-          this.verifiedImg = res;
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
-  },
-  created() {
-    this.getVerifyImage();
   }
 };
 </script>

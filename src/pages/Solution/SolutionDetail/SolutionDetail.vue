@@ -35,7 +35,7 @@
               <div class="invalid-feedback">代码不能为空。</div>
             </div>
           </form>
-          <table class="table table-hover table-bordered text-center">
+          <table class="table table-hover table-bordered text-center table-sm">
             <caption>详情记录</caption>
             <thead class="thead-light">
               <tr class>
@@ -59,9 +59,10 @@
               <tr v-for="(item,index) in testList" :key="index">
                 <th scope="row">{{index}}</th>
                 <!-- <td scope="row">{{item}}</td> -->
-                <td scope="row"></td>
+                <td scope="row">{{judgeResult[item.result]}}</td>
                 <td scope="row">{{item.timeUsed != null ? item.timeUsed + 'ms' : " " }}</td>
                 <td scope="row">{{item.memoryUsed ? item.memoryUsed / 10 + "KB" : " "}}</td>
+                <td scope="row"><a href="#">敬请期待</a></td>
               </tr>
             </tbody>
           </table>
@@ -73,11 +74,14 @@
 
 <script>
 import request from "../../../api/ajax.js";
+import { JUDGE_RESULT } from "../../../api/static";
+
 export default {
   data() {
     return {
+      judgeResult: JUDGE_RESULT,
       solution: {},
-      testList: [],
+      testList: []
     };
   },
   methods: {
@@ -96,13 +100,10 @@ export default {
       method: "get"
     })
       .then(res => {
-        console.log(res);
+        // console.log(res);
         const solution = res.data.extend.solution;
         this.solution = res.data.extend.solution;
-         console.log(solution.testResult)
         this.testList = JSON.parse(solution.testResult);
-        console.log(this.testList)
-        // console.log(result.extend.pageInfo.list)
       })
       .catch(err => {
         console.log(err);
