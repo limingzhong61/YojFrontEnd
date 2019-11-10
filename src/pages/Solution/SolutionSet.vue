@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="margin-top: 80px;">
+  <div class="container my-set pt-3 px-0">
     <div class="row">
       <div class="col-md-12 order-md-1">
         <div class="panel panel-default">

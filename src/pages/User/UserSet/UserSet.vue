@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container" style="margin-top: 80px;">
+  <div class="container my-set pt-3 px-5">
     <div class="row">
       <div class="col-md-12 order-md-1">
         <div class="col-6 offset-3">
@@ -16,17 +16,17 @@
               aria-describedby="button-addon2"
             />
             <div class="input-group-append ml-2">
-              <button @click="toPage(1)" class="btn btn-primary" type="button" id="button-addon2">Go</button>
+              <button
+                @click="toPage(1)"
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+              >Go</button>
             </div>
           </div>
         </div>
-        <table class="table table-hover table-bordered text-center">
-          <caption>
-            当前{{pageInfo.pageNum}}页，总
-            {{pageInfo.pages}}页，共
-            {{pageInfo.total}}条记录
-          </caption>
-          <thead class="thead-light">
+        <MyTabel :pageInfo="pageInfo" @toPage="toPage">
+          <thead class="thead-light" slot="thead">
             <tr>
               <th scope="col">Rank</th>
               <th scope="col">用户名</th>
@@ -36,7 +36,7 @@
               <th scope="col">提交</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody slot="tbody">
             <tr v-for="(item,index) in userList" :key="item.userId">
               <th scope="row">{{index+1}}</th>
               <td>
@@ -48,45 +48,7 @@
               <td>{{item.submissions}}</td>
             </tr>
           </tbody>
-        </table>
-        <!-- information of devide page -->
-        <div class="row">
-          <div class="col-6"></div>
-          <!-- 分页条信息 -->
-          <nav aria-label="Page navigation example" id="page_nav_area">
-            <ul class="pagination">
-              <li :class="{'page-item': true,disabled: !pageInfo.hasPreviousPage}">
-                <a class="page-link" href="#" @click.prevent="toPage(1)">首页</a>
-              </li>
-              <li :class="{'page-item': true,disabled: !pageInfo.hasPreviousPage}">
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="pageInfo.hasPreviousPage && toPage(pageInfo.pageNum - 1)"
-                >«</a>
-              </li>
-
-              <li
-                :class="{'page-item': true,active: index == pageInfo.pageNum}"
-                v-for="index in navigatepageNums"
-                :key="index"
-              >
-                <a class="page-link" href="#" @click.prevent="toPage(index)">{{index}}</a>
-              </li>
-
-              <li :class="{'page-item':true,disabled: !pageInfo.hasNextPage} ">
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="pageInfo.hasNextPage && toPage(pageInfo.pageNum + 1)"
-                >»</a>
-              </li>
-              <li :class="{'page-item': true, disabled: !pageInfo.hasNextPage}">
-                <a class="page-link" href="#" @click.prevent="toPage(pageInfo.pages)">末页</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        </MyTabel>
       </div>
     </div>
   </div>
@@ -94,14 +56,13 @@
 
 <script>
 import request from "../../../api/ajax.js";
+import MyTabel from "../../../components/Table/MyTable.vue";
 export default {
   data() {
     return {
       userName: null,
-
       userList: [],
-      pageInfo: {},
-      navigatepageNums: []
+      pageInfo: {}
     };
   },
   methods: {
@@ -120,7 +81,6 @@ export default {
           // console.log(result.extend.pageInfo.list)
           this.userList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
-          this.navigatepageNums = res.data.extend.pageInfo.navigatepageNums;
           // console.log(vue.pageInfo)
         })
         .catch(err => {
@@ -128,7 +88,10 @@ export default {
         });
     }
   },
-  mounted() {
+  components: {
+    MyTabel
+  },
+  created() {
     this.toPage(1);
   },
   updated() {

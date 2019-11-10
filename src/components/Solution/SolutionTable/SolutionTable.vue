@@ -1,5 +1,5 @@
 <template>
-  <table class="col-12 order-md-1">
+  <div class="col-12 order-md-1">
     <div class="col-10 offset-1">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -34,23 +34,11 @@
         </div>
       </div>
     </div>
-    <table class="table table-hover table-bordered text-center">
-      <!-- information of devide page -->
-      <caption>
-        当前{{pageInfo.pageNum}}页，总
-        {{pageInfo.pages}}页，共
-        {{pageInfo.total}}条记录
-      </caption>
-      <thead class="thead-light">
-        <tr class>
+    <MyTabel :pageInfo="pageInfo" @toPage="toPage">
+      <thead class="thead-light" slot="thead">
+                <tr class>
           <th class>提交序号</th>
-          <th class>
-            用户名
-            <!-- <select v-model="userName" @change="toPage(1)" class="custom-select">
-              <option value="null">用户名</option>
-              <option value="lmz1">我</option>
-            </select>-->
-          </th>
+          <th class>用户名</th>
           <th class>问题ID</th>
           <th class>
             <span class="fa fa-calendar-check-o fa-lg text-secondary"></span>
@@ -58,13 +46,13 @@
           </th>
           <th class>
             <select v-model="language" @change="toPage(1)" class="custom-select">
-              <option value="null">语言</option>
+              <option value selected="selected">语言</option>
               <option :value="index" v-for="(item,index) in judgeLanguage" :key="index">{{item}}</option>
             </select>
           </th>
           <th class>
             <select v-model="result" @change="toPage(1)" class="custom-select">
-              <option value="null" selected="selected">评测状态</option>
+              <option value selected="selected">评测状态</option>
               <option :value="index" v-for="(item,index) in judgeResult" :key="index">{{item}}</option>
             </select>
           </th>
@@ -82,8 +70,8 @@
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr class v-for="item in solutionList" :key="item.solutionId">
+      <tbody slot="tbody">
+                <tr class v-for="item in solutionList" :key="item.solutionId">
           <th scope="row">{{item.solutionId}}</th>
           <td>
             <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
@@ -95,64 +83,38 @@
           </td>
           <td>{{item.submitTime | timeFilter}}</td>
           <td>{{judgeLanguage[item.language]}}</td>
-          <td>{{judgeResult[item.result]}}</td>
-          <td>{{item.runtime != null ? item.runtime + 'ms' : " " }}</td>
-          <td>{{item.memory ? item.memory / 10 + "KB" : " "}}</td>
           <td>
+            <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+            {{judgeResult[item.result]}}
+          </td>
+          <td>
+            <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+            {{item.runtime != null ? item.runtime + 'ms' : " " }}
+          </td>
+          <td>
+            <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+            {{item.memory ? item.memory / 10 + "KB" : " "}}
+          </td>
+          <td>
+            <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
             <router-link
               :to="'/solution/detail/'+item.solutionId"
-              v-if="item.share || user.userId == item.userId"
+              v-else-if="item.share || user.userId == item.userId"
               href="#"
             >评测详情</router-link>
             <a v-else>未分享</a>
           </td>
         </tr>
       </tbody>
-    </table>
-    <!-- 分页条信息 -->
-    <div class="row">
-      <div class="col-6"></div>
-      <nav aria-label="navigation">
-        <ul class="pagination">
-          <li :class="{'page-item': true, disabled: !pageInfo.hasPreviousPage}">
-            <a class="page-link" href="#" @click.prevent="toPage(1)">首页</a>
-          </li>
-          <li :class="{'page-item': true,disabled: !pageInfo.hasPreviousPage}">
-            <a
-              class="page-link"
-              href="#"
-              @click.prevent="pageInfo.hasPreviousPage && toPage(pageInfo.pageNum - 1)"
-            >«</a>
-          </li>
-
-          <li
-            :class="{'page-item': true,active: index == pageInfo.pageNum}"
-            v-for="index in navigatepageNums"
-            :key="index"
-          >
-            <a class="page-link" href="#" @click.prevent="toPage(index)">{{index}}</a>
-          </li>
-
-          <li :class="{'page-item':true, disabled: !pageInfo.hasNextPage}">
-            <a
-              class="page-link"
-              href="#"
-              @click.prevent="pageInfo.hasNextPage && toPage(pageInfo.pageNum + 1)"
-            >»</a>
-          </li>
-          <li :class="{'page-item': true, disabled: !pageInfo.hasNextPage}">
-            <a class="page-link" href="#" @click.prevent="toPage(pageInfo.pages)">末页</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </table>
+    </MyTabel>
+  </div>
 </template>
 
 <script>
 import request from "../../../api/ajax.js";
 import { JUDGE_RESULT, JUDGE_LANGUAGE } from "../../../api/static.js";
 import { mapState } from "vuex";
+import MyTabel from "../../../components/Table/MyTable.vue";
 export default {
   data() {
     return {
@@ -160,11 +122,10 @@ export default {
       judgeLanguage: JUDGE_LANGUAGE,
       userName: null,
       problemId: null,
-      language: null,
-      result: null,
+      language: "",
+      result: "",
       solutionList: [],
-      pageInfo: {},
-      navigatepageNums: []
+      pageInfo: {}
     };
   },
   methods: {
@@ -184,7 +145,6 @@ export default {
           // console.log(result.extend.pageInfo.list)
           this.solutionList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
-          this.navigatepageNums = res.data.extend.pageInfo.navigatepageNums;
         })
         .catch(err => {
           console.log(err);
@@ -195,6 +155,9 @@ export default {
   watch: {
     // language(){
     // }
+  },
+  components: {
+    MyTabel
   },
   created() {
     this.userName = this.$route.query.userName;

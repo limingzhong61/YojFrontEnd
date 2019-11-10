@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container" style="margin-top: 80px;">
+  <div class="container my-set pt-3 px-5">
     <div class="row">
       <div class="col-md-12 order-md-1">
         <router-link to="/problem/add">添加题目</router-link>
@@ -35,13 +35,8 @@
             </div>
           </div>
         </div>
-        <table class="table table-hover table-bordered text-center">
-          <caption>
-            当前{{pageInfo.pageNum}}页，总
-            {{pageInfo.pages}}页，共
-            {{pageInfo.total}}条记录
-          </caption>
-          <thead class="thead-light">
+        <MyTabel :pageInfo="pageInfo" @toPage="toPage">
+          <thead class="thead-light" slot="thead">
             <tr>
               <th scope="col">PID</th>
               <th scope="col">状态</th>
@@ -49,12 +44,12 @@
               <!-- <th scope="col">
                 <span class="fa fa-tags fa-lg text-secondary"></span>
                 标签
-              </th> -->
+              </th>-->
               <th scope="col">递交</th>
               <th scope="col">AC%</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody slot="tbody">
             <tr v-for="item in problemList" :key="item.problemId">
               <th scope="row">{{item.problemId}}</th>
               <td>
@@ -85,48 +80,10 @@
               </td>
               <!-- <td>入门</td> -->
               <td>{{item.submissions}}</td>
-              <td>{{item.submissions ? Math.round(item.accepted / item.submissions * 100) + '%' : ''}}</td>
+              <td>{{item.submissions ? Math.round(item.accepted / item.submissions * 100) + '%' : '未知'}}</td>
             </tr>
           </tbody>
-        </table>
-        <!-- information of devide page -->
-        <div class="row">
-          <div class="col-6"></div>
-          <!-- 分页条信息 -->
-          <nav aria-label="Page navigation example" id="page_nav_area">
-            <ul class="pagination">
-              <li :class="{'page-item': true,disabled: !pageInfo.hasPreviousPage}">
-                <a class="page-link" href="#" @click.prevent="toPage(1)">首页</a>
-              </li>
-              <li :class="{'page-item': true,disabled: !pageInfo.hasPreviousPage}">
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="pageInfo.hasPreviousPage && toPage(pageInfo.pageNum - 1)"
-                >«</a>
-              </li>
-
-              <li
-                :class="{'page-item': true,active: index == pageInfo.pageNum}"
-                v-for="index in navigatepageNums"
-                :key="index"
-              >
-                <a class="page-link" href="#" @click.prevent="toPage(index)">{{index}}</a>
-              </li>
-
-              <li :class="{'page-item':true,disabled: !pageInfo.hasNextPage} ">
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="pageInfo.hasNextPage && toPage(pageInfo.pageNum + 1)"
-                >»</a>
-              </li>
-              <li :class="{'page-item': true, disabled: !pageInfo.hasNextPage}">
-                <a class="page-link" href="#" @click.prevent="toPage(pageInfo.pages)">末页</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        </MyTabel>
       </div>
     </div>
   </div>
@@ -135,23 +92,19 @@
 <script>
 import request from "../../api/ajax.js";
 import $ from "jquery";
-// $(function () {
-
-// })
+import MyTabel from "../../components/Table/MyTable.vue";
 export default {
   data() {
     return {
       problemId: null,
       title: null,
-
       problemList: [],
-      pageInfo: {},
-      navigatepageNums: []
+      pageInfo: {}
     };
   },
   methods: {
     toPage(index) {
-      // console.log("topage");
+      // console.log("topage"+index);
       this.elderProblemId = this.problemId;
       this.elderTitle = this.title;
       request({
@@ -166,7 +119,6 @@ export default {
           // console.log(result.extend.pageInfo.list)
           this.problemList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
-          this.navigatepageNums = res.data.extend.pageInfo.navigatepageNums;
           // console.log(vue.pageInfo)
         })
         .catch(err => {
@@ -174,7 +126,10 @@ export default {
         });
     }
   },
-  mounted() {
+  components: {
+    MyTabel
+  },
+  created() {
     this.toPage(1);
   },
   updated() {

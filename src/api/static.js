@@ -9,6 +9,7 @@ export const JUDGE_RESULT = [
     'Output Limit Exceeded',
     'Compile Error',
     'System Error',
+    'Judging',
 ]
 export const JUDGE_LANGUAGE = [
     'C',

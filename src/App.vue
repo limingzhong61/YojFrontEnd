@@ -63,7 +63,8 @@ export default {
 
   margin-top: 60px;
 }
-/* body{
-    background-color: rgb(239, 239, 239);
-} */
+.my-set {
+  margin-top: 80px;
+  background-color: rgb(228, 241, 255);
+}
 </style>
