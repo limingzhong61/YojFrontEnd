@@ -11,15 +11,20 @@ import SubmitProblem from '../pages/Problem/SubmitProblem.vue'
 import AlterProblem from '../pages/Problem/AlterProblem.vue'
 import AddProblem from '../pages/Problem/AddProblem.vue'
 
-import Login from '../pages/Login/Login.vue'
-import Register from '../pages/Register/Register.vue'
+const Login = () => import('../pages/Login/Login.vue')
+const Register = () => import('../pages/Register/Register.vue')
 
-import SolutionSet from '../pages/Solution/SolutionSet.vue'
-import SolutionDetail from '../pages/Solution/SolutionDetail/SolutionDetail.vue'
+const SolutionSet = () => import('../pages/Solution/SolutionSet.vue')
+const SolutionDetail = () => import('../pages/Solution/SolutionDetail/SolutionDetail.vue')
 
-import UserSet from '../pages/User/UserSet/UserSet.vue'
-import ResetPassword from '../pages/User/ResetPassword/ResetPassword.vue'
-import UserInfo from '../pages/User/UserInfo/UserInfo.vue'
+// import SolutionSet from '../pages/Solution/SolutionSet.vue'
+// import SolutionDetail from '../pages/Solution/SolutionDetail/SolutionDetail.vue'
+
+const UserSet = () => import('../pages/User/UserSet/UserSet.vue')
+const ResetPassword = () => import('../pages/User/ResetPassword/ResetPassword.vue')
+const UserInfo = () => import('../pages/User/UserInfo/UserInfo.vue')
+const UpdateUser = () => import('../pages/User/UpdateUser/UpdateUser.vue')
+
 
 Vue.use(VueRouter)
 
@@ -60,6 +65,9 @@ export default new VueRouter({
         },{
             path: '/user/info/:id',
             component: UserInfo,
+        },{
+            path: '/user/update',
+            component: UpdateUser,
         },
         {
             path: '/problem',

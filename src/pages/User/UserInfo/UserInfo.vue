@@ -1,8 +1,18 @@
 <template>
   <div class="container" style="margin-top: 80px;">
-    <h2 class="panel-title mb-4 text-center">个人信息</h2>
-    <div class="row">
-      <div class="col-4 order-md-1 m-auto">
+    <!-- <h2 class="panel-title mb-4 text-center">个人信息</h2> -->
+    <div class="row mx-5 mb-3">
+      <div class="col-3 order-md-1">
+        <img class="user-img ml-5" src="../../../assets/images/astronaut.jpg" />
+      </div>
+      <div class="col-3 order-md-2 mt-auto">
+        <p class="font-weight-bold">用户名：{{user.userName}}</p>
+        <p class="font-weight-bold">昵称：{{user.nickName}}</p>
+        <p>个性签名：{{user.intro}}</p>
+      </div>
+      <!-- 问题表 -->
+      <div class="col-5 order-md-3 mt-auto">
+        <!-- ml-auto mr-5 pr-5 -->
         <table class="table table-bordered text-center">
           <thead class="thead-light">
             <tr>
@@ -45,7 +55,7 @@
 </template>
 
 <script>
-import request from "../../../api/ajax.js";
+import {getUserInfo} from "../../../api/requeset";
 export default {
   data() {
     return {
@@ -59,20 +69,18 @@ export default {
     toSolution(result) {
       this.$router.push({
         path: "/solution",
-        query: { userName: this.user.userName, result: result },
+        query: { userName: this.user.userName, result: result }
       });
     }
   },
   created() {
     // console.log("in");
-    request({
-      url: "/user/info/" + this.$route.params.id,
-      method: "get"
-    })
+    getUserInfo(this.$route.params.id)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         // console.log(result.extend.pageInfo.list)
         this.user = res.data.extend.user;
+        console.log(this.user);
         // this.countAccepted = res.data.extend.accepted;
         // this.countSubmission = res.data.extend.submission;
       })
@@ -83,4 +91,7 @@ export default {
 };
 </script>
 <style>
+.user-img {
+  width: 10rem;
+}
 </style>

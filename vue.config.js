@@ -1,6 +1,7 @@
 // vue.config.js
 const webpack = require("webpack");
 module.exports = {
+    //这样能产生本地能直接访问的dist，但是服务器使用会出问题
     // publicPath: process.env.NODE_ENV === 'production' ?
     //     './' :
     //     '/',
@@ -14,7 +15,7 @@ module.exports = {
         open: true,
         proxy: {
             '/api': {
-                target: 'http://localhost:8080',
+                target: 'http://localhost:80',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {

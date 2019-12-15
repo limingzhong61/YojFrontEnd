@@ -31,17 +31,14 @@
       <!-- =============== 跳转标题 ==================== -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" v-for="(item,index) in routes" :key="index">
-          <a  :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
+          <a :class="{'nav-link': true,'active': isCurrent(item.path)}" @click="goto(item.path)">
             <!-- 注意此间没有空格 -->
-            <span :class="item.spanClass"></span>{{item.name}}
+            <span :class="item.spanClass"></span>
+            <span>{{item.name}}</span>
           </a>
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link"
-            href="https://github.com/Li-MingZhong/yoj"
-            title="GitHub"
-          >
+          <a class="nav-link" href="https://github.com/codeOflI/yoj" title="GitHub">
             <span class="fa fa-github fa-lg text-secondary"></span>
           </a>
         </li>
@@ -81,10 +78,9 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
             <router-link tag="a" :to="'/user/info/'+user.userId" class="dropdown-item" href="#">个人信息</router-link>
+            <router-link tag="a" :to="'/user/update'" class="dropdown-item" href="#">修改信息</router-link>
             <div class="dropdown-divider"></div>
-            <form action="http://localhost:8080/logout" method="post">
-              <button class="dropdown-item" type="submit">退出</button>
-            </form>
+            <button class="dropdown-item" type="submit" @click="logout">退出</button>
             <!--<a class="dropdown-item" th:href="@{/logout}">退出</a>-->
             <!--<a class="dropdown-item active" href="/docs/4.0/">v4.0.0</a>-->
             <!--<div class="dropdown-divider"></div>-->
@@ -100,7 +96,7 @@
 
 <script>
 import { mapState } from "vuex";
-import request from "../../api/ajax";
+import { logout } from "../../api/requeset";
 export default {
   data() {
     return {
@@ -126,7 +122,7 @@ export default {
         // { path: "/contest", name: "比赛" },
         {
           path: "/user",
-          name: "用户",
+          name: "排名",
           spanClass: {
             fa: true,
             "fa-user": true,
@@ -161,16 +157,15 @@ export default {
       return regExp.test(this.$route.path);
     },
     logout() {
-      request({
-        url: "/user/logout"
-      })
+      logout()
         .then(res => {
           // console.log(res);
-          res.data = "";
+          // res.data = "";
           this.goto("/login");
         })
         .catch(err => {
           console.log(err);
+          this.goto("/login");
         });
     }
   }

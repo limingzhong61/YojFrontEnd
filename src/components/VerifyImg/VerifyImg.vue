@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import request from "../../api/ajax.js";
+import {getImageCode} from "../../api/requeset";
 export default {
   data() {
     return {
@@ -12,11 +12,7 @@ export default {
   },
   methods: {
     getVerifyImage() {
-      request({
-        url: "/verify/image",
-        method: "get",
-        responseType: "arraybuffer"
-      })
+      getImageCode()
         .then(response => {
           //将从后台获取的图片流进行转换
           return (

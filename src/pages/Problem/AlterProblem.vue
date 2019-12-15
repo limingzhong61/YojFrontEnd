@@ -78,7 +78,7 @@
             <div class style="color: red; text-align: center" hidden="hidden">提交题目信息错误，请检查提交容纳是否有误！</div>
             <div style="display: flex; justify-content: center;">
               <button
-                @click="addProblem"
+                @click="alterProblem"
                 class="btn btn-primary btn-lg justify-content-sm-center"
                 type="submit"
               >修改题目</button>
@@ -93,7 +93,7 @@
 <script>
 import TextEditor from "../../components/TextEditor/TextEditor.vue";
 import JudgeCase from "../../components/JudgeCase/JudgeCase.vue";
-import request from "../../api/ajax.js";
+import { alterProblem,getProblem } from "../../api/requeset";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
@@ -132,26 +132,6 @@ export default {
       judgeData: []
     };
   },
-  computed: mapState({
-    stateProblem(state) {
-      this.problem = state.problem;
-      this.title = state.problem.title;
-      this.timeLimit = state.problem.timeLimit;
-      this.memoryLimit = state.problem.memoryLimit;
-      if(state.problem.judgeData){
-        this.judgeData = JSON.parse(state.problem.judgeData);
-        console.log(state.problem.judgeData)
-      }
-      return state.problem;
-    }
-
-    // judgeData(state) {
-    //   // var judgeData = state.problem.judgeData
-    //   // console.log("1"+judgeData)
-
-    //   return JSON.parse(state.problem.judgeData);
-    // }
-  }),
   components: {
     TextEditor,
     JudgeCase
@@ -160,7 +140,7 @@ export default {
     addCase() {
       this.judgeData.push({ in: "", out: "" });
     },
-    addProblem() {
+    alterProblem() {
       this.problem.judgeData = JSON.stringify(this.judgeData);
       //   console.log(this.problem.judgeData == "[]")
       this.problem.title = this.title;
@@ -175,15 +155,11 @@ export default {
       ) {
         return;
       }
-      request({
-        url: "/problem/alter",
-        method: "POST",
-        data: this.problem
-      })
+      alterProblem(this.problem)
         .then(res => {
           // console.log(res);
           if (res.data.success) {
-            this.$router.replace("/problem/view/" + this.$route.params.id)
+            this.$router.replace("/problem/view/" + this.$route.params.id);
           }
         })
         .catch(err => {
@@ -198,13 +174,24 @@ export default {
     ])
   },
   created() {
-    if(!this.$store.state.problem.problemId){
-      this.getProblem(this.$route.params.id);
-      console.log('reload')
-    }
-  },beforeMount(){
-        this.stateProblem;
-        
+    getProblem(this.$route.params.id)
+      .then(res => {
+        // console.log(res);
+        const problem = res.data.extend.problem;
+        this.problem = res.data.extend.problem;
+        this.alter = res.data.extend.alter;
+        this.title = problem.title;
+        this.timeLimit = problem.timeLimit;
+        this.memoryLimit = problem.memoryLimit;
+        this.judgeData =  JSON.parse(problem.judgeData);
+        console.log(this.alter);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  beforeMount() {
+    this.stateProblem;
   }
 };
 </script>

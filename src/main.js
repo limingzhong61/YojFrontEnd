@@ -8,7 +8,7 @@ import "bootstrap/dist/js/bootstrap.min.js"
 import 'font-awesome/css/font-awesome.css'
 import store from "./store"
 import router from './router'
-import request from './api/ajax'
+import request from './api/requeset/ajax'
 import {RECEIVE_USER} from './store/mutations-types'
 
 

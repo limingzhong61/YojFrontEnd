@@ -30,6 +30,7 @@
             <tr>
               <th scope="col">Rank</th>
               <th scope="col">用户名</th>
+              <th scope="col">昵称</th>
               <th scope="col">解决问题</th>
               <th scope="col">尝试问题</th>
               <th scope="col">通过</th>
@@ -42,6 +43,7 @@
               <td>
                 <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
               </td>
+              <td>{{item.nickName}}</td>
               <td>{{item.solved}}</td>
               <td>{{item.attempted}}</td>
               <td>{{item.accepted}}</td>
@@ -55,7 +57,7 @@
 </template>
 
 <script>
-import request from "../../../api/ajax.js";
+import { getUserSet } from "../../../api/requeset";
 import MyTabel from "../../../components/Table/MyTable.vue";
 export default {
   data() {
@@ -70,11 +72,8 @@ export default {
       // console.log("topage");
       this.elderProblemId = this.problemId;
       this.elderTitle = this.title;
-      request({
-        url: "/user/set/" + index,
-        params: {
-          userName: this.userName
-        }
+      getUserSet(index, {
+        userName: this.userName
       })
         .then(res => {
           // console.log(res);

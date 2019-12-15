@@ -36,7 +36,7 @@
     </div>
     <MyTabel :pageInfo="pageInfo" @toPage="toPage">
       <thead class="thead-light" slot="thead">
-                <tr class>
+        <tr class>
           <th class>提交序号</th>
           <th class>用户名</th>
           <th class>问题ID</th>
@@ -71,7 +71,7 @@
         </tr>
       </thead>
       <tbody slot="tbody">
-                <tr class v-for="item in solutionList" :key="item.solutionId">
+        <tr class v-for="item in solutionList" :key="item.solutionId">
           <th scope="row">{{item.solutionId}}</th>
           <td>
             <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import request from "../../../api/ajax.js";
+import { getSolutionSet } from "../../../api/requeset";
 import { JUDGE_RESULT, JUDGE_LANGUAGE } from "../../../api/static.js";
 import { mapState } from "vuex";
 import MyTabel from "../../../components/Table/MyTable.vue";
@@ -130,15 +130,11 @@ export default {
   },
   methods: {
     toPage(index) {
-      request({
-        url: "/solution/set/" + index,
-        method: "get",
-        params: {
-          userName: this.userName,
-          problemId: this.problemId,
-          result: this.result,
-          language: this.language
-        }
+      getSolutionSet(index, {
+        userName: this.userName,
+        problemId: this.problemId,
+        result: this.result,
+        language: this.language
       })
         .then(res => {
           // console.log(res);

@@ -62,7 +62,9 @@
                 <td scope="row">{{judgeResult[item.result]}}</td>
                 <td scope="row">{{item.timeUsed != null ? item.timeUsed + 'ms' : " " }}</td>
                 <td scope="row">{{item.memoryUsed ? item.memoryUsed / 10 + "KB" : " "}}</td>
-                <td scope="row"><a href="#">敬请期待</a></td>
+                <td scope="row">
+                  <a href="#">敬请期待</a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -73,7 +75,7 @@
 </template>
 
 <script>
-import request from "../../../api/ajax.js";
+import { solutionDetail } from "../../../api/requeset";
 import { JUDGE_RESULT } from "../../../api/static";
 
 export default {
@@ -95,10 +97,7 @@ export default {
     }
   },
   created() {
-    request({
-      url: "/solution/detail/" + this.$route.params.id,
-      method: "get"
-    })
+    solutionDetail(this.$route.params.id)
       .then(res => {
         // console.log(res);
         const solution = res.data.extend.solution;

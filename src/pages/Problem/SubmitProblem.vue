@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import request from "../../api/ajax.js";
+import { submitSolution } from "../../api/requeset";
 export default {
   data() {
     return {
@@ -68,8 +68,6 @@ export default {
       share: 0
     };
   },
-  // watch: {
-  // },
   methods: {
     submitSolution() {
       // console.log(this.share);
@@ -84,11 +82,7 @@ export default {
         return;
       }
       console.log("in");
-      request({
-        url: "/solution/submit",
-        method: "post",
-        data: solution
-      })
+      submitSolution(solution)
         .then(res => {
           console.log(res);
           if (res.data.success) {

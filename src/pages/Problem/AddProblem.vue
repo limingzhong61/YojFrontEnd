@@ -108,7 +108,7 @@
 <script>
 import TextEditor from "../../components/TextEditor/TextEditor.vue";
 import JudgeCase from "../../components/JudgeCase/JudgeCase.vue";
-import request from "../../api/ajax.js";
+import {addProblem} from "../../api/requeset";
 export default {
   data() {
     return {
@@ -173,11 +173,7 @@ export default {
         return;
       }
       console.log('in')
-      request({
-        url: "/problem/add",
-        method: "POST",
-        data: this.problem
-      })
+      addProblem(this.problem)
         .then(res => {
           console.log(res);
           if (res.data.success) {

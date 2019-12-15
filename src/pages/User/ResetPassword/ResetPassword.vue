@@ -11,7 +11,7 @@
       <h2>找回密码</h2>
       <div>
         <router-link href="#" to="/login" class="justify-content-center">已有账号，快去登录</router-link>&nbsp;
-        <router-link href="#" to="/login" class="justify-content-center">没有账号，快去注册</router-link>
+        <router-link href="#" to="/register" class="justify-content-center">没有账号，快去注册</router-link>
       </div>
       <p>请输入你的账号邮箱地址，以便找回密码</p>
     </div>
@@ -65,7 +65,7 @@
               placeholder
             />
             <div class="col-3">
-              <verify-img ></verify-img>
+              <verify-img></verify-img>
             </div>
             <div class="invalid-feedback">验证码错误.</div>
           </div>
@@ -103,9 +103,12 @@
 
 <script>
 import JudgePassword from "../../../components/user/JudgePassword/JudgePassword.vue";
-import request from "../../../api/ajax.js";
+import {
+  getResetPasswordEmailCode,
+  resetPassword
+} from "../../../api/requeset";
 import $ from "jquery";
-import VerifyImg from  "../../../components/VerifyImg/VerifyImg.vue"
+import VerifyImg from "../../../components/VerifyImg/VerifyImg.vue";
 export default {
   components: {
     JudgePassword,
@@ -152,9 +155,7 @@ export default {
         return;
       }
       $("#myModal").modal("show");
-      request({
-        url: "/user/reset/emailCode/" + this.email
-      })
+      getResetPasswordEmailCode(this.email)
         .then(res => {
           $("#myModal").modal("hide");
           // console.log(res)
@@ -177,16 +178,12 @@ export default {
       // console.log(this.headers);
       var password = this.passwordJudge.password;
       // console.log(password)
-      request({
-        url: "/user/reset/password",
-        method: "POST",
-        data: {
-          password: password,
-          email: this.email,
-          emailCode: this.emailCode,
-          imageCode: this.imageCode
-          //  headers: this.headers
-        }
+      resetPassword({
+        password: password,
+        email: this.email,
+        emailCode: this.emailCode,
+        imageCode: this.imageCode
+        //  headers: this.headers
       })
         .then(res => {
           console.log(res);
@@ -195,8 +192,8 @@ export default {
           } else {
             const extend = res.data.extend;
             for (var obj in extend) {
-              this.$data[obj+'Judge'] = false
-              this.$data[obj+'Msg'] = extend[obj]
+              this.$data[obj + "Judge"] = false;
+              this.$data[obj + "Msg"] = extend[obj];
             }
           }
         })
@@ -206,7 +203,7 @@ export default {
     }
   },
   watch: {
-   email: function(value) {
+    email: function(value) {
       var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i;
       this.emailJudge = emailReg.test(value);
       if (!this.emailJudge) {
@@ -214,11 +211,11 @@ export default {
         return;
       }
     },
-    emailCode(value){
+    emailCode(value) {
       // console.log(value)
       this.emailCodeJudge = true;
     },
-    imageCode(value){
+    imageCode(value) {
       this.imageCodeJudge = true;
     }
   }

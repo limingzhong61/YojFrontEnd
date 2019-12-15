@@ -9,8 +9,9 @@
 <script>
 import TopBar from "./components/TopBar/TopBar.vue";
 import Footer from "./components/Footer/Footer.vue";
-import request from "./api/ajax";
+import request from "./api/requeset/ajax";
 import { RECEIVE_USER } from "./store/mutations-types";
+import { getCurrentUserInfo } from "./api/requeset";
 export default {
   name: "app",
   components: {
@@ -27,11 +28,7 @@ export default {
       path != "/login" &&
       path != "/user/resetPassword"
     ) {
-      // console.log("in");
-      request({
-        url: "/user/currentInfo",
-        method: "GET"
-      })
+      getCurrentUserInfo
         .then(res => {
           // console.log(res);
           if (res.data.success) {

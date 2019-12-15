@@ -70,7 +70,8 @@
 </template>
 <script>
 // /user/login
-import request from "../../api/ajax";
+// import request from "../../api/requeset/ajax";
+import {toLogin} from "../../api/requeset";
 import VerifyImg from "../../components/VerifyImg/VerifyImg";
 export default {
   data() {
@@ -89,15 +90,11 @@ export default {
     login() {
       const username = this.userName;
       const password = this.password;
-      request({
-        url: "/login",
-        method: "post",
-        params: {
-          username,
-          password,
-          tryCode: this.verifyCode
-        }
-      })
+      toLogin(
+        {username,
+        password,
+        tryCode: this.verifyCode
+        })
         .then(res => {
           // console.log(res);
           if (res.data.success) {

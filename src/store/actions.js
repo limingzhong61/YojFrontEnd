@@ -6,7 +6,7 @@ import {
   RECEIVE_PROBLEM,
   RECEIVE_USER
 } from './mutations-types'
-import request from '../api/ajax.js'
+import request from '../api/requeset/ajax'
 
 export default {
   // 异步获取用户信息
@@ -16,7 +16,7 @@ export default {
         method: "GET"
       })
       .then(res => {
-        // console.log(res);
+        console.log(res);
         if(res.data.success){
           const user = res.data.extend.user;
           commit(RECEIVE_USER, {

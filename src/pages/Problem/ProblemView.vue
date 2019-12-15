@@ -18,6 +18,7 @@
             <router-link
               class="btn btn-warning"
               role="button"
+              v-if="alter"
               :to="'/problem/alter/' + this.$route.params.id"
             >修改此题</router-link>
           </div>
@@ -52,16 +53,25 @@
 </template>
 
 <script>
-// import request from "../../api/ajax.js";
+import { getProblem } from "../../api/requeset";
 export default {
-  computed: {
-    problem(){
-      return this.$store.state.problem
-    }
+  data() {
+    return {
+      problem: {},
+      alter: false
+    };
   },
-  mounted() {
-    // console.log(this.$route.params.id)
-    this.$store.dispatch("getProblem", this.$route.params.id);
+  created() {
+    getProblem(this.$route.params.id)
+      .then(res => {
+        // console.log(res);
+        this.problem = res.data.extend.problem;
+        this.alter = res.data.extend.alter;
+        console.log(this.alter);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

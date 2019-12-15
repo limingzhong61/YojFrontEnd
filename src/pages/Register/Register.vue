@@ -114,10 +114,10 @@
 </template>
 
 <script>
-import request from "../../api/ajax.js";
+import { register, getRegisterEmailCode } from "../../api/requeset";
 import JudgePassword from "../../components/user/JudgePassword/JudgePassword.vue";
 import $ from "jquery";
-import VerifyImg from  "../../components/VerifyImg/VerifyImg.vue"
+import VerifyImg from "../../components/VerifyImg/VerifyImg.vue";
 export default {
   data() {
     return {
@@ -142,7 +142,7 @@ export default {
 
       imageCode: "",
       imageCodeJudge: true,
-      imageCodeMsg: ''
+      imageCodeMsg: ""
     };
   },
   components: {
@@ -164,19 +164,23 @@ export default {
       }, 1000);
     },
     sendEmail() {
+      if (this.email === "") {
+        this.emailJudge = false;
+        this.emailMsg = "邮箱地址不能为空";
+      }
       if (!this.emailJudge) {
         return;
       }
       $("#myModal").modal("show");
-      request({
-        url: "/user/r/getEmailCheckCode/" + this.email
-      })
+      getRegisterEmailCode(this.email)
         .then(res => {
           $("#myModal").modal("hide");
           // console.log(res)
+
           this.emailJudge = res.data.success;
           if (res.data.success) {
-            this.$options.methods.countDown(maxTime, this.$refs.emailBtn);
+            console.log(this.maxTime);
+            this.$options.methods.countDown(this.maxTime, this.$refs.emailBtn);
           } else {
             this.emailMsg = res.data.msg;
           }
@@ -196,17 +200,13 @@ export default {
         return;
       }
       // console.log(this.imageCode);
-      request({
-        url: "/user/r/register",
-        method: "POST",
-        data: {
-          userName: this.userName,
-          password: this.passwordJudge.password,
-          email: this.email,
-          emailCode: this.emailCode,
-          imageCode: this.imageCode
-          //  headers: this.headers
-        }
+      register({
+        userName: this.userName,
+        password: this.passwordJudge.password,
+        email: this.email,
+        emailCode: this.emailCode,
+        imageCode: this.imageCode
+        //  headers: this.headers
       })
         .then(res => {
           // console.log(res);
@@ -216,8 +216,8 @@ export default {
             // console.log(this.$data)
             const extend = res.data.extend;
             for (var obj in extend) {
-              this.$data[obj+'Judge'] = false
-              this.$data[obj+'Msg'] = extend[obj]
+              this.$data[obj + "Judge"] = false;
+              this.$data[obj + "Msg"] = extend[obj];
             }
           }
         })
@@ -260,8 +260,8 @@ export default {
         this.userNameMsg = "用户名不能为空";
         return;
       }
-      console.log(value.length)
-      if(value.length > 20){
+      console.log(value.length);
+      if (value.length > 20) {
         this.userNameJudge = false;
         this.userNameMsg = "用户名太长";
         return;
@@ -277,11 +277,11 @@ export default {
         return;
       }
     },
-    emailCode(value){
+    emailCode(value) {
       // console.log(value)
       this.emailCodeJudge = true;
     },
-    imageCode(value){
+    imageCode(value) {
       this.imageCodeJudge = true;
     }
   },

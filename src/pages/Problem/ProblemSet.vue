@@ -2,7 +2,7 @@
   <div class="container my-set pt-3 px-5">
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <router-link to="/problem/add">添加题目</router-link>
+        <router-link to="/problem/add" v-if="add">添加题目</router-link>
         <div class="col-10 offset-1">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import request from "../../api/ajax.js";
+import { getProblemSet } from "../../api/requeset";
 import $ from "jquery";
 import MyTabel from "../../components/Table/MyTable.vue";
 export default {
@@ -99,7 +99,8 @@ export default {
       problemId: null,
       title: null,
       problemList: [],
-      pageInfo: {}
+      pageInfo: {},
+      add: false
     };
   },
   methods: {
@@ -107,19 +108,17 @@ export default {
       // console.log("topage"+index);
       this.elderProblemId = this.problemId;
       this.elderTitle = this.title;
-      request({
-        url: "/problem/getProblemSet/" + index,
-        params: {
-          problemId: this.problemId,
-          title: this.title
-        }
+      getProblemSet(index, {
+        problemId: this.problemId,
+        title: this.title
       })
         .then(res => {
           // console.log(res);
-          // console.log(result.extend.pageInfo.list)
+          const data = res.data.extend;
           this.problemList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
-          // console.log(vue.pageInfo)
+          this.add = data.add;
+          console.log(data.add);
         })
         .catch(err => {
           console.log(err);
