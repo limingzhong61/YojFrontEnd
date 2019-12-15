@@ -3,7 +3,7 @@
     <div class="py-3 text-center">
       <img
         class="d-block mx-auto mb-3"
-        src="../../assets/images/astronaut.jpg"
+        src="../../../assets/images/astronaut.jpg"
         alt
         width="72"
         height="72"
@@ -114,10 +114,10 @@
 </template>
 
 <script>
-import { register, getRegisterEmailCode } from "../../api/requeset";
-import JudgePassword from "../../components/user/JudgePassword/JudgePassword.vue";
+import { register, getRegisterEmailCode } from "../../../api/requeset";
+import JudgePassword from "../../../components/user/JudgePassword/JudgePassword.vue";
 import $ from "jquery";
-import VerifyImg from "../../components/VerifyImg/VerifyImg.vue";
+import VerifyImg from "../../../components/VerifyImg/VerifyImg.vue";
 export default {
   data() {
     return {
@@ -320,7 +320,7 @@ export default {
   color: #fff;
   padding-left: 60px;
   font-size: 15px;
-  background: #000 url("../../assets/images/loading.gif") no-repeat 10px 50%;
+  background: #000 url("../../../assets/images/loading.gif") no-repeat 10px 50%;
   opacity: 0.7;
   z-index: 9999;
   -moz-border-radius: 20px;

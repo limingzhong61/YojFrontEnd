@@ -18,34 +18,34 @@ export default {
     TopBar,
     Footer
   },
-  beforeCreate() {
-    const href = window.location.href;
-    const index = href.indexOf("/#/");
-    const path = href.slice(index + 2);
-    // console.log(path);
-    if (
-      path != "/register" &&
-      path != "/login" &&
-      path != "/user/resetPassword"
-    ) {
-      getCurrentUserInfo
-        .then(res => {
-          // console.log(res);
-          if (res.data.success) {
-            const user = res.data.extend.user;
-            this.$store.commit(RECEIVE_USER, {
-              user
-            });
-          } else {
-            this.$router.replace("/login");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.$router.replace("/login");
-        });
-    }
-  }
+  // beforeCreate() {
+  //   const href = window.location.href;
+  //   const index = href.indexOf("/#/");
+  //   const path = href.slice(index + 2);
+  //   // console.log(path);
+  //   if (
+  //     path != "/register" &&
+  //     path != "/login" &&
+  //     path != "/user/resetPassword"
+  //   ) {
+  //     getCurrentUserInfo
+  //       .then(res => {
+  //         // console.log(res);
+  //         if (res.data.success) {
+  //           const user = res.data.extend.user;
+  //           this.$store.commit(RECEIVE_USER, {
+  //             user
+  //           });
+  //         } else {
+  //           this.$router.replace("/login");
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //         this.$router.replace("/login");
+  //       });
+  //   }
+  // }
 };
 </script>
 
@@ -60,8 +60,8 @@ export default {
 
   margin-top: 60px;
 }
-.my-set {
-  margin-top: 80px;
-  background-color: rgb(228, 241, 255);
-}
+/*.my-set {*/
+/*  margin-top: 80px;*/
+/*  background-color: rgb(228, 241, 255);*/
+/*}*/
 </style>

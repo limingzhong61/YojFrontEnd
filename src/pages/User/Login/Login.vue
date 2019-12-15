@@ -5,7 +5,7 @@
         <div class="col-md-12 order-md-1">
           <form class="form-signin">
             <div class="imgDiv">
-              <img class="mb-8" src="../../assets/images/astronaut.jpg" alt width="72" height="72" />
+              <img class="mb-8" src="../../../assets/images/astronaut.jpg" alt width="72" height="72" />
             </div>
             <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">请登录</h1>
             <!--判断-->
@@ -71,8 +71,8 @@
 <script>
 // /user/login
 // import request from "../../api/requeset/ajax";
-import {toLogin} from "../../api/requeset";
-import VerifyImg from "../../components/VerifyImg/VerifyImg";
+import {toLogin} from "../../../api/requeset";
+import VerifyImg from "../../../components/VerifyImg/VerifyImg";
 export default {
   data() {
     return {

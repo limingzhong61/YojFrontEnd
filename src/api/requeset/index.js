@@ -1,5 +1,5 @@
 /*
-encapsulate request url in a instance of axios
+ap request url in a instance of axios
 */
 import request from './ajax'
 // ===============================  User    ===============================
