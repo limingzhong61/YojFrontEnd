@@ -57,12 +57,9 @@
         <!--<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
         <!--</li>-->
       </ul>
-      <!--<form class="form-inline my-2 my-lg-0">-->
-      <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-      <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
 
       <!-- ===============个人按钮  ==================== -->
-      <ul class="navbar-nav flex-row ml-sm-auto d-none d-sm-flex" v-if="user">
+      <ul v-if="user" class="navbar-nav flex-row ml-sm-auto d-none d-sm-flex" >
         <li class="nav-item dropdown">
           <a
             class="nav-item nav-link dropdown-toggle mr-sm-2"
@@ -71,7 +68,6 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
-            sec:authentication="name"
           >
             <span class="fa fa-user-circle-o fa-lg text-primary" aria-label="GitHub"></span>
             {{user.userName}}
@@ -81,15 +77,17 @@
             <router-link tag="a" :to="'/user/update'" class="dropdown-item" href="#">修改信息</router-link>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item" type="submit" @click="logout">退出</button>
-            <!--<a class="dropdown-item" th:href="@{/logout}">退出</a>-->
             <!--<a class="dropdown-item active" href="/docs/4.0/">v4.0.0</a>-->
             <!--<div class="dropdown-divider"></div>-->
             <!--<a class="dropdown-item" href="https://v4-alpha.getbootstrap.com/">v4 Alpha 6</a>-->
-            <!--<a class="dropdown-item" href="https://getbootstrap.com/docs/3.3/">v3.3.7</a>-->
             <!--<a class="dropdown-item" href="https://getbootstrap.com/2.3.2/">v2.3.2</a>-->
           </div>
         </li>
       </ul>
+      <form v-else class="form-inline">
+<!--        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+        <button class="btn btn-outline-primary my-2 my-sm-0" @click="goto('/login')" type="submit">登录</button>
+      </form>
     </div>
   </header>
 </template>
@@ -135,6 +133,16 @@ export default {
           spanClass: {
             fa: true,
             "fa-pie-chart": true,
+            "fa-lg": true
+          }
+        },
+        {
+          path: "/help",
+          name: "使用帮助",
+
+          spanClass: {
+            fa: true,
+            "fa-info-circle": true,
             "fa-lg": true
           }
         }
@@ -193,10 +201,10 @@ export default {
   font-weight: 600;
 }
 /*登录 注册btn*/
-.btn-bd-download {
-  font-weight: 600;
-  color: #fff;
-  border-color: #fff;
-}
+/*.btn-bd-download {*/
+/*  font-weight: 600;*/
+/*  color: #fff;*/
+/*  border-color: #fff;*/
+/*}*/
 /* ====== top bar =========*/
 </style>

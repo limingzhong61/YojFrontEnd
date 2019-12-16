@@ -80,9 +80,7 @@ export default {
         // console.log(res);
         // console.log(result.extend.pageInfo.list)
         this.user = res.data.extend.user;
-        console.log(this.user);
-        // this.countAccepted = res.data.extend.accepted;
-        // this.countSubmission = res.data.extend.submission;
+        // console.log(this.user);
       })
       .catch(err => {
         console.log(err);

@@ -19,7 +19,7 @@
               required="required"
             />
             <div class="invalid-feedback">{{userNameMsg}}</div>
-            <button class="ml-3 btn btn-primary" type="bottom">&emsp;更新&emsp;</button>
+<!--            <button class="ml-3 btn btn-primary" type="bottom">&emsp;更新&emsp;</button>-->
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -28,13 +28,13 @@
             <input
               type="text"
               :class="{'form-control': true,'is-invalid': !userNameJudge,'is-valid': userNameJudge}"
-              id="userName"
+              id="nickName"
               v-model="nickName"
               placeholder
               required="required"
             />
             <div class="invalid-feedback">{{userNameMsg}}</div>
-            <button class="ml-3 btn btn-primary" type="bottom">&emsp;更新&emsp;</button>
+<!--            <button class="ml-3 btn btn-primary" type="bottom">&emsp;更新&emsp;</button>-->
           </div>
 
           <div class="input-group mb-3">
@@ -115,7 +115,14 @@ export default {
 </script>
 
 <style>
-/* .update.container {
-  margin-top: -40px;
-} */
+  .input-group-text {
+    background-color: #e9ecef40;
+    width: 9rem;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .invalid-feedback {
+    text-align: center;
+  }
 </style>

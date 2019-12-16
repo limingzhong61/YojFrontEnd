@@ -2,7 +2,7 @@
   <div class="container my-set pt-3 px-5">
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <router-link to="/problem/add" v-if="add">添加题目</router-link>
+        <button type="button" class="btn btn-primary" @click="toAdd">添加题目</button>
         <div class="col-10 offset-1">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -118,11 +118,21 @@ export default {
           this.problemList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
           this.add = data.add;
-          console.log(data.add);
+          // console.log(data.add);
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    toAdd(){
+      if(this.add){
+        this.$router.push('/problem/add')
+      }else{
+        swal({
+          title: "你没有添加题目的权限",
+          icon: "warning"
+        });
+      }
     }
   },
   components: {

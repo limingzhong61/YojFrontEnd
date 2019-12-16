@@ -99,7 +99,7 @@
             <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
             <router-link
               :to="'/solution/detail/'+item.solutionId"
-              v-else-if="item.share || user.userId == item.userId"
+              v-else-if="item.share || user && user.userId == item.userId"
               href="#"
             >评测详情</router-link>
             <a v-else>未分享</a>
@@ -138,7 +138,6 @@ export default {
       })
         .then(res => {
           // console.log(res);
-          // console.log(result.extend.pageInfo.list)
           this.solutionList = res.data.extend.pageInfo.list;
           this.pageInfo = res.data.extend.pageInfo;
         })
@@ -148,10 +147,6 @@ export default {
     }
   },
   computed: mapState(["user"]),
-  watch: {
-    // language(){
-    // }
-  },
   components: {
     MyTabel
   },

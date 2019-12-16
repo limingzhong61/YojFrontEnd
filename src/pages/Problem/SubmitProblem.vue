@@ -77,14 +77,14 @@ export default {
         problemId: this.$route.params.id,
         share: Number(this.share)
       };
-      console.log(solution);
+      // console.log(solution);
       if (solution.code == "" || solution.language == -1) {
         return;
       }
-      console.log("in");
+      // console.log("in");
       submitSolution(solution)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.success) {
             this.$router.replace("/solution");
           }

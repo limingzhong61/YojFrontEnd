@@ -2,9 +2,9 @@
   <div class="container my-set pt-3 px-5">
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <div class="col-6 offset-3">
+        <div class="col-6 m-auto">
           <div class="input-group mb-3">
-            <div class="input-group-prepend ml-3">
+            <div class="input-group-prepend">
               <span class="input-group-text">用户名</span>
             </div>
             <input
@@ -20,7 +20,6 @@
                 @click="toPage(1)"
                 class="btn btn-outline-secondary"
                 type="button"
-                id="button-addon2"
               >Go</button>
             </div>
           </div>

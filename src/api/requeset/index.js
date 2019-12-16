@@ -4,10 +4,13 @@ ap request url in a instance of axios
 import request from './ajax'
 // ===============================  User    ===============================
 //获取用户信息的实例
-export const getCurrentUserInfo = request({
-    url: "/user/currentInfo",
-    method: "GET"
-})
+export function getCurrentUserInfo() {
+    return request({
+        url: "/user/currentInfo",
+        method: "GET"
+    })
+}
+
 //登录 data对象{}
 export function toLogin(data) {
     return request({
@@ -23,6 +26,7 @@ export function logout() {
         method: "post"
     })
 }
+
 /**
  * get reset password verfiy code of email
  * @param {string} email  email address
@@ -32,9 +36,10 @@ export function getResetPasswordEmailCode(email) {
         url: "/user/reset/emailCode/" + email
     })
 }
+
 /**
- * reset user password 
- * @param {object} data 
+ * reset user password
+ * @param {object} data
  */
 export function resetPassword(data) {
     return request({
@@ -43,21 +48,21 @@ export function resetPassword(data) {
         data: data
     })
 }
+
 /**
- * 
- * @param {int} pageNumber 
- * @param {object} params 
+ *
+ * @param {int} uid
  */
-export function getUserInfo(pageNumber, params) {
+export function getUserInfo(uid) {
     return request({
-        url: "/user/set/" + pageNumber,
-        params: params
+        url: "/user/info/" + uid,
     })
 }
+
 /**
- * 
- * @param {int} pageNumber 
- * @param {object} params 
+ *
+ * @param {int} pageNumber
+ * @param {object} params
  */
 export function getUserSet(pageNumber, params) {
     return request({
@@ -65,9 +70,10 @@ export function getUserSet(pageNumber, params) {
         params: params
     })
 }
+
 /**
- * get register email code 
- * @param {string} email 
+ * get register email code
+ * @param {string} email
  */
 export function getRegisterEmailCode(email) {
     return request({
@@ -80,8 +86,9 @@ export function register(data) {
         url: "/user/r/register",
         method: "POST",
         data: data
-      })
+    })
 }
+
 // --------------------Problem ------------------------
 //add problem
 export function addProblem(data) {
@@ -91,6 +98,7 @@ export function addProblem(data) {
         data: data
     })
 }
+
 // alter problem
 export function alterProblem(data) {
     return request({
@@ -99,6 +107,7 @@ export function alterProblem(data) {
         data: data
     })
 }
+
 // get problem
 export function getProblem(pid) {
     return request({
@@ -106,10 +115,11 @@ export function getProblem(pid) {
         method: "get"
     })
 }
+
 /**
  * get problem set
- * @param {page number} pageNumber 
- * @param {*} params 
+ * @param {page number} pageNumber
+ * @param {*} params
  */
 export function getProblemSet(pageNumber, params) {
     return request({
@@ -121,7 +131,7 @@ export function getProblemSet(pageNumber, params) {
 // ------------------------- Solution --------------------------
 /**
  * submit solution
- * @param {*} solution 
+ * @param {*} solution
  */
 export function submitSolution(solution) {
     return request({
@@ -137,10 +147,11 @@ export function solutionDetail(sid) {
         method: "get"
     })
 }
+
 /**
- * 
- * @param {page number} pageNumber 
- * @param {search params} params 
+ *
+ * @param {page number} pageNumber
+ * @param {search params} params
  */
 export function getSolutionSet(pageNumber, params) {
     return request({

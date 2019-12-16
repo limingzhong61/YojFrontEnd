@@ -1,4 +1,7 @@
 # yoj-front-end
+前端：vue+vuex+vuecli+vue-router+bootstrap(jquery)+axios
+开发工具：WebStorm  
+[后端代码](https://github.com/codeOflI/Yoj)
 
 # 时间历程
 

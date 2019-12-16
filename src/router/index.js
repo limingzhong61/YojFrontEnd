@@ -22,6 +22,8 @@ const UserSet = () => import('../pages/User/UserSet/UserSet.vue')
 const ResetPassword = () => import('../pages/User/ResetPassword/ResetPassword.vue')
 const UserInfo = () => import('../pages/User/UserInfo/UserInfo.vue')
 const UpdateUser = () => import('../pages/User/UpdateUser/UpdateUser.vue')
+// E:\Codes\vue\yoj_front_end\src\pages\Help\Help.vue
+const Help = () => import('../pages/Help/Help.vue')
 
 
 Vue.use(VueRouter)
@@ -90,6 +92,9 @@ export default new VueRouter({
         {
             path: '/solution/detail/:id',
             component: SolutionDetail
+        },{
+            path: '/help',
+            component: Help
         }
     ]
 })
