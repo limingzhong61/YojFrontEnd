@@ -1,14 +1,14 @@
 // 判题结果映射
 export const JUDGE_RESULT = [
     'Accepted',
-    'Presentation Error',
-    'Time Limit Exceeded',
-    'Memory Limit Exceeded',
-    'Wrong Answer',
-    'Runtime Error',
-    'Output Limit Exceeded',
-    'Compile Error',
-    'System Error',
+    'PresentationError',
+    'TimeLimitExceeded',
+    'MemoryLimitExceeded',
+    'WrongAnswer',
+    'RuntimeError',
+    'OutputLimitExceeded',
+    'CompileError',
+    'SystemError',
     'Judging',
 ]
 export const JUDGE_LANGUAGE = [

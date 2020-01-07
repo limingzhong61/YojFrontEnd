@@ -18,7 +18,7 @@ export default {
           return (
             "data:image/png;base64," +
             btoa(
-              new Uint8Array(response.data).reduce(
+              new Uint8Array(response).reduce(
                 (data, byte) => data + String.fromCharCode(byte),
                 ""
               )

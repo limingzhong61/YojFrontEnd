@@ -159,11 +159,11 @@ export default {
         .then(res => {
           $("#myModal").modal("hide");
           // console.log(res)
-          this.emailJudge = res.data.success;
-          if (res.data.success) {
+          this.emailJudge = res.success;
+          if (res.success) {
             this.$options.methods.countDown(this.maxTime, this.$refs.emailBtn);
           } else {
-            this.emailMsg = res.data.msg;
+            this.emailMsg = res.msg;
           }
         })
         .catch(err => {
@@ -187,10 +187,10 @@ export default {
       })
         .then(res => {
           console.log(res);
-          if (res.data.success) {
+          if (res.success) {
             this.$router.replace("/login");
           } else {
-            const extend = res.data.extend;
+            const extend = res.extend;
             for (var obj in extend) {
               this.$data[obj + "Judge"] = false;
               this.$data[obj + "Msg"] = extend[obj];

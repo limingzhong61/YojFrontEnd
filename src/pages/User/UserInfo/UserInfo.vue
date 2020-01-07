@@ -6,9 +6,8 @@
         <img class="user-img ml-5" src="../../../assets/images/astronaut.jpg" />
       </div>
       <div class="col-3 order-md-2 mt-auto">
-        <p class="font-weight-bold">用户名：{{user.userName}}</p>
+        <p class="font-weight-bold">用户名：{{user.username}}</p>
         <p class="font-weight-bold">昵称：{{user.nickName}}</p>
-        <p>个性签名：{{user.intro}}</p>
       </div>
       <!-- 问题表 -->
       <div class="col-5 order-md-3 mt-auto">
@@ -43,10 +42,12 @@
     </div>
     <div class="card shadow p-3 mb-5 bg-white rounded mx-5">
       <dl class="row text-left px-5">
+        <dt class="col-3 font-weight-bold">个性签名：</dt>
+        <dd class="col-9 md-3">{{user.intro}}</dd>
         <dt class="col-3 font-weight-bold">注册时间：</dt>
         <dd class="col-9 md-3">{{user.regTime | timeFilter}}</dd>
         <dt class="col-3 font-weight-bold">用户名：</dt>
-        <dd class="col-9 md-3">{{user.userName}}</dd>
+        <dd class="col-9 md-3">{{user.username}}</dd>
         <dt class="col-3 font-weight-bold">Email:</dt>
         <dd class="col-9">{{user.email}}</dd>
       </dl>
@@ -61,7 +62,7 @@ export default {
     return {
       countAccepted: 0,
       countSubmission: 0,
-      user: { userName: "" }
+      user: { username: "" }
     };
   },
   // computed: mapState(["user"]),
@@ -69,7 +70,7 @@ export default {
     toSolution(result) {
       this.$router.push({
         path: "/solution",
-        query: { userName: this.user.userName, result: result }
+        query: { username: this.user.username, result: result }
       });
     }
   },
@@ -77,9 +78,9 @@ export default {
     // console.log("in");
     getUserInfo(this.$route.params.id)
       .then(res => {
-        // console.log(res);
+        console.log(res);
         // console.log(result.extend.pageInfo.list)
-        this.user = res.data.extend.user;
+        this.user = res.extend.user;
         // console.log(this.user);
       })
       .catch(err => {

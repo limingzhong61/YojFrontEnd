@@ -23,18 +23,16 @@
             getCurrentUserInfo()
                 .then(res => {
                     // console.log(res);
-                    if (res.data.success) {
-                        const user = res.data.extend.user;
+                    console.log(res.success);
+                    if (res.success) {
+                        const user = res.extend.user;
                         this.$store.commit(RECEIVE_USER, {
                             user
                         });
-                    } else {
-                        this.$router.replace("/login");
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                    this.$router.replace("/login");
                 });
             // const href = window.location.href;
             // const index = href.indexOf("/#/");

@@ -176,8 +176,8 @@ export default {
       addProblem(this.problem)
         .then(res => {
           console.log(res);
-          if (res.data.success) {
-            this.$router.replace("/problem/view/" + res.data.extend.pid)
+          if (res.success) {
+            this.$router.replace("/problem/view/" + res.extend.pid)
           }
         })
         .catch(err => {

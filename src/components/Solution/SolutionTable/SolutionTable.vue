@@ -137,9 +137,9 @@ export default {
         language: this.language
       })
         .then(res => {
-          // console.log(res);
-          this.solutionList = res.data.extend.pageInfo.list;
-          this.pageInfo = res.data.extend.pageInfo;
+          console.log(res);
+          this.solutionList = res.extend.pageInfo.list;
+          this.pageInfo = res.extend.pageInfo;
         })
         .catch(err => {
           console.log(err);

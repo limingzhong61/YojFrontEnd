@@ -68,7 +68,7 @@
               <div>
                 <judge-case
                   v-model="judgeData[index]"
-                  v-for="(item,index) in judgeData"
+                  v-for=" (item,index) in judgeData"
                   :key="index"
                   :index="index"
                   @toDelCase="toDelCase(index)"
@@ -138,27 +138,33 @@ export default {
   },
   methods: {
     addCase() {
-      this.judgeData.push({ in: "", out: "" });
+      this.judgeData.push(["",""]);
     },
     alterProblem() {
-      this.problem.judgeData = JSON.stringify(this.judgeData);
-      //   console.log(this.problem.judgeData == "[]")
+      const judgeData = this.judgeData
+      // console.log(JSON.stringify(judgeData))
+      // delete empty case
+      judgeData.splice(judgeData.findIndex(item => item[0] =="" && item[1] == ""), 1)
+      // console.log(JSON.stringify(judgeData))
+      this.problem.judgeData = JSON.stringify(judgeData);
+        // console.log(this.problem.judgeData == "[]")
       this.problem.title = this.title;
       this.problem.timeLimit = this.timeLimit;
       this.problem.memoryLimit = this.memoryLimit;
       //   console.log(this.problem.judgeData)
       console.log(this.problem);
+      // return;
       if (
         this.problem.title == "" ||
         this.problem.timeLimit == "" ||
-        this.problem.memoryLimit == "[]"
+        this.problem.memoryLimit == ""
       ) {
         return;
       }
       alterProblem(this.problem)
         .then(res => {
-          // console.log(res);
-          if (res.data.success) {
+          console.log(res);
+          if (res.success) {
             this.$router.replace("/problem/view/" + this.$route.params.id);
           }
         })
@@ -176,22 +182,21 @@ export default {
   created() {
     getProblem(this.$route.params.id)
       .then(res => {
-        // console.log(res);
-        const problem = res.data.extend.problem;
-        this.problem = res.data.extend.problem;
-        this.alter = res.data.extend.alter;
+        console.log(res);
+        const problem = res.extend.problem;
+        this.problem = res.extend.problem;
+        this.alter = res.extend.alter;
         this.title = problem.title;
         this.timeLimit = problem.timeLimit;
         this.memoryLimit = problem.memoryLimit;
         this.judgeData =  JSON.parse(problem.judgeData);
-        console.log(this.alter);
+        console.log(this.judgeData);
       })
       .catch(err => {
         console.log(err);
       });
   },
   beforeMount() {
-    this.stateProblem;
   }
 };
 </script>

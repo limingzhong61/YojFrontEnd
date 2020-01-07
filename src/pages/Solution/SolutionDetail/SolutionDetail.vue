@@ -12,7 +12,7 @@
         <div class="section visible mx-3">
           <form class="my-4">
             <div name="code" class="textarea-container monospace">
-              <label for="validationTextarea">
+              <label for="">
                 <strong class="font-weight-bold col-6 title mr-0 pr-1">
                   <i class="fa fa-code"></i>源代码
                 </strong>
@@ -26,8 +26,7 @@
                 ref="codeText"
                 v-model="solution.code"
                 placeholder
-                :class="{
-                    'textbox':true,'form-control':true}"
+                class="textbox form-control"
                 autofocus
                 data-autofocus
                 readonly="readonly"
@@ -99,9 +98,9 @@ export default {
   created() {
     solutionDetail(this.$route.params.id)
       .then(res => {
-        // console.log(res);
-        const solution = res.data.extend.solution;
-        this.solution = res.data.extend.solution;
+        console.log(res);
+        const solution = res.extend.solution;
+        this.solution = res.extend.solution;
         this.testList = JSON.parse(solution.testResult);
       })
       .catch(err => {
@@ -117,7 +116,7 @@ export default {
 
 .textbox.form-control {
   /* height: 295px; */
-  min-height: 20px;
+  min-height: 15rem;
   max-height: 230px;
   background-color: white;
 }

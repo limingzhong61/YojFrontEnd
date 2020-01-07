@@ -8,7 +8,7 @@
               <span class="input-group-text">用户名</span>
             </div>
             <input
-              v-model="userName"
+              v-model="username"
               type="text"
               class="form-control"
               placeholder="用户名"
@@ -40,7 +40,7 @@
             <tr v-for="(item,index) in userList" :key="item.userId">
               <th scope="row">{{index+1}}</th>
               <td>
-                <router-link :to="'/user/info/' + item.userId">{{item.userName}}</router-link>
+                <router-link :to="'/user/info/' + item.userId">{{item.username}}</router-link>
               </td>
               <td>{{item.nickName}}</td>
               <td>{{item.solved}}</td>
@@ -61,7 +61,7 @@ import MyTabel from "../../../components/Table/MyTable.vue";
 export default {
   data() {
     return {
-      userName: null,
+      username: null,
       userList: [],
       pageInfo: {}
     };
@@ -72,13 +72,13 @@ export default {
       this.elderProblemId = this.problemId;
       this.elderTitle = this.title;
       getUserSet(index, {
-        userName: this.userName
+        username: this.username
       })
         .then(res => {
           // console.log(res);
           // console.log(result.extend.pageInfo.list)
-          this.userList = res.data.extend.pageInfo.list;
-          this.pageInfo = res.data.extend.pageInfo;
+          this.userList = res.extend.pageInfo.list;
+          this.pageInfo = res.extend.pageInfo;
           // console.log(vue.pageInfo)
         })
         .catch(err => {

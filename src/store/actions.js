@@ -14,8 +14,8 @@ export default {
         getCurrentUserInfo()
             .then(res => {
                 // console.log(res);
-                if (res.data.success) {
-                    const user = res.data.extend.user;
+                if (res.success) {
+                    const user = res.extend.user;
                     commit(RECEIVE_USER, {
                         user
                     })
@@ -30,7 +30,7 @@ export default {
         await getProblem()
             .then(res => {
                 // console.log(res);
-                const problem = res.data.extend.problem;
+                const problem = res.extend.problem;
                 commit(RECEIVE_PROBLEM, {
                     problem
                 })

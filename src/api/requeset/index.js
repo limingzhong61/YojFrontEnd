@@ -3,7 +3,10 @@ ap request url in a instance of axios
 */
 import request from './ajax'
 // ===============================  User    ===============================
-//获取用户信息的实例
+/**
+ * 获取用户信息的实例
+ * @returns {*|Promise<any>|Window.Promise}
+ */
 export function getCurrentUserInfo() {
     return request({
         url: "/user/currentInfo",
@@ -11,12 +14,25 @@ export function getCurrentUserInfo() {
     })
 }
 
+/**
+ * update user info
+ * @returns {*|Promise<any>|Promise|Window.Promise}
+ */
+export function updateUserInfo(data) {
+    return request({
+        url: "/user/update",
+        method: "PUT",
+        data: data
+    })
+}
+
 //登录 data对象{}
-export function toLogin(data) {
+export function toLogin(params, data) {
     return request({
         url: "/login",
         method: "post",
-        params: data
+        params: params,
+        // data: data
     })
 }
 
@@ -88,8 +104,32 @@ export function register(data) {
         data: data
     })
 }
+// --------------------Admin ------------------------
+/**
+ *
+ * @param
+ */
+export function updateAllProblemFile() {
+    return request({
+        url: "admin/updateAllProblemFile",
+        method: "GET"
+    })
+}
+// --------------------Admin ------------------------
 
 // --------------------Problem ------------------------
+
+/**
+ *
+ * @param pid
+ */
+export function deleteProblem(pid) {
+    return request({
+        url: "problem/"+ pid,
+        method: "DELETE"
+    })
+}
+
 //add problem
 export function addProblem(data) {
     return request({
@@ -102,8 +142,8 @@ export function addProblem(data) {
 // alter problem
 export function alterProblem(data) {
     return request({
-        url: "/problem/add",
-        method: "POST",
+        url: "/problem/alter",
+        method: "PUT",
         data: data
     })
 }

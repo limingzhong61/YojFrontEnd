@@ -85,7 +85,7 @@ export default {
       submitSolution(solution)
         .then(res => {
           // console.log(res);
-          if (res.data.success) {
+          if (res.success) {
             this.$router.replace("/solution");
           }
         })

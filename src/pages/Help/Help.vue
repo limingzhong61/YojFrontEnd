@@ -4,6 +4,12 @@
             YOJ Online Judge FAQ
         </h2>
         <div class="col-9 m-auto">
+            <p class="font-weight-bold mt-5">Presentation Error</p>
+            <div class="ml-5">
+                题库中绝大多数的测试用例都包含文本末尾回车,只有极少数末尾没有回车。
+            </div>
+        </div>
+        <div class="col-9 m-auto">
             <p class="font-weight-bold mt-5">编译环境</p>
             <table class="table table-hover table-bordered text-center mb-0">
                 <thead class="thead-light" slot="thead">

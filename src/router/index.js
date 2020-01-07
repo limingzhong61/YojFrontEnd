@@ -24,15 +24,16 @@ const UserInfo = () => import('../pages/User/UserInfo/UserInfo.vue')
 const UpdateUser = () => import('../pages/User/UpdateUser/UpdateUser.vue')
 // E:\Codes\vue\yoj_front_end\src\pages\Help\Help.vue
 const Help = () => import('../pages/Help/Help.vue')
-
-
+const Admin = () => import('../pages/Admin/Admin.vue')
+const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
+import AdminUser from "../pages/Admin/Children/AdminUser";
 Vue.use(VueRouter)
 
 export default new VueRouter({
     mode: 'hash',
     routes: [{
         path: '/',
-        redirect: '/home'
+        redirect: '/problem'
     },
         {
             path: '/home',
@@ -95,6 +96,18 @@ export default new VueRouter({
         },{
             path: '/help',
             component: Help
+        },{
+            path: "/admin",
+            component: Admin,
+            children: [{
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 <router-view> 中
+                path: 'problem',
+                component: AdminProblem
+            },{
+                path: 'user',
+                component: AdminUser
+            }]
         }
     ]
 })

@@ -6,11 +6,10 @@ import $ from 'jquery'
 import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap/dist/js/bootstrap.min.js"
 import 'font-awesome/css/font-awesome.css'
-import swal from 'sweetalert';
 import store from "./store"
 import router from './router'
-import {getCurrentUserInfo} from './api/requeset'
-import {RECEIVE_USER} from './store/mutations-types'
+// import {getCurrentUserInfo} from './api/requeset'
+// import {RECEIVE_USER} from './store/mutations-types'
 
 
 Vue.config.productionTip = false

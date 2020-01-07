@@ -29,7 +29,7 @@ export default {
     prop: "judgeCase"
   },
   props: {
-    judgeCase: Object,
+    judgeCase: Array,
     index: Number,
   },
   data() {
@@ -45,17 +45,18 @@ export default {
   },
   watch: {
     caseIn(value) {
-      this.judgeCase.in = value.trim();
+      this.judgeCase[0] = value.trim() + "\n";
+      // console.log(this.judgeCase)
     },
     caseOut(value) {
-
-      this.judgeCase.out = value.trim();
+      this.judgeCase[1] = value.trim() + "\n";
+      // console.log(this.judgeCase)
     }
   },
   mounted() {
     // console.log(this.judgeCase);
-    this.caseIn = this.judgeCase.in;
-    this.caseOut = this.judgeCase.out;
+    this.caseIn = this.judgeCase[0];
+    this.caseOut = this.judgeCase[1];
   }
 };
 </script>

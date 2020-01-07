@@ -56,6 +56,7 @@
 <script>
     import {mapState} from "vuex";
     import {getProblem} from "../../api/requeset";
+    import * as Swal from "sweetalert2";
 
     export default {
         data() {
@@ -75,10 +76,11 @@
                 if (this.user) {
                     this.$router.push('/problem/submit/' + this.$route.params.id)
                 }else{
-                    swal({
-                        title: "请先登录",
-                        icon: "warning"
-                    });
+                    Swal.fire(
+                        '需要登录!',
+                        '请先登录.',
+                        'warning'
+                    )
                 }
             }
         },
@@ -86,8 +88,8 @@
             getProblem(this.$route.params.id)
                 .then(res => {
                     // console.log(res);
-                    this.problem = res.data.extend.problem;
-                    this.alter = res.data.extend.alter;
+                    this.problem = res.extend.problem;
+                    this.alter = res.extend.alter;
                 })
                 .catch(err => {
                     console.log(err);
