@@ -13,7 +13,7 @@ export default {
     getUser({commit}) {
         getCurrentUserInfo()
             .then(res => {
-                // console.log(res);
+                console.log(res);
                 if (res.success) {
                     const user = res.extend.user;
                     commit(RECEIVE_USER, {

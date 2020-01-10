@@ -129,7 +129,7 @@ export default {
       emailCodeJudge: true,
       emailCodeMsg: "",
       // emailcode btn time
-      maxTime: 5,
+      maxTime: 60,
 
       imageCode: "",
       imageCodeJudge: true,

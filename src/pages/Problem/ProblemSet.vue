@@ -118,7 +118,7 @@
                     title: this.title
                 })
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         const data = res;
                         this.problemList = res.extend.pageInfo.list;
                         this.pageInfo = res.extend.pageInfo;

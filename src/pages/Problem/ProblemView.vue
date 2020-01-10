@@ -24,27 +24,9 @@
                         </router-link>
                     </div>
                     <div class="des">
-                        <div class="sec_header">问题描述</div>
-                        <div class="sec_note" v-html="problem.description"></div>
-                        <div class="sec_header">输入格式</div>
-                        <div class="sec_cont">
-                            <div class="sec_note" v-html="problem.formatInput"></div>
-                        </div>
-                        <div class="sec_header">输出格式</div>
-                        <div class="sec_cont">
-                            <div class="sec_note" v-html="problem.formatOutput"></div>
-                        </div>
-                        <div class="sec_header">样例输入</div>
-                        <div class="sec_text">
-                            <div class="sec_note" v-html="problem.sampleInput"></div>
-                        </div>
-                        <div class="sec_header">样例输出</div>
-                        <div class="sec_text">
-                            <div class="sec_note" v-html="problem.sampleOutput"></div>
-                        </div>
-                        <div class="sec_header">提示</div>
-                        <div class="sec_cont">
-                            <div class="sec_note" v-html="problem.hint"></div>
+                        <div v-for="(value,name) in showAttributes" :key="item" v-if="problem[name] != ''">
+                            <div class="sec_header">{{value}}</div>
+                            <div class="sec_note" v-html="problem[name]"></div>
                         </div>
                     </div>
                 </div>
@@ -63,6 +45,14 @@
             return {
                 problem: {},
                 alter: false,
+                showAttributes:{
+                    "description": "问题描述",
+                    "formatInput": "输入格式",
+                    "formatOutput": "输出格式",
+                    "sampleInput": "样例输入",
+                    "sampleOutput": "样例输出",
+                    "hint": "提示",
+                }
             };
         }, computed: mapState({
             user(state) {

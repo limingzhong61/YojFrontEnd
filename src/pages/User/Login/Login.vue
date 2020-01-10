@@ -18,7 +18,7 @@
                                 placeholder="用户名"
                                 required
                                 autofocus
-                                v-model="userName"
+                                v-model="username"
                         />
                         <label class="sr-only">密码</label>
                         <input
@@ -72,15 +72,13 @@
     </div>
 </template>
 <script>
-    // /user/login
-    // import request from "../../api/requeset/ajax";
     import {toLogin} from "../../../api/requeset";
     import VerifyImg from "../../../components/VerifyImg/VerifyImg";
 
     export default {
         data() {
             return {
-                userName: "",
+                username: "",
                 password: "",
                 loginFail: false,
                 loginMsg: "",
@@ -90,10 +88,20 @@
         },
         components: {
             VerifyImg
+        }, watch: {
+            username(){
+                this.loginMsg = ""
+            },
+            password(){
+                this.loginMsg = ""
+            },
+            verifyCode(){
+                this.loginMsg = ""
+            }
         },
         methods: {
             login() {
-                const username = this.userName;
+                const username = this.username;
                 const password = this.password;
                 toLogin(
                     {
@@ -103,9 +111,9 @@
                         rememberMe: this.rememberMe,
                     })
                     .then(res => {
-                        // console.log(res);
+                        console.log(res);
                         if (res.success) {
-                            this.$router.replace("/home");
+                            this.$router.replace("/");
                             this.$store.dispatch("getUser");
                         } else {
                             this.loginFail = true;

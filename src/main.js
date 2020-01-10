@@ -18,7 +18,7 @@ Vue.config.productionTip = false
 Vue.filter('timeFilter', function (value) {
     if (!value) return ''
     value = value.toString()
-    return value.substr(0, 10) + ' ' + value.substr(11, 8)
+    return value.substr(0, 10) + ' ' + value.substr(11, 5)
 })
 
 

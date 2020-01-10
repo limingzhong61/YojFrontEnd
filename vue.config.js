@@ -10,12 +10,12 @@ module.exports = {
     //     '/',
     devServer: {
         host: "localhost",
-        port: 8888,
+        port: 8081,
         // hot: true,
         open: true,
         proxy: {
             '/api': {
-                target: 'http://localhost:80',
+                target: 'http://localhost:8888',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {

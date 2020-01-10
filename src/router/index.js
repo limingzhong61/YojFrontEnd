@@ -24,9 +24,13 @@ const UserInfo = () => import('../pages/User/UserInfo/UserInfo.vue')
 const UpdateUser = () => import('../pages/User/UpdateUser/UpdateUser.vue')
 // E:\Codes\vue\yoj_front_end\src\pages\Help\Help.vue
 const Help = () => import('../pages/Help/Help.vue')
+
 const Admin = () => import('../pages/Admin/Admin.vue')
 const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
-import AdminUser from "../pages/Admin/Children/AdminUser";
+const AdminUser = () =>import("../pages/Admin/Children/AdminUser");
+
+const ContestSet = () =>import("../pages/Contest/ContestSet");
+
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -108,6 +112,9 @@ export default new VueRouter({
                 path: 'user',
                 component: AdminUser
             }]
+        },{
+            path: "/contest",
+            component: ContestSet
         }
     ]
 })

@@ -88,6 +88,8 @@
             <form v-else class="form-inline">
                 <!--        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
                 <button class="btn btn-outline-primary my-2 my-sm-0" @click="goto('/login')" type="submit">登录</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0 ml-1" @click="goto('/register')" type="submit"> 注册
+                </button>
             </form>
         </div>
     </header>
@@ -135,6 +137,15 @@
                         spanClass: {
                             fa: true,
                             "fa-pie-chart": true,
+                            "fa-lg": true
+                        }
+                    },
+                    {
+                        path: "/contest",
+                        name: "竞赛",
+                        spanClass: {
+                            fa: true,
+                            "fa-fire": true,
                             "fa-lg": true
                         }
                     },

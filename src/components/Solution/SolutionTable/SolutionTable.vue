@@ -1,6 +1,6 @@
 <template>
-  <div class="col-12 order-md-1">
-    <div class="col-10 offset-1">
+  <div class="w-100">
+    <div class="col-11">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">用户名</span>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <MyTabel :pageInfo="pageInfo" @toPage="toPage">
+    <MyTabel :pageInfo="pageInfo" @toPage="toPage" class="table-txt-size">
       <thead class="thead-light" slot="thead">
         <tr class>
           <th class>提交序号</th>
@@ -56,7 +56,7 @@
               <option :value="index" v-for="(item,index) in judgeResult" :key="index">{{item}}</option>
             </select>
           </th>
-          <th class th:text="运行时间">
+          <th class text="运行时间">
             <span class="fa fa-clock-o fa-lg text-secondary"></span>
             CPU使用
           </th>
@@ -120,7 +120,7 @@ export default {
     return {
       judgeResult: JUDGE_RESULT,
       judgeLanguage: JUDGE_LANGUAGE,
-      userName: null,
+      username: null,
       problemId: null,
       language: "",
       result: "",
@@ -131,7 +131,7 @@ export default {
   methods: {
     toPage(index) {
       getSolutionSet(index, {
-        userName: this.userName,
+        username: this.username,
         problemId: this.problemId,
         result: this.result,
         language: this.language
@@ -151,7 +151,7 @@ export default {
     MyTabel
   },
   created() {
-    this.userName = this.$route.query.userName;
+    this.userName = this.$route.query.username;
     // console.log(this.$route.query.result)
     if (/\d/.test(this.$route.query.result)) {
       this.result = this.$route.query.result;
@@ -162,4 +162,7 @@ export default {
 };
 </script>
 <style>
+  .table-txt-size{
+    font-size: 0.95rem;
+  }
 </style>

@@ -9,7 +9,6 @@
 <script>
     import TopBar from "./components/TopBar/TopBar.vue";
     import Footer from "./components/Footer/Footer.vue";
-    import request from "./api/requeset/ajax";
     import {RECEIVE_USER} from "./store/mutations-types";
     import {getCurrentUserInfo} from "./api/requeset";
 
