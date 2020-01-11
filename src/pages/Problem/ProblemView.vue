@@ -37,7 +37,7 @@
 
 <script>
     import {mapState} from "vuex";
-    import {getProblem} from "../../api/requeset";
+    import {getProblemView} from "../../api/requeset";
     import * as Swal from "sweetalert2";
 
     export default {
@@ -75,7 +75,7 @@
             }
         },
         created() {
-            getProblem(this.$route.params.id)
+            getProblemView(this.$route.params.id)
                 .then(res => {
                     // console.log(res);
                     this.problem = res.extend.problem;

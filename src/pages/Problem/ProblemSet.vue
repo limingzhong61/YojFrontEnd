@@ -97,6 +97,8 @@
     import $ from "jquery";
     import MyTabel from "../../components/Table/MyTable.vue";
     import * as Swal from "sweetalert2";
+    import {mapState} from "vuex";
+    import {ROLE_NAME} from "../../api/static";
 
     export default {
         data() {
@@ -107,7 +109,11 @@
                 pageInfo: {},
                 add: false
             };
-        },
+        }, computed: mapState({
+            user(state) {
+                return state.user;
+            }
+        }),
         methods: {
             toPage(index) {
                 // console.log("topage"+index);
@@ -129,7 +135,7 @@
                     });
             },
             toAdd() {
-                if (this.add) {
+                if (this.user.role === ROLE_NAME.ADMIN) {
                     this.$router.push('/problem/add')
                 } else {
                     Swal.fire({

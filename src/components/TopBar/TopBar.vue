@@ -1,18 +1,7 @@
 <template>
     <header class="navbar navbar-dark navbar-expand-sm fixed-top">
-        <!-- <a class="navbar-brand" href="#">
-          <img
-            src="../../assets/images/bootstrap-solid.svg"
-            width="30"
-            height="30"
-            class="d-inline-block align-top"
-            alt
-          />
-          YOJ
-        </a>-->
         <a class="navbar-brand" href="#">
             <span class="fa fa-yahoo fa-lg text-primary"></span>
-            <!-- <span class="fa fa-opera fa-lg text-primary"></span> -->
             YOJ
         </a>
         <button

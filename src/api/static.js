@@ -30,3 +30,7 @@ export const JUDGE_LANGUAGE = [
     'JAVA',
     'Python',
 ]
+
+export const ROLE_NAME = {
+    'ADMIN': "ADMIN"
+}

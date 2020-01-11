@@ -2,6 +2,35 @@
 ap request url in a instance of axios
 */
 import request from './ajax'
+// ===============================  Contest    ===============================
+/**
+ *
+ * @param pageNumber page number
+ * @param data
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function getContestList(pageNumber,data){
+    return request({
+        url: "/contest/set/"+pageNumber,
+        method: "GET"
+    })
+}
+
+/**
+ *
+ * @param cid contest id
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function getContestView(cid){
+    return request({
+        url: "/contest/view/"+cid,
+        method: "GET"
+    })
+}
+
+
+// ===============================  Contest    ===============================
+
 // ===============================  User    ===============================
 /**
  * 获取用户信息的实例
@@ -115,6 +144,40 @@ export function updateAllProblemFile() {
         method: "GET"
     })
 }
+
+// get all problem info
+export function getProblemAll(pid) {
+    return request({
+        url: "admin/problem/" + pid,
+        method: "get"
+    })
+}
+
+/**
+ * add contest
+ * @param data
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function addContest(data) {
+    return request({
+        url: "admin/contest/add",
+        method: "POST",
+        data: data
+    })
+}
+
+/**
+ * update contest with admin authority
+ * @param cid
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function updateContest(data){
+    return request({
+        url: "admin/contest/alter",
+        method: "PUT",
+        data: data
+    })
+}
 // --------------------Admin ------------------------
 
 // --------------------Problem ------------------------
@@ -149,12 +212,13 @@ export function alterProblem(data) {
 }
 
 // get problem
-export function getProblem(pid) {
+export function getProblemView(pid) {
     return request({
         url: "/problem/" + pid,
         method: "get"
     })
 }
+
 
 /**
  * get problem set

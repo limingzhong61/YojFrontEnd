@@ -93,8 +93,7 @@
 <script>
 import TextEditor from "../../components/TextEditor/TextEditor.vue";
 import JudgeCase from "../../components/JudgeCase/JudgeCase.vue";
-import { alterProblem,getProblem } from "../../api/requeset";
-import { mapState, mapActions } from "vuex";
+import {alterProblem, getProblemAll} from "../../api/requeset";
 export default {
   data() {
     return {
@@ -175,12 +174,9 @@ export default {
     toDelCase(index) {
       this.judgeData.splice(index - 1, 1);
     },
-    ...mapActions([
-      "getProblem" // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
-    ])
   },
   created() {
-    getProblem(this.$route.params.id)
+    getProblemAll(this.$route.params.id)
       .then(res => {
         console.log(res);
         const problem = res.extend.problem;

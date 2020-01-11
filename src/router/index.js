@@ -27,10 +27,12 @@ const Help = () => import('../pages/Help/Help.vue')
 
 const Admin = () => import('../pages/Admin/Admin.vue')
 const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
-const AdminUser = () =>import("../pages/Admin/Children/AdminUser");
+const AdminUser = () => import("../pages/Admin/Children/AdminUser");
 
-const ContestSet = () =>import("../pages/Contest/ContestSet");
-
+const ContestSet = () => import("../pages/Contest/ContestSet");
+const AddContest = () => import("../pages/Contest/AddContest");
+const ContestView = () => import("../pages/Contest/ContestView");
+const AlterContest = () => import("../pages/Contest/AlterContest");
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -97,10 +99,10 @@ export default new VueRouter({
         {
             path: '/solution/detail/:id',
             component: SolutionDetail
-        },{
+        }, {
             path: '/help',
             component: Help
-        },{
+        }, {
             path: "/admin",
             component: Admin,
             children: [{
@@ -108,13 +110,22 @@ export default new VueRouter({
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'problem',
                 component: AdminProblem
-            },{
+            }, {
                 path: 'user',
                 component: AdminUser
             }]
-        },{
+        }, {
             path: "/contest",
-            component: ContestSet
+            component: ContestSet,
+        }, {
+            path: "/contest/add",
+            component: AddContest,
+        }, {
+            path: "/contest/view/:id",
+            component: ContestView,
+        }, {
+            path: "/contest/alter/:id",
+            component: AlterContest,
         }
     ]
 })

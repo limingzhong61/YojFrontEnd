@@ -6,7 +6,7 @@ import {
     RECEIVE_PROBLEM,
     RECEIVE_USER
 } from './mutations-types'
-import {getCurrentUserInfo, getProblem} from '../api/requeset'
+import {getCurrentUserInfo, getProblemView} from '../api/requeset'
 
 export default {
     // 异步获取用户信息
@@ -27,7 +27,7 @@ export default {
     },
     // 异步获取问题
     async getProblem({commit}, pid) {
-        await getProblem()
+        await getProblemView()
             .then(res => {
                 // console.log(res);
                 const problem = res.extend.problem;
