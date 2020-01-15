@@ -101,6 +101,9 @@
         },
         methods: {
             login() {
+                // console.log(pageCount)
+                // this.$router.replace("/");
+                // return
                 const username = this.username;
                 const password = this.password;
                 toLogin(
@@ -113,8 +116,8 @@
                     .then(res => {
                         console.log(res);
                         if (res.success) {
-                            this.$router.replace("/");
                             this.$store.dispatch("getUser");
+                            this.$router.replace("/");
                         } else {
                             this.loginFail = true;
                             this.loginMsg = res.msg;

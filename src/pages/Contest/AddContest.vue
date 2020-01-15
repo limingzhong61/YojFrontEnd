@@ -121,6 +121,7 @@
 <script>
     import TextEditor from "../../components/TextEditor/TextEditor.vue";
     import {addContest} from "../../api/requeset";
+    import * as Swal from "sweetalert2";
 
     export default {
         data() {
@@ -153,31 +154,6 @@
                 this.contestProblemList.push({})
                 console.log(this.contestProblemList)
             },
-            alterContest() {
-                const title = this.title
-                if (title === "" || this.duration <= 0) {
-                    return
-                }
-                const startTime = new Date(this.startTime)
-                const endTime = new Date(this.endTime)
-                const contestId = this.$route.params.id
-                // console.log(this.startTime)
-                // console.log(new Date(this.startTime))
-                updateContest({
-                    contestId,
-                    title,
-                    endTime,
-                    startTime,
-                    description: this.description
-                }).then(res => {
-                    console.log(res)
-                    if (res.success) {
-                        this.$router.push("/contest/view/" + contestId)
-                    }
-                }).catch(error => {
-                    console.log(error)
-                })
-            },
             delProblem(index) {
                 this.contestProblemList.splice(index, index + 1);
             },
@@ -197,6 +173,20 @@
                     contestProblemList: this.contestProblemList
                 }).then(res => {
                     console.log(res)
+                    if (res.success) {
+                        console.log("success")
+                        this.$router.push("/contest/view/" + contestId)
+                    }else{
+                        console.log("fail")
+                        Swal.fire({
+                            title: '添加失败',
+                            text: res.msg,
+                            icon: 'error',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '了解'
+                        })
+                    }
                 }).catch(error => {
                     console.log(error)
                 })

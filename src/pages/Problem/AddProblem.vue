@@ -82,8 +82,8 @@
               <div class="mb-3">注意：判题用例最多不能超过10个</div>
               <div>
                 <judge-case
-                  v-model="judgeData[index]"
-                  v-for="(item,index) in judgeData"
+                  v-model="data[index]"
+                  v-for="(item,index) in data"
                   :key="index"
                   :index="index"
                   @toDelCase="toDelCase(index)"
@@ -144,7 +144,7 @@ export default {
       tag: '',
       timeLimit: "",
       memoryLimit: "",
-      judgeData: []
+      data: []
     };
   },
   components: {
@@ -153,16 +153,14 @@ export default {
   },
   methods: {
     addCase() {
-      if(this.judgeData.length >= 10) return
-      this.judgeData.push({ in: "", out: "" });
+      if(this.data.length >= 10) return
+      this.data.push({ in: "", out: "" });
     },
     addProblem() {
-      this.problem.judgeData = JSON.stringify(this.judgeData);
-      //   console.log(this.problem.judgeData == "[]")
       this.problem.title = this.title;
       this.problem.timeLimit = this.timeLimit;
       this.problem.memoryLimit = this.memoryLimit;
-      //   console.log(this.problem.judgeData)
+      //   console.log(this.problem.data)
       console.log(this.problem);
       if (
         this.problem.title == "" ||
@@ -185,7 +183,7 @@ export default {
         });
     },
     toDelCase(index) {
-      this.judgeData.splice(index - 1, 1);
+      this.data.splice(index - 1, 1);
     },
   }
 };

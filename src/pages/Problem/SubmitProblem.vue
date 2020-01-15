@@ -60,6 +60,7 @@
 
 <script>
 import { submitSolution } from "../../api/requeset";
+import * as Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -75,18 +76,25 @@ export default {
         language: this.language,
         code: this.code.trim(),
         problemId: this.$route.params.id,
+        contestId : this.$route.query.contestId,
         share: Number(this.share)
       };
       // console.log(solution);
+      // return
       if (solution.code == "" || solution.language == -1) {
         return;
       }
       // console.log("in");
       submitSolution(solution)
         .then(res => {
-          // console.log(res);
+          console.log(res);
           if (res.success) {
             this.$router.replace("/solution");
+          }else{
+            Swal.fire({
+              title: res.msg,
+              icon: "warning"
+            });
           }
         })
         .catch(err => {

@@ -18,15 +18,17 @@
                         <router-link
                                 class="btn btn-warning"
                                 role="button"
-                                v-if="alter"
+                                v-if="canAlter"
                                 :to="'/problem/alter/' + this.$route.params.id"
                         >修改此题
                         </router-link>
                     </div>
                     <div class="des">
-                        <div v-for="(value,name) in showAttributes" :key="item" v-if="problem[name] != ''">
-                            <div class="sec_header">{{value}}</div>
-                            <div class="sec_note" v-html="problem[name]"></div>
+                        <div v-for="(value,name) in showAttributes" :key="value">
+                            <div v-if="problem[name] != ''">
+                                <div class="sec_header">{{value}}</div>
+                                <div class="sec_note" v-html="problem[name]"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,8 +46,7 @@
         data() {
             return {
                 problem: {},
-                alter: false,
-                showAttributes:{
+                showAttributes: {
                     "description": "问题描述",
                     "formatInput": "输入格式",
                     "formatOutput": "输出格式",
@@ -62,24 +63,33 @@
         }),
         methods: {
             toSubmit() {
-                // console.log(this.user)
+                console.log(this.$route.query.contestId)
+                console.log(this.$route.query)
                 if (this.user) {
-                    this.$router.push('/problem/submit/' + this.$route.params.id)
-                }else{
+                    this.$router.push({
+                        path: '/problem/submit/' + this.$route.params.id,
+                        query: {
+                            contestId: this.$route.query.contestId
+                        }
+                    })
+                } else {
                     Swal.fire(
                         '需要登录!',
                         '请先登录.',
                         'warning'
                     )
                 }
+            },
+            canAlter(){
+                return this.user != null && this.user.role === ROLE_NAME.ADMIN
             }
         },
         created() {
+            console.log(this.$route.query.contestId)
             getProblemView(this.$route.params.id)
                 .then(res => {
-                    // console.log(res);
+                    console.log(res);
                     this.problem = res.extend.problem;
-                    this.alter = res.extend.alter;
                 })
                 .catch(err => {
                     console.log(err);
@@ -110,7 +120,7 @@
 
     .problem .res {
         text-align: center;
-        font-size: 12px;
+        font-size: 0.8rem;
         color: #0e479d;
         margin: 0px 0px 14px 0px;
     }

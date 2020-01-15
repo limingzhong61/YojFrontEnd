@@ -22,6 +22,108 @@
                         <div>
                             <div class="sec_header">比赛介绍</div>
                             <div class="sec_note" v-html="contest.description"></div>
+                            <!--    contest problem-->
+                            <div>
+                                <div class="sec_header">比赛题目</div>
+                                <!--   only started contest can show-->
+                                <div v-if="status >= 0" class="col-10 mb-3 mx-auto">
+                                    <!--                            <div class="mb-3">注意：判题用例最多不能超过10个</div>-->
+                                    <div>
+                                        <div class="row caseItem">
+                                            <table class="table table-hover table-bordered text-center mb-0">
+                                                <!--                                        <TableCaption pageInfo="pageInfo" toPage="toPage"></TableCaption>-->
+                                                <thead class="thead-light" slot="thead">
+                                                <tr>
+                                                    <th scope="col">题目序号</th>
+                                                    <th scope="col">问题名称</th>
+                                                    <th scope="col">题目分数</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody slot="tbody">
+                                                <tr v-for="(item,index) in contestProblemList" :key="index">
+                                                    <th scope="row">{{index+1}}</th>
+                                                    <td><a href="#" @click.prevent="toProblemView(item.problemId)">{{item.title}}</a>
+                                                    </td>
+                                                    <td>{{item.score}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else class="sec_note">比赛未开始，不能查看比赛题目</div>
+                            </div>
+                            <div>
+                                <div class="sec_header">
+                                    比赛排名
+                                </div>
+                                <!--   only started contest can show-->
+                                <div v-if="status == 1" class="col-10 mb-3 mx-auto">
+                                    <div>
+                                        <div class="row caseItem">
+                                            <table class="table table-hover table-bordered text-center mb-0">
+                                                <!--                                        <TableCaption pageInfo="pageInfo" toPage="toPage"></TableCaption>-->
+                                                <thead class="thead-light" slot="thead">
+                                                <tr>
+                                                    <th scope="col">序号</th>
+                                                    <th scope="col">用户</th>
+                                                    <th scope="col">总分</th>
+                                                    <th scope="col">总用时</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody slot="tbody">
+                                                <tr v-if="userList != null" v-for="(item,index) in userList" :key="index">
+                                                    <th scope="row">{{index+1}}</th>
+                                                    <td><router-link :to=" '/user/info/' + item.userId">{{item.nickName}}</router-link>
+                                                    </td>
+                                                    <td>{{item.score}}</td>
+                                                    <td>{{item.totalRunTime}}ms</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else class="sec_note">比赛尚未结束</div>
+                            </div>
+                            <div>
+                                <div class="sec_header">
+                                    我的评测
+                                </div>
+                                <!--   only started contest can show-->
+                                <div v-if="status >= 0" class="col-10 mb-3 mx-auto">
+                                    <div>
+                                        <div v-if="solutionList != null" class="row caseItem">
+                                            <table class="table table-hover table-bordered text-center mb-0">
+                                                <!--                                        <TableCaption pageInfo="pageInfo" toPage="toPage"></TableCaption>-->
+                                                <thead class="thead-light" slot="thead">
+                                                <tr>
+                                                    <th scope="col">序号</th>
+                                                    <th scope="col">SID</th>
+                                                    <th scope="col">PID</th>
+                                                    <th scope="col">提交人</th>
+                                                    <th scope="col">评测结果</th>
+                                                    <th scope="col">提交时间</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody slot="tbody">
+                                                <tr v-for="(item,index) in solutionList" :key="index">
+                                                    <th scope="row">{{index+1}}</th>
+                                                    <th scope="row">{{item.solutionId}}</th>
+                                                    <td><a href="#" @click.prevent="toProblemView(item.problemId)">{{item.problemId}}</a>
+                                                    </td>
+                                                    <td>{{user.nickName}}</td>
+                                                    <td>{{JUDGE_RESULT[item.result]}}</td>
+                                                    <td>{{item.submitTime | timeFilter}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div v-else>{{solutionList}}</div>
+                                    </div>
+                                </div>
+                                <div v-else class="sec_note">比赛尚未结束</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -34,13 +136,18 @@
     import {mapState} from "vuex";
     import * as Swal from "sweetalert2";
     import {getContestView} from "../../api/requeset";
-    import {ROLE_NAME} from "../../api/static";
+    import {ROLE_NAME, JUDGE_RESULT} from "../../api/static";
 
     export default {
         data() {
             return {
                 contest: {},
+                contestProblemList: [],
                 alter: false,
+                status: -1,
+                solutionList: null,
+                userList: null,
+                JUDGE_RESULT
             };
         }, computed: mapState({
             user(state) {
@@ -49,15 +156,29 @@
             }
         }),
         methods: {
-            canAlter(){
+            canAlter() {
                 // return true
                 return this.user != null && this.user.role == ROLE_NAME.ADMIN
+            },
+            toProblemView(problemId) {
+                this.$router.push({
+                    path: '/problem/view/' + problemId,
+                    query: {
+                        contestId: this.contest.contestId
+                    }
+                })
+
             }
-        },created() {
-            getContestView(this.$route.params.id).then(res =>{
+        }, created() {
+            getContestView(this.$route.params.id).then(res => {
                 console.log(res)
                 this.contest = res.extend.contest
-            }).catch(error =>{
+                this.contestProblemList = res.extend.contestProblemList
+                this.status = res.extend.contest.status
+                this.solutionList = res.extend.solutionList
+                this.userList = res.extend.userList
+                // console.log(this.status)
+            }).catch(error => {
                 console.log(error)
             })
         }

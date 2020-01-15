@@ -45,7 +45,7 @@
                         <td>{{status(item.startTime,item.endTime)}}</td>
                         <td>{{item.startTime | timeFilter}}</td>
                         <td>{{item.endTime | timeFilter}}</td>
-                        <td>0</td>
+                        <td>{{item.totalProblem}}</td>
                         <td><router-link :to="'/user/info/' + item.userId">{{item.username}}1</router-link></td>
                     </tr>
                     </tbody>
@@ -101,7 +101,7 @@
                let start = Date.parse(startTime)
                let end = Date.parse(endTime)
                let now = Date.parse(new Date())
-                console.log(now)
+                // console.log(now)
                 if(now > end){
                     return "已结束"
                 }else if (now > start){

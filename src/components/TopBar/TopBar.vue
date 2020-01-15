@@ -59,7 +59,7 @@
                             aria-expanded="false"
                     >
                         <span class="fa fa-user-circle-o fa-lg text-primary" aria-label="GitHub"></span>
-                        {{user.username}}
+                        {{user.nickName}}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
                         <router-link tag="a" :to="'/user/info/'+user.userId" class="dropdown-item" href="#">个人信息
@@ -76,8 +76,8 @@
             </ul>
             <form v-else class="form-inline">
                 <!--        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-                <button class="btn btn-outline-primary my-2 my-sm-0" @click="goto('/login')" type="submit">登录</button>
-                <button class="btn btn-outline-primary my-2 my-sm-0 ml-1" @click="goto('/register')" type="submit"> 注册
+                <button class="btn btn-outline-primary my-2 my-sm-0" @click="goto('/login')" type="button">登录</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0 ml-1" @click="goto('/register')" type="button"> 注册
                 </button>
             </form>
         </div>

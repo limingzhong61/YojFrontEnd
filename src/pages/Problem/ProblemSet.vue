@@ -116,6 +116,7 @@
         }),
         methods: {
             toPage(index) {
+                this.$route.query.pageNumber = index
                 // console.log("topage"+index);
                 this.elderProblemId = this.problemId;
                 this.elderTitle = this.title;
@@ -135,7 +136,7 @@
                     });
             },
             toAdd() {
-                if (this.user.role === ROLE_NAME.ADMIN) {
+                if (this.user != null && this.user.role === ROLE_NAME.ADMIN) {
                     this.$router.push('/problem/add')
                 } else {
                     Swal.fire({
