@@ -84,10 +84,8 @@ export default {
       if (solution.code == "" || solution.language == -1) {
         return;
       }
-      // console.log("in");
       submitSolution(solution)
         .then(res => {
-          console.log(res);
           if (res.success) {
             this.$router.replace("/solution");
           }else{

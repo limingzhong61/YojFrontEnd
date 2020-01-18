@@ -98,27 +98,12 @@
                 </form>
             </div>
         </div>
-        <!--加载图片model-->
-        <div class="container">
-            <div
-                    id="myModal"
-                    class="modal"
-                    data-keyboard="false"
-                    data-backdrop="static"
-                    data-role="dialog"
-                    aria-labelledby="myModalLabel"
-                    aria-hidden="true"
-            >
-                <div id="loading" class="loading">发送邮件中。。。</div>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
     import {register, getRegisterEmailCode, getImageCode} from "../../../api/requeset";
     import JudgePassword from "../../../components/user/JudgePassword/JudgePassword.vue";
-    import $ from "jquery";
     import VerifyImg from "../../../components/VerifyImg/VerifyImg.vue";
 
     export default {
@@ -174,10 +159,8 @@
                 if (!this.emailJudge) {
                     return;
                 }
-                $("#myModal").modal("show");
                 getRegisterEmailCode(this.email)
                     .then(res => {
-                        $("#myModal").modal("hide");
 
                         this.emailJudge = res.success;
                         if (res.success) {
@@ -188,7 +171,6 @@
                     })
                     .catch(err => {
                         console.log(err);
-                        $("#myModal").modal("hide");
                     });
             },
             register() {
@@ -267,10 +249,10 @@
                     return;
                 }
             },
-            emailCode(value) {
+            emailCode() {
                 this.emailCodeJudge = true;
             },
-            imageCode(value) {
+            imageCode() {
                 this.imageCodeJudge = true;
             }
         },
@@ -300,22 +282,4 @@
         text-align: center;
     }
 
-    .loading {
-        width: 200px;
-        height: 56px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        line-height: 56px;
-        color: #fff;
-        padding-left: 60px;
-        font-size: 15px;
-        background: #000 url("../../../assets/images/loading.gif") no-repeat 10px 50%;
-        opacity: 0.7;
-        z-index: 9999;
-        -moz-border-radius: 20px;
-        -webkit-border-radius: 20px;
-        border-radius: 20px;
-        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
-    }
 </style>

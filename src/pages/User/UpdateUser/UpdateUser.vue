@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import {getCurrentUserInfo, getUserInfo, updateUserInfo} from "../../../api/requeset";
+    import {getCurrentUserInfo, updateUserInfo} from "../../../api/requeset";
     import * as Swal from "sweetalert2";
 
     export default {
@@ -77,7 +77,6 @@
         },
         methods: {
             updateUserInfo() {
-                console.log("in")
                 if (
                     !this.usernameJudge ||
                     !this.nickNameJudge
@@ -92,7 +91,6 @@
                     //  headers: this.headers
                 })
                     .then(res => {
-                        console.log(res);
                         if (res.success) {
                             Swal.fire(
                                 '更新成功!',
@@ -100,7 +98,6 @@
                                 'success'
                             )
                         } else {
-                            // console.log(this.$data)
                             const extend = res.data.extend;
                             for (var obj in extend) {
                                 this.$data[obj + "Judge"] = false;
@@ -142,15 +139,12 @@
             },
         },
         created() {
-            // console.log("in");
             getCurrentUserInfo()
                 .then(res => {
                     // console.log(res);
-                    // console.log(result.extend.pageInfo.list)
                     this.user = res.extend.user;
                     const user = res.extend.user;
                     for (var field in user) {
-                        // console.log(field)
                         this.$data[field] = user[field];
                     }
 

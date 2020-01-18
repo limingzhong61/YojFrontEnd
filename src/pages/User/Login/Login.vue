@@ -101,11 +101,12 @@
         },
         methods: {
             login() {
-                // console.log(pageCount)
+
                 // this.$router.replace("/");
                 // return
                 const username = this.username;
                 const password = this.password;
+                console.log(password)
                 toLogin(
                     {
                         tryCode: this.verifyCode,

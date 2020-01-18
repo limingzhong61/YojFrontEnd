@@ -39,7 +39,7 @@
                     </tr>
                     </thead>
                     <tbody slot="tbody">
-                    <tr v-for="(item,index) in contestProblemList" :key="item.contestId">
+                    <tr v-for="(item) in contestProblemList" :key="item.contestId">
                         <th scope="row">{{item.contestId}}</th>
                         <td><router-link :to="'/contest/view/' + item.contestId">{{item.title}}</router-link></td>
                         <td>{{status(item.startTime,item.endTime)}}</td>

@@ -11,7 +11,7 @@ export default function request(config) {
         baseURL: process.env.VUE_APP_BASE_API,
         // `withCredentials` 表示跨域请求时是否需要使用凭证
         // 允许携带cookie
-        timeout: 5000, // 请求的超时时间
+        timeout: process.env.AXIOS_TIME_OUT, // 请求的超时时间
         withCredentials: true, // default false
     })
 
