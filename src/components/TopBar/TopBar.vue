@@ -31,24 +31,9 @@
                         <span class="fa fa-github fa-lg text-secondary"></span>
                     </a>
                 </li>
-                <!--<li class="nav-item dropdown">-->
-                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                <!--Dropdown-->
-                <!--</a>-->
-                <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-                <!--<a class="dropdown-item" href="#">Action</a>-->
-                <!--<a class="dropdown-item" href="#">Another action</a>-->
-                <!--<div class="dropdown-divider"></div>-->
-                <!--<a class="dropdown-item" href="#">Something else here</a>-->
-                <!--</div>-->
-                <!--</li>-->
-                <!--<li class="nav-item">-->
-                <!--<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-                <!--</li>-->
             </ul>
-
             <!-- ===============个人按钮  ==================== -->
-            <ul v-if="user" class="navbar-nav flex-row ml-sm-auto d-none d-sm-flex">
+            <ul v-if="user" class="navbar-nav flex-row ml-auto">
                 <li class="nav-item dropdown">
                     <a
                             class="nav-item nav-link dropdown-toggle mr-sm-2"
@@ -67,15 +52,10 @@
                         <router-link tag="a" :to="'/user/update'" class="dropdown-item" href="#">修改信息</router-link>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item" type="submit" @click="logout">退出</button>
-                        <!--<a class="dropdown-item active" href="/docs/4.0/">v4.0.0</a>-->
-                        <!--<div class="dropdown-divider"></div>-->
-                        <!--<a class="dropdown-item" href="https://v4-alpha.getbootstrap.com/">v4 Alpha 6</a>-->
-                        <!--<a class="dropdown-item" href="https://getbootstrap.com/2.3.2/">v2.3.2</a>-->
                     </div>
                 </li>
             </ul>
             <form v-else class="form-inline">
-                <!--        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
                 <button class="btn btn-outline-primary my-2 my-sm-0" @click="goto('/login')" type="button">登录</button>
                 <button class="btn btn-outline-primary my-2 my-sm-0 ml-1" @click="goto('/register')" type="button"> 注册
                 </button>

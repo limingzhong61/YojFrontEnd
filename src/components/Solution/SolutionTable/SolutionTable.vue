@@ -1,7 +1,7 @@
 <template>
     <div class="w-100">
         <div class="container">
-            <div class="input-group mb-3 col-10 mx-auto">
+            <div class="input-group mb-3 col-12 mx-auto">
                 <div class="input-group-prepend">
                     <span class="input-group-text">用户</span>
                 </div>
@@ -143,7 +143,7 @@
                     language: this.language
                 })
                     .then(res => {
-                        console.log(res);
+                        // console.log(res);
                         this.solutionList = res.extend.pageInfo.list;
                         this.pageInfo = res.extend.pageInfo;
                     })

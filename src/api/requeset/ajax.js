@@ -9,7 +9,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 export default function request(config) {
     const instance = axios.create({
         baseURL: process.env.VUE_APP_BASE_API,
-        // timeout: 5000,
+        // `withCredentials` 表示跨域请求时是否需要使用凭证
+        // 允许携带cookie
+        timeout: 5000, // 请求的超时时间
+        withCredentials: true, // default false
     })
 
     return new Promise(function (resolve, reject) {
@@ -18,7 +21,7 @@ export default function request(config) {
         promise.then(function (response) {
             // 成功了调用resolve()
             // console.log(response)
-            const data = response.data
+            // const data = response.data
             // 不成功同一提示,front end error info, not equals 0 and 200 means server internal error
             // if(data.state != 0 && data.state != 200){
             //     swal({

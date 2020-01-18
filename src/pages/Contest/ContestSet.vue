@@ -2,8 +2,8 @@
     <div class="container my-set pt-3 px-5">
         <div class="row">
             <div class="col-md-12 order-md-1">
-                <button type="button" class="btn btn-primary" @click="toAdd">添加比赛</button>
-                <div class="col-6 m-auto">
+                <button type="button" class="btn btn-primary mb-1" @click="toAdd">添加比赛</button>
+                <div class="col-12 mx-auto">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">比赛名称</span>

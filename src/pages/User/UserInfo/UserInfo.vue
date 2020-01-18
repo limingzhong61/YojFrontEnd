@@ -3,7 +3,7 @@
     <!-- <h2 class="panel-title mb-4 text-center">个人信息</h2> -->
     <div class="row mx-5 mb-3">
       <div class="col-3 order-md-1">
-        <img class="user-img ml-5" src="../../../assets/images/astronaut.jpg" />
+        <img class="user-img ml-auto" src="../../../assets/images/astronaut.jpg" />
       </div>
       <div class="col-3 order-md-2 mt-auto">
         <p class="font-weight-bold">用户名：{{user.username}}</p>
