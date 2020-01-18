@@ -91,7 +91,6 @@
             },
             toPage(pageNumber){
                 getContestList(pageNumber,{contestId: 1}).then(res => {
-                    console.log(res)
                     this.pageInfo = res.extend.pageInfo;
                     this.contestProblemList = this.pageInfo.list;
                 }).catch(error => {

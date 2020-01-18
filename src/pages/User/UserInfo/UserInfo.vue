@@ -78,10 +78,8 @@ export default {
     // console.log("in");
     getUserInfo(this.$route.params.id)
       .then(res => {
-        console.log(res);
         // console.log(result.extend.pageInfo.list)
         this.user = res.extend.user;
-        // console.log(this.user);
       })
       .catch(err => {
         console.log(err);

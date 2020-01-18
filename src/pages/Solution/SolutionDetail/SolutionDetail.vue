@@ -108,7 +108,6 @@
         created() {
             solutionDetail(this.$route.params.id)
                 .then(res => {
-                    console.log(res);
                     const solution = res.extend.solution;
                     this.solution = res.extend.solution;
                     this.testList = JSON.parse(solution.testResult);

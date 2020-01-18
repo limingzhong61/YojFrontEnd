@@ -1,7 +1,7 @@
 <template>
     <div class="container my-3">
         <h2 class="pt-4 text-center">
-            YOJ Online Judge FAQ
+            YOJ Online Judge 帮助
         </h2>
         <div class="col-9 m-auto">
             <p class="font-weight-bold mt-5">Presentation Error</p>

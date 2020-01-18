@@ -178,11 +178,9 @@
                 getRegisterEmailCode(this.email)
                     .then(res => {
                         $("#myModal").modal("hide");
-                        // console.log(res)
 
                         this.emailJudge = res.success;
                         if (res.success) {
-                            console.log(this.maxTime);
                             this.$options.methods.countDown(this.maxTime, this.$refs.emailBtn);
                         } else {
                             this.emailMsg = res.msg;
@@ -194,7 +192,6 @@
                     });
             },
             register() {
-                // console.log(this.passwordJudge);
                 if (
                     !this.usernameJudge ||
                     this.passwordJudge.strength < 2 ||
@@ -202,7 +199,6 @@
                 ) {
                     return;
                 }
-                // console.log(this.imageCode);
                 register({
                     username: this.username,
                     password: this.passwordJudge.password,
@@ -212,11 +208,9 @@
                     //  headers: this.headers
                 })
                     .then(res => {
-                        console.log(res);
                         if (res.success) {
                             this.$router.replace("/login");
                         } else {
-                            // console.log(this.$data)
                             const extend = res.extend;
                             for (var obj in extend) {
                                 this.$data[obj + "Judge"] = false;
@@ -243,7 +237,6 @@
                         );
                     })
                     .then(res => {
-                        // console.log(res);
                         this.verifiedImg = res;
                     })
                     .catch(err => {
@@ -253,13 +246,11 @@
         },
         watch: {
             username: function (value) {
-                // console.log(value)
                 if (value === "") {
                     this.usernameJudge = false;
                     this.usernameMsg = "用户名不能为空";
                     return;
                 }
-                console.log(value.length);
                 if (value.length > 20) {
                     this.usernameJudge = false;
                     this.usernameMsg = "用户名太长";
@@ -277,7 +268,6 @@
                 }
             },
             emailCode(value) {
-                // console.log(value)
                 this.emailCodeJudge = true;
             },
             imageCode(value) {

@@ -115,13 +115,11 @@
         },
         watch: {
             username: function (value) {
-                console.log(value)
                 if (value === "") {
                     this.usernameJudge = false;
                     this.usernameMsg = "用户名不能为空";
                     return;
                 }
-                console.log(value.length);
                 if (value.length > 20) {
                     this.usernameJudge = false;
                     this.usernameMsg = "用户名太长";
@@ -130,13 +128,11 @@
                 this.usernameJudge = true;
             },
             nickName: function (value) {
-                console.log(value)
                 if (value === "") {
                     this.nickNameJudge = false;
                     this.nickNameMsg = "昵称不能为空";
                     return;
                 }
-                console.log(value.length);
                 if (value.length > 20) {
                     this.nickNameJudge = false;
                     this.nickNameMsg = "昵称太长";
@@ -153,7 +149,6 @@
                     // console.log(result.extend.pageInfo.list)
                     this.user = res.extend.user;
                     const user = res.extend.user;
-                    console.log(user);
                     for (var field in user) {
                         // console.log(field)
                         this.$data[field] = user[field];

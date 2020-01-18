@@ -114,7 +114,6 @@
                         rememberMe: this.rememberMe,
                     })
                     .then(res => {
-                        console.log(res);
                         if (res.success) {
                             this.$store.dispatch("getUser");
                             this.$router.replace("/");

@@ -22,7 +22,6 @@
             getCurrentUserInfo()
                 .then(res => {
                     // console.log(res);
-                    console.log(res.success);
                     if (res.success) {
                         const user = res.extend.user;
                         this.$store.commit(RECEIVE_USER, {

@@ -41,6 +41,7 @@
     import {mapState} from "vuex";
     import {getProblemView} from "../../api/requeset";
     import * as Swal from "sweetalert2";
+    import {ROLE_NAME} from "../../api/static";
 
     export default {
         data() {
@@ -63,8 +64,7 @@
         }),
         methods: {
             toSubmit() {
-                console.log(this.$route.query.contestId)
-                console.log(this.$route.query)
+                // console.log(this.$route.query.contestId)
                 if (this.user) {
                     this.$router.push({
                         path: '/problem/submit/' + this.$route.params.id,
@@ -85,10 +85,10 @@
             }
         },
         created() {
-            console.log(this.$route.query.contestId)
+            // console.log(this.$route.query.contestId)
             getProblemView(this.$route.params.id)
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     this.problem = res.extend.problem;
                 })
                 .catch(err => {

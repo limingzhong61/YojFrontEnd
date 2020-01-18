@@ -171,7 +171,6 @@
             }
         }, created() {
             getContestView(this.$route.params.id).then(res => {
-                console.log(res)
                 this.contest = res.extend.contest
                 this.contestProblemList = res.extend.contestProblemList
                 this.status = res.extend.contest.status
