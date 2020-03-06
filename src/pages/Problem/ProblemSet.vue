@@ -144,7 +144,7 @@
                         icon: "warning"
                     });
                 }
-            }
+            },
         },
         components: {
             MyTabel

@@ -1,7 +1,8 @@
 /*
 ap request url in a instance of axios
 */
-import request from './ajax'
+import request, {specificRequest} from './ajax'
+
 // ===============================  Contest    ===============================
 /**
  *
@@ -9,9 +10,9 @@ import request from './ajax'
  * @param data
  * @returns {*|Promise|Promise<any>|Window.Promise}
  */
-export function getContestList(pageNumber,data){
+export function getContestList(pageNumber, data) {
     return request({
-        url: "/contest/set/"+pageNumber,
+        url: "/contest/set/" + pageNumber,
         method: "GET"
     })
 }
@@ -21,9 +22,9 @@ export function getContestList(pageNumber,data){
  * @param cid contest id
  * @returns {*|Promise|Promise<any>|Window.Promise}
  */
-export function getContestView(cid){
+export function getContestView(cid) {
     return request({
-        url: "/contest/view/"+cid,
+        url: "/contest/view/" + cid,
         method: "GET"
     })
 }
@@ -133,6 +134,7 @@ export function register(data) {
         data: data
     })
 }
+
 // --------------------Admin ------------------------
 /**
  *
@@ -171,7 +173,7 @@ export function addContest(data) {
  * @param cid
  * @returns {*|Promise|Promise<any>|Window.Promise}
  */
-export function updateContest(data){
+export function updateContest(data) {
     return request({
         url: "admin/contest/alter",
         method: "PUT",
@@ -189,7 +191,7 @@ export function updateContest(data){
  */
 export function deleteProblem(pid) {
     return request({
-        url: "problem/"+ pid,
+        url: "problem/" + pid,
         method: "DELETE"
     })
 }
@@ -276,5 +278,32 @@ export function getImageCode() {
         url: "/verify/image",
         method: "get",
         responseType: "arraybuffer"
+    })
+}
+
+export function downloadJudgeFile(params) {
+    return specificRequest({
+        method: "get",
+        url: "/data/get",
+        params: params,
+        responseType: 'blob'
+    }).then((res) => {
+        console.log(res)
+        //这里res.data是返回的blob对象
+        var blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'}); //application/vnd.openxmlformats-officedocument.wordprocessingml.document这里表示doc类型
+        var contentDisposition = res.headers['content-disposition'];  //从response的headers中获取filename, 后端response.setHeader("Content-disposition", "attachment; filename=xxxx.docx") 设置的文件名;
+        console.log(contentDisposition)
+        var patt = new RegExp("filename=([^;]+\\.[^\\.;]+);*");
+        var result = patt.exec(contentDisposition);
+        var filename = result[1];
+        var downloadElement = document.createElement('a');
+        var href = window.URL.createObjectURL(blob); //创建下载的链接
+        downloadElement.style.display = 'none';
+        downloadElement.href = href;
+        downloadElement.download = filename; //下载后文件名
+        document.body.appendChild(downloadElement);
+        downloadElement.click(); //点击下载
+        document.body.removeChild(downloadElement); //下载完成移除元素
+        window.URL.revokeObjectURL(href); //释放掉blob对象
     })
 }

@@ -67,8 +67,8 @@
                             <div class="mb-3">注意：判题用例最多不能超过10个</div>
                             <div>
                                 <judge-case
-                                        v-model="data[index]"
-                                        v-for=" (item,index) in data"
+                                        v-model="judgeData[index]"
+                                        v-for=" (item,index) in judgeData"
                                         :key="index"
                                         :index="index"
                                         @toDelCase="toDelCase(index)"
@@ -130,7 +130,7 @@
                 title: "",
                 timeLimit: "",
                 memoryLimit: "",
-                data: []
+                judgeData: []
             };
         },
         components: {
@@ -142,17 +142,15 @@
                 this.data.push(["", ""]);
             },
             alterProblem() {
-                this.problem.title = this.title;
-                this.problem.timeLimit = this.timeLimit;
-                this.problem.memoryLimit = this.memoryLimit;
-                this.problem.data = this.data
+
+
                 //   console.log(this.problem.data)
                 console.log(this.problem);
                 // return;
                 if (
-                    this.problem.title == "" ||
-                    this.problem.timeLimit == "" ||
-                    this.problem.memoryLimit == ""
+                    this.title == "" ||
+                    this.timeLimit == "" ||
+                    this.memoryLimit == ""
                 ) {
                     return;
                 }
@@ -181,8 +179,8 @@
                     this.title = problem.title;
                     this.timeLimit = problem.timeLimit;
                     this.memoryLimit = problem.memoryLimit;
-                    this.data = problem.data
-                    console.log(this.data)
+                    this.judgeData = problem.judgeData
+                    console.log(this.judgeData)
                 })
                 .catch(err => {
                     console.log(err);

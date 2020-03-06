@@ -16,7 +16,7 @@ module.exports = {
         //cancel vue proxy because use nginx proxy
         proxy: {
             '/api': {
-                target: 'http://localhost:8080',
+                target: 'http://localhost:8888',
                 ws: true,
                 changeOrigin: true,
                 // pathRewrite: {

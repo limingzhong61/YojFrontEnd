@@ -40,7 +40,8 @@
                                 </strong>
                             </label>
                             <div class="alert alert-info"
-                            >{{solution.errorMessage}}</div>
+                            >{{solution.errorMessage}}
+                            </div>
                             <div class="invalid-feedback">代码不能为空。</div>
                         </div>
                     </form>
@@ -66,13 +67,15 @@
                         </thead>
                         <tbody>
                         <tr v-for="(item,index) in testList" :key="index">
-                            <th scope="row">{{index}}</th>
+                            <th scope="row">{{index+1}}</th>
                             <!-- <td scope="row">{{item}}</td> -->
                             <td scope="row">{{judgeResult[item.result]}}</td>
                             <td scope="row">{{item.timeUsed != null ? item.timeUsed + 'ms' : " " }}</td>
                             <td scope="row">{{item.memoryUsed ? item.memoryUsed / 10 + "KB" : " "}}</td>
                             <td scope="row">
-                                <a href="#">敬请期待</a>
+                                <a href="#" @click="downloadFile(index+1,0)">输入</a>
+                                &nbsp;
+                                <a href="#" @click="downloadFile(index+1,1)">输出</a>
                             </td>
                         </tr>
                         </tbody>
@@ -84,7 +87,7 @@
 </template>
 
 <script>
-    import {solutionDetail} from "../../../api/requeset";
+    import {downloadJudgeFile, solutionDetail} from "../../../api/requeset";
     import {JUDGE_RESULT} from "../../../api/static";
 
     export default {
@@ -103,6 +106,13 @@
                 this.$refs.codeText.select();
                 document.execCommand("copy");
                 // console.log("复制成功");
+            },
+            downloadFile(caseId, inOrOut) {
+                downloadJudgeFile({
+                    solutionId: this.$route.params.id,
+                    caseId,
+                    inOrOut,
+                })
             }
         },
         created() {

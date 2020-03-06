@@ -46,3 +46,18 @@ export default function request(config) {
         })
     })
 }
+
+/**
+ * @param config
+ * @returns {Promise<any>} specific request ,not be edit with promise;
+ */
+export function specificRequest(config) {
+    const instance = axios.create({
+        baseURL: process.env.VUE_APP_BASE_API,
+        // `withCredentials` 表示跨域请求时是否需要使用凭证
+        // 允许携带cookie
+        timeout: process.env.AXIOS_TIME_OUT, // 请求的超时时间
+        withCredentials: true, // default false
+    })
+    return instance(config)
+}

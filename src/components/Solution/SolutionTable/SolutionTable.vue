@@ -100,7 +100,7 @@
                     {{item.memory ? item.memory / 10 + "KB" : " "}}
                 </td>
                 <td>
-                    <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+                    <i  v-if="!user"><i class="fa fa-lg fa-lock" ></i>需要登录</i>
                     <router-link
                             :to="'/solution/detail/'+item.solutionId"
                             v-else-if="item.share || user && user.userId == item.userId"
