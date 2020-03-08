@@ -142,11 +142,6 @@
                 this.data.push(["", ""]);
             },
             alterProblem() {
-
-
-                //   console.log(this.problem.data)
-                console.log(this.problem);
-                // return;
                 if (
                     this.title == "" ||
                     this.timeLimit == "" ||
@@ -156,7 +151,6 @@
                 }
                 alterProblem(this.problem)
                     .then(res => {
-                        console.log(res);
                         if (res.success) {
                             this.$router.replace("/problem/view/" + this.$route.params.id);
                         }
@@ -172,7 +166,6 @@
         created() {
             getProblemAll(this.$route.params.id)
                 .then(res => {
-                    console.log(res);
                     const problem = res.extend.problem;
                     this.problem = res.extend.problem;
                     this.alter = res.extend.alter;
@@ -180,7 +173,6 @@
                     this.timeLimit = problem.timeLimit;
                     this.memoryLimit = problem.memoryLimit;
                     this.judgeData = problem.judgeData
-                    console.log(this.judgeData)
                 })
                 .catch(err => {
                     console.log(err);

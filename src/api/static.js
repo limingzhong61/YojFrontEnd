@@ -23,6 +23,7 @@ export const JUDGE_RESULT = [
     '编译错误',//7
     '系统错误',//8
     '判定中',//9
+    '等待重判',//10
 ]
 export const JUDGE_LANGUAGE = [
     'C',

@@ -93,6 +93,9 @@
                 </td>
                 <td>
                     <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+                    <button @click="reSubmit(item.solutionId)" class="btn btn-primary mb-1"
+                            v-else-if="item.result == 10">提交重判
+                    </button>
                     {{item.runtime != null ? item.runtime + 'ms' : " " }}
                 </td>
                 <td>
@@ -100,7 +103,7 @@
                     {{item.memory ? item.memory / 10 + "KB" : " "}}
                 </td>
                 <td>
-                    <i  v-if="!user"><i class="fa fa-lg fa-lock" ></i>需要登录</i>
+                    <i v-if="!user"><i class="fa fa-lg fa-lock"></i>需要登录</i>
                     <router-link
                             :to="'/solution/detail/'+item.solutionId"
                             v-else-if="item.share || user && user.userId == item.userId"
@@ -116,10 +119,11 @@
 </template>
 
 <script>
-    import {getSolutionSet} from "../../../api/requeset";
+    import {getSolutionSet, reSubmitSolution, submitSolution} from "../../../api/requeset";
     import {JUDGE_RESULT, JUDGE_LANGUAGE} from "../../../api/static.js";
     import {mapState} from "vuex";
     import MyTabel from "../../../components/Table/MyTable.vue";
+    import * as Swal from "sweetalert2";
 
     export default {
         data() {
@@ -150,8 +154,7 @@
                     .catch(err => {
                         console.log(err);
                     });
-            },
-            getResultClass(result) {
+            }, getResultClass(result) {
                 if (result == 0) {
                     return "badge badge-success text-wrap"
                 } else if (result == 1) {
@@ -163,6 +166,21 @@
                 } else {
                     return "badge badge-warning text-wrap"
                 }
+            }, reSubmit(sid) {
+                reSubmitSolution(sid)
+                    .then(res => {
+                        if (res.success) {
+                            // this.$router.replace("/solution");
+                        } else {
+                            Swal.fire({
+                                title: res.msg,
+                                icon: "warning"
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }
         },
         computed: mapState(["user"]),

@@ -15,10 +15,12 @@
                                 @click="toSubmit"
                         >提交此题
                         </button>&nbsp;
+<!--                        v-if="!canAlter"-->
+
                         <router-link
                                 class="btn btn-warning"
                                 role="button"
-                                v-if="canAlter"
+                                v-if="canAlter()"
                                 :to="'/problem/alter/' + this.$route.params.id"
                         >修改此题
                         </router-link>
@@ -58,7 +60,6 @@
             };
         }, computed: mapState({
             user(state) {
-                // console.log(state.user)
                 return state.user;
             }
         }),
@@ -80,7 +81,7 @@
                     )
                 }
             },
-            canAlter(){
+            canAlter() {
                 return this.user != null && this.user.role === ROLE_NAME.ADMIN
             }
         },

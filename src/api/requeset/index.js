@@ -248,6 +248,15 @@ export function submitSolution(solution) {
     })
 }
 
+export function reSubmitSolution(sid) {
+    return request({
+        url: "/solution/reSubmit/" + sid,
+        method: "get",
+    })
+}
+
+
+
 export function solutionDetail(sid) {
     return request({
         url: "/solution/detail/" + sid,
