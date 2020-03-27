@@ -1,9 +1,10 @@
 <template>
     <header class="navbar navbar-dark navbar-expand-sm fixed-top">
-        <a class="navbar-brand" href="#">
+        <router-link class="navbar-brand" to="/problem">
             <span class="fa fa-yahoo fa-lg text-primary"></span>
+<!--            <span class="fa fa-scribd fa-lg text-primary"></span>-->
             YOJ
-        </a>
+        </router-link>
         <button
                 class="navbar-toggler"
                 type="button"
@@ -161,9 +162,8 @@
             },
             logout() {
                 logout()
-                    .then(res => {
+                    .then(() => {
                         // console.log(res);
-                        // res.data = "";
                         this.goto("/login");
                     })
                     .catch(err => {

@@ -69,6 +69,7 @@
                                 }
                             }
                         ).catch(error => {
+                            console.log(error)
                             Swal.fire(
                                 'Fail!',
                                 "Your problem hasn't been deleted.",
@@ -105,6 +106,7 @@
                                 }
                             }
                         ).catch(error => {
+                            console.log(error)
                             Swal.fire(
                                 'Fail!',
                                 "Your problem hasn't been deleted.",

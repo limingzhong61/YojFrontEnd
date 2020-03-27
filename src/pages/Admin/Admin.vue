@@ -17,8 +17,6 @@
 </template>
 
 <script>
-    import {deleteProblem} from "../../api/requeset/index"
-
     export default {
         name: "Admin",
 

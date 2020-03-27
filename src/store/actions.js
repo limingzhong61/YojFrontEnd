@@ -25,7 +25,7 @@ export default {
             });
     },
     // 异步获取问题
-    async getProblem({commit}, pid) {
+    async getProblem({commit}) {
         await getProblemView()
             .then(res => {
                 // console.log(res);

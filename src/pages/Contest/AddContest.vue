@@ -175,7 +175,7 @@
                     console.log(res)
                     if (res.success) {
                         console.log("success")
-                        this.$router.push("/contest/view/" + contestId)
+                        this.$router.push("/contest/view/" + this.contestId)
                     }else{
                         console.log("fail")
                         Swal.fire({

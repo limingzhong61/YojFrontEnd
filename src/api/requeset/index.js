@@ -2,36 +2,7 @@
 ap request url in a instance of axios
 */
 import request, {specificRequest} from './ajax'
-
-// ===============================  Contest    ===============================
-/**
- *
- * @param pageNumber page number
- * @param data
- * @returns {*|Promise|Promise<any>|Window.Promise}
- */
-export function getContestList(pageNumber, data) {
-    return request({
-        url: "/contest/set/" + pageNumber,
-        method: "GET"
-    })
-}
-
-/**
- *
- * @param cid contest id
- * @returns {*|Promise|Promise<any>|Window.Promise}
- */
-export function getContestView(cid) {
-    return request({
-        url: "/contest/view/" + cid,
-        method: "GET"
-    })
-}
-
-
-// ===============================  Contest    ===============================
-
+import * as Swal from "sweetalert2";
 // ===============================  User    ===============================
 /**
  * 获取用户信息的实例
@@ -57,7 +28,7 @@ export function updateUserInfo(data) {
 }
 
 //登录 data对象{}
-export function toLogin(params, data) {
+export function toLogin(params) {
     return request({
         url: "/login",
         method: "post",
@@ -134,55 +105,6 @@ export function register(data) {
         data: data
     })
 }
-
-// --------------------Admin ------------------------
-/**
- *
- * @param
- */
-export function updateAllProblemFile() {
-    return request({
-        url: "admin/updateAllProblemFile",
-        method: "GET"
-    })
-}
-
-// get all problem info
-export function getProblemAll(pid) {
-    return request({
-        url: "admin/problem/" + pid,
-        method: "get"
-    })
-}
-
-/**
- * add contest
- * @param data
- * @returns {*|Promise|Promise<any>|Window.Promise}
- */
-export function addContest(data) {
-    return request({
-        url: "admin/contest/add",
-        method: "POST",
-        data: data
-    })
-}
-
-/**
- * update contest with admin authority
- * @param cid
- * @returns {*|Promise|Promise<any>|Window.Promise}
- */
-export function updateContest(data) {
-    return request({
-        url: "admin/contest/alter",
-        method: "PUT",
-        data: data
-    })
-}
-
-// --------------------Admin ------------------------
-
 // --------------------Problem ------------------------
 
 /**
@@ -234,6 +156,82 @@ export function getProblemSet(pageNumber, params) {
         params: params
     })
 }
+// ===============================  Contest    ===============================
+/**
+ *
+ * @param pageNumber page number
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function getContestList(pageNumber) {
+    return request({
+        url: "/contest/set/" + pageNumber,
+        method: "GET"
+    })
+}
+
+/**
+ *
+ * @param cid contest id
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function getContestView(cid) {
+    return request({
+        url: "/contest/view/" + cid,
+        method: "GET"
+    })
+}
+
+
+// ===============================  Contest    ===============================
+
+
+// --------------------Admin ------------------------
+/**
+ *
+ * @param
+ */
+export function updateAllProblemFile() {
+    return request({
+        url: "admin/updateAllProblemFile",
+        method: "GET"
+    })
+}
+
+// get all problem info
+export function getProblemAll(pid) {
+    return request({
+        url: "admin/problem/" + pid,
+        method: "get"
+    })
+}
+
+/**
+ * add contest
+ * @param data
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function addContest(data) {
+    return request({
+        url: "admin/contest/add",
+        method: "POST",
+        data: data
+    })
+}
+
+/**
+ * update contest with admin authority
+ * @param cid
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function updateContest(data) {
+    return request({
+        url: "admin/contest/alter",
+        method: "PUT",
+        data: data
+    })
+}
+
+// --------------------Admin ------------------------
 
 // ------------------------- Solution --------------------------
 /**
@@ -254,7 +252,6 @@ export function reSubmitSolution(sid) {
         method: "get",
     })
 }
-
 
 
 export function solutionDetail(sid) {
@@ -297,9 +294,16 @@ export function downloadJudgeFile(params) {
         params: params,
         responseType: 'blob'
     }).then((res) => {
-        console.log(res)
         //这里res.data是返回的blob对象
         var blob = new Blob([res.data], {type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'}); //application/vnd.openxmlformats-officedocument.wordprocessingml.document这里表示doc类型
+        console.log(blob)
+        if (blob.size == 0) {
+            Swal.fire({
+                title: "Error",
+                text: "下载次数过多",
+                icon: "warning"
+            });
+        }
         var contentDisposition = res.headers['content-disposition'];  //从response的headers中获取filename, 后端response.setHeader("Content-disposition", "attachment; filename=xxxx.docx") 设置的文件名;
         console.log(contentDisposition)
         var patt = new RegExp("filename=([^;]+\\.[^\\.;]+);*");

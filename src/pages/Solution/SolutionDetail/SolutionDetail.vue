@@ -65,13 +65,13 @@
                             </th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody v-if="this.testList">
                         <tr v-for="(item,index) in testList" :key="index">
                             <th scope="row">{{index+1}}</th>
                             <!-- <td scope="row">{{item}}</td> -->
                             <td scope="row">{{judgeResult[item.result]}}</td>
-                            <td scope="row">{{item.timeUsed != null ? item.timeUsed + 'ms' : " " }}</td>
-                            <td scope="row">{{item.memoryUsed ? item.memoryUsed / 10 + "KB" : " "}}</td>
+                            <td scope="row">{{formatRunTime(item.runtime)}}</td>
+                            <td scope="row">{{formatMemory(item.memoryUsed)}}</td>
                             <td scope="row">
                                 <a href="#" @click="downloadFile(index+1,0)">输入</a>
                                 &nbsp;
@@ -89,6 +89,7 @@
 <script>
     import {downloadJudgeFile, solutionDetail} from "../../../api/requeset";
     import {JUDGE_RESULT} from "../../../api/static";
+    import {formatMemory, formatRunTime} from "../../../api/format";
 
     export default {
         data() {
@@ -113,11 +114,18 @@
                     caseId,
                     inOrOut,
                 })
+            },
+            formatRunTime(time) {
+                return formatRunTime(time)
+            },
+            formatMemory(memory) {
+                return formatMemory(memory)
             }
         },
         created() {
             solutionDetail(this.$route.params.id)
                 .then(res => {
+                    console.log(res)
                     const solution = res.extend.solution;
                     this.solution = res.extend.solution;
                     this.testList = JSON.parse(solution.testResult);
@@ -129,9 +137,6 @@
     };
 </script>
 <style>
-    .title {
-        font-size: 1.9rem;
-    }
 
     .textbox.form-control {
         /* height: 295px; */

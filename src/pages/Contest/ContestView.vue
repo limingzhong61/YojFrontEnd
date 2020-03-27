@@ -72,7 +72,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody slot="tbody">
-                                                <tr v-if="userList != null" v-for="(item,index) in userList" :key="index">
+                                                <tr v-for="(item,index) in userList" :key="index">
                                                     <th scope="row">{{index+1}}</th>
                                                     <td><router-link :to=" '/user/info/' + item.userId">{{item.nickName}}</router-link>
                                                     </td>
@@ -134,7 +134,6 @@
 
 <script>
     import {mapState} from "vuex";
-    import * as Swal from "sweetalert2";
     import {getContestView} from "../../api/requeset";
     import {ROLE_NAME, JUDGE_RESULT} from "../../api/static";
 
