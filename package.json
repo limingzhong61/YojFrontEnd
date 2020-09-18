@@ -18,7 +18,7 @@
     "jquery": "^3.5.0",
     "minimist": "^1.2.5",
     "popper.js": "^1.15.0",
-    "serialize-javascript": "^2.1.2",
+    "serialize-javascript": "^3.1.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.5.4",
     "vue": "^2.6.11",
