@@ -28,11 +28,14 @@ const Help = () => import('../pages/Help/Help.vue')
 const Admin = () => import('../pages/Admin/Admin.vue')
 const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
 const AdminUser = () => import("../pages/Admin/Children/AdminUser");
-
+//-------------------contest router-----------------
 const ContestSet = () => import("../pages/Contest/ContestSet");
 const AddContest = () => import("../pages/Contest/AddContest");
 const ContestView = () => import("../pages/Contest/ContestView");
 const AlterContest = () => import("../pages/Contest/AlterContest");
+const ContestProblem = () => import("../components/Contest/ContestProblem")
+const ContestRank = () => import("../components/Contest/ContestRank")
+//-------------------contest router-----------------
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -123,9 +126,28 @@ export default new VueRouter({
         }, {
             path: "/contest/view/:id",
             component: ContestView,
+            redirect: '/contest/view/:id/contestProblem',
+            name: 'contestView',
+            children: [
+                {
+                    // 当 /contest/view/:id/contestProblem 匹配成功，
+                    path: 'contestProblem',
+                    component: ContestProblem
+                },
+                {
+                    // 当 /contest/view/:id/contestSolution 匹配成功，
+                    path: 'contestSolution',
+                    component: SolutionSet
+                },
+                {
+                    path: 'contestRank',
+                    component: ContestRank
+                }
+            ]
         }, {
             path: "/contest/alter/:id",
             component: AlterContest,
         }
+
     ]
 })

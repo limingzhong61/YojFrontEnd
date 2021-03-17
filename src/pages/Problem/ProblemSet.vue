@@ -2,7 +2,7 @@
     <div class="container-md my-set pt-3 px-5">
         <div class="row">
             <div class="col-md-12 order-md-1">
-                <button type="button" class="btn btn-primary mb-1" @click="toAdd">添加题目</button>
+<!--                <button type="button" class="btn btn-primary mb-1" @click="toAdd">添加题目</button>-->
                 <div class="col-12 mx-auto">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

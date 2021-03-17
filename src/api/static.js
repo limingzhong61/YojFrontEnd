@@ -14,7 +14,8 @@
 // user Chinese is less length than English
 export const JUDGE_RESULT = [
     '正确', //0
-    '格式错误', //1
+    '正确', //1
+    // '格式错误', //1 ，删除此类型，便于用户专注于代码本身
     '运行超时', //2
     '内存超限', //3
     '答案错误', //4

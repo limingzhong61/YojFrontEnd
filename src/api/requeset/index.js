@@ -177,10 +177,36 @@ export function getContestList(pageNumber) {
 export function getContestView(cid) {
     return request({
         url: "/contest/view/" + cid,
-        method: "GET"
+        method: "GET",
     })
 }
 
+/**
+ *
+ * @param pageNumber page Number
+ * @param cid contest id
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function getContestProblem(pageNumber,cid) {
+    return request({
+        url: "/contest/contestProblem/" + pageNumber,
+        method: "GET",
+        params: {cid: cid}
+    })
+}
+/**
+ *
+ * @param pageNumber page Number
+ * @param cid contest id
+ * @returns {*|Promise|Promise<any>|Window.Promise}
+ */
+export function getContestRank(pageNumber,cid) {
+    return request({
+        url: "/contest/contestRank/" + pageNumber,
+        method: "GET",
+        params: {cid: cid}
+    })
+}
 
 // ===============================  Contest    ===============================
 
