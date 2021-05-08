@@ -109,6 +109,7 @@
                 // console.log("复制成功");
             },
             downloadFile(caseId, inOrOut) {
+              console.log(caseId,inOrOut)
                 downloadJudgeFile({
                     solutionId: this.$route.params.id,
                     caseId,

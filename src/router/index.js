@@ -28,6 +28,7 @@ const Help = () => import('../pages/Help/Help.vue')
 const Admin = () => import('../pages/Admin/Admin.vue')
 const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
 const AdminUser = () => import("../pages/Admin/Children/AdminUser");
+const AdminContest = () => import("../pages/Admin/Children/AdminContest");
 //-------------------contest router-----------------
 const ContestSet = () => import("../pages/Contest/ContestSet");
 const AddContest = () => import("../pages/Contest/AddContest");
@@ -116,6 +117,9 @@ export default new VueRouter({
             }, {
                 path: 'user',
                 component: AdminUser
+            }, {
+                path: 'contest',
+                component: AdminContest
             }]
         }, {
             path: "/contest",

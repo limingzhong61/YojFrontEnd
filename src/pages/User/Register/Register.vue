@@ -104,7 +104,7 @@
 <script>
     import {register, getRegisterEmailCode, getImageCode} from "../../../api/requeset";
     import JudgePassword from "../../../components/user/JudgePassword/JudgePassword.vue";
-    import VerifyImg from "../../../components/VerifyImg/VerifyImg.vue";
+    import VerifyImg from "../../../components/Img/VerifyImg.vue";
 
     export default {
         data() {

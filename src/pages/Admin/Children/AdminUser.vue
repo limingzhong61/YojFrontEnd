@@ -1,6 +1,8 @@
 <template>
     <div class="">
-        <p>AdminUser</p>
+      <div class="py-3 text-center">
+        <h2>用户管理</h2>
+      </div>
     </div>
 </template>
 

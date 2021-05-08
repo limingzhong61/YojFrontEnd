@@ -5,8 +5,8 @@
     <scripts>
       <script value="build" />
     </scripts>
-    <node-interpreter value="project" />
-    <package-manager value="E:\Codes\vue\yoj_front_end" />
+    <node-interpreter value="node" />
+    <package-manager value="npm" />
     <envs />
     <method v="2" />
   </configuration>

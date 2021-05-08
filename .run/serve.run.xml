@@ -5,8 +5,8 @@
     <scripts>
       <script value="serve" />
     </scripts>
-    <node-interpreter value="$PROJECT_DIR$/../../../Program Files/nodejs/my_node/node_global/node_modules/npm/bin/npm-cli.js" />
-    <package-manager value="E:\Codes\vue\yoj_front_end" />
+    <node-interpreter value="node" />
+    <package-manager value="npm" />
     <envs />
     <method v="2" />
   </configuration>

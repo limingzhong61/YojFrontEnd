@@ -148,7 +148,8 @@ export default {
       contestId: 0,
       language: "",
       solutionList: [],
-      pageInfo: {}
+      pageInfo: {},
+      result: null,
     };
   },
   methods: {

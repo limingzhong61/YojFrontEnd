@@ -73,7 +73,7 @@
 </template>
 <script>
     import {toLogin} from "../../../api/requeset";
-    import VerifyImg from "../../../components/VerifyImg/VerifyImg";
+    import VerifyImg from "../../../components/Img/VerifyImg";
 
     export default {
         data() {

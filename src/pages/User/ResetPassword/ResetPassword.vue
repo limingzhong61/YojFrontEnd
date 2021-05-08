@@ -95,7 +95,7 @@
         getResetPasswordEmailCode,
         resetPassword
     } from "../../../api/requeset";
-    import VerifyImg from "../../../components/VerifyImg/VerifyImg.vue";
+    import VerifyImg from "../../../components/Img/VerifyImg.vue";
 
     export default {
         components: {
