@@ -179,13 +179,14 @@
             }
         }, created() {
             getContestView(this.$route.params.id).then(res => {
-                // console.log(res)
+                console.log(res)
                 const contest = res.extend.contest
                 this.title = contest.title
                 this.startTime = contest.startTime.substr(0,16)
                 // console.log(this.startTime)
                 this.endTime = contest.endTime.substr(0,16)
                 this.description = contest.description
+                this.contestProblemList = res.extend.contestProblemList
             }).catch(error => {
                 console.log(error)
             })

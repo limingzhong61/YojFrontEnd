@@ -59,7 +59,8 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
             <router-link tag="a" :to="'/user/info/'+user.userId" class="dropdown-item" href="#">个人信息
             </router-link>
-            <router-link tag="a" :to="'/user/update'" class="dropdown-item" href="#">修改信息</router-link>
+            <router-link tag="a" :to="'/user/update/'+user.userId" class="dropdown-item" href="#">修改信息</router-link>
+            <router-link tag="a" :to="'/user/AlterPassword/'+user.userId" class="dropdown-item" href="#">修改密码</router-link>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item" type="submit" @click="logout">退出</button>
           </div>
@@ -149,7 +150,7 @@ export default {
       if (user && user.role.match("ADMIN")) {
         this.routes.push({
           path: "/admin",
-          name: "Admin",
+          name: "管理员",
           spanClass: {
             fa: true,
             "fa-info-circle": true,

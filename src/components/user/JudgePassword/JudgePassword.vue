@@ -9,7 +9,7 @@
                     :class="{'col-7': true,'form-control': true,'is-invalid': passwordStrength < 2,'is-valid': passwordStrength >= 2}"
                     id="password"
                     v-model="password"
-                    placeholder
+                    placeholder="输入需要设置的密码"
                     required="required"
             />
             <div class="col-4 mb-1">
@@ -44,7 +44,7 @@
                     :class="{'form-control': true,'is-invalid': !secondPasswordJudge,'is-valid': secondPasswordJudge}"
                     id="secondPassword"
                     v-model="secondPassword"
-                    placeholder
+                    placeholder="再次输入需要设置的密码"
             />
             <div class="invalid-feedback">{{secondPasswordMsg}}</div>
         </div>
@@ -95,13 +95,13 @@
                     this.passwordMsg = "";
                 } else {
                     this.passwordMsg =
-                        "密码强度不够。数字、字母大小写、特殊字符能增加密码强度";
+                        "密码至少7个字符。密码强度不够。数字、字母大小写、特殊字符能增加密码强度";
                 }
                 this.$emit('change', {password: this.password, pass: passwordStrength < 2})
             },
             secondPassword: function (value) {
-                this.secondPasswordJudge = value == this.password;
-                if (this.secondPasswordJudge) {
+                this.secondPasswordJudge = value === this.password;
+                if (!this.secondPasswordJudge) {
                     this.secondPasswordMsg = "两次密码不一致";
                     this.$emit('change', {password: this.password, pass: false})
                     return;

@@ -4,6 +4,7 @@ ajax请求函数模块
 便于更换
  */
 import axios from 'axios'
+import * as Swal from "sweetalert2";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 export default function request(config) {
@@ -21,28 +22,30 @@ export default function request(config) {
         promise.then(function (response) {
             // 成功了调用resolve()
             // console.log(response)
-            // const data = response.data
+            const data = response.data
+            // console.log(data.state)
             // 不成功同一提示,front end error info, not equals 0 and 200 means server internal error
-            // if(data.state != 0 && data.state != 200){
-            //     swal({
+            // if(data.state != 0  && data.state != 200){
+            //     console.log("错误请求")
+            //     Swal.fire({
             //         title: data.msg,
             //         text: "state code: " + data.state + "，请重试",
             //         icon: "error", // "warning"
             //         button: false, // hidden button
-            //         timer: 1000,
+            //         timer: 10000,
             //     });
             // }
             resolve(response.data)
         }).catch(function (error) {
             //失败了调用reject()
             reject(error)
-            // swal({
-            //     title: "error",
-            //     text: "请重试",
-            //     icon: "error", // "warning"
-            //     button: false, // hidden button
-            //     timer: 1000,
-            // });
+            swal({
+                title: "error",
+                text: "请重试",
+                icon: "error", // "warning"
+                button: false, // hidden button
+                timer: 10000,
+            });
         })
     })
 }

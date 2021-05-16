@@ -57,10 +57,9 @@
 
 <script>
 import {getUserInfo} from "../../../api/requeset";
-import LoadImage from "@/components/Img/LoadImage";
 
 export default {
-  components: {LoadImage},
+  // components: {LoadImage},
   data() {
     return {
       countAccepted: 0,

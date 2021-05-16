@@ -18,17 +18,25 @@ const Register = () => import('../pages/User/Register/Register.vue')
 const SolutionSet = () => import('../pages/Solution/SolutionSet.vue')
 const SolutionDetail = () => import('../pages/Solution/SolutionDetail/SolutionDetail.vue')
 
+// ------------------------------- user router------------------------------------------
 const UserSet = () => import('../pages/User/UserSet/UserSet.vue')
 const ResetPassword = () => import('../pages/User/ResetPassword/ResetPassword.vue')
 const UserInfo = () => import('../pages/User/UserInfo/UserInfo.vue')
 const UpdateUser = () => import('../pages/User/UpdateUser/UpdateUser.vue')
-// E:\Codes\vue\yoj_front_end\src\pages\Help\Help.vue
+const AlterPassword = () => import('../pages/User/AlterPassword.vue')
+// ------------------------------- user router------------------------------------------
+
+// ------------------------------- admin router------------------------------------------
 const Help = () => import('../pages/Help/Help.vue')
 
 const Admin = () => import('../pages/Admin/Admin.vue')
 const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
-const AdminUser = () => import("../pages/Admin/Children/AdminUser");
+const AdminUser = () => import("../pages/Admin/Children/AdminUser/AdminUser");
 const AdminContest = () => import("../pages/Admin/Children/AdminContest");
+const AdminSolution = () => import("../pages/Admin/Children/AdminSolution");
+const AlterUserPassword = () => import("../pages/Admin/Children/AdminUser/alterUserPassword");
+
+// ------------------------------- admin router------------------------------------------
 //-------------------contest router-----------------
 const ContestSet = () => import("../pages/Contest/ContestSet");
 const AddContest = () => import("../pages/Contest/AddContest");
@@ -73,12 +81,15 @@ export default new VueRouter({
                 hideTopBar: true,
                 withOutLogin: true,
             }
-        }, {
+        },{
             path: '/user/info/:id',
             component: UserInfo,
         }, {
-            path: '/user/update',
+            path: '/user/update/:id',
             component: UpdateUser,
+        }, {
+            path: '/user/alterPassword/:id',
+            component: AlterPassword,
         },
         {
             path: '/problem',
@@ -118,8 +129,14 @@ export default new VueRouter({
                 path: 'user',
                 component: AdminUser
             }, {
+                path: 'alterUserPassword',
+                component: AlterUserPassword
+            }, {
                 path: 'contest',
                 component: AdminContest
+            }, {
+                path: 'solution',
+                component: AdminSolution
             }]
         }, {
             path: "/contest",

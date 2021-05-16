@@ -3,6 +3,7 @@
     <div class="py-3 text-center">
       <h2>修改信息</h2>
     </div>
+
     <div class="row">
       <div class="col-md-8 order-md-1 offset-md-2">
         <form class="">
@@ -72,6 +73,7 @@ import {mapState} from "vuex";
 export default {
   data() {
     return {
+      userId : this.$route.params.id,
       username: "",
       usernameJudge: true,
       usernameMsg: "",
@@ -97,6 +99,7 @@ export default {
       }
       // console.log(this.imageCode);
       updateUserInfo({
+        userId : this.userId,
         username: this.username,
         nickName: this.nickName,
         intro: this.intro,
