@@ -9,8 +9,8 @@ const Home = () => import('../pages/Home/Home.vue')
 const ProblemSet = () => import('../pages/Problem/ProblemSet.vue')
 const ProblemView = () => import('../pages/Problem/ProblemView.vue')
 const SubmitProblem = () => import('../pages/Problem/SubmitProblem.vue')
-const AlterProblem = () => import('../pages/Problem/AlterProblem.vue')
-const AddProblem = () => import('../pages/Problem/AddProblem.vue')
+const AlterProblem = () => import('../pages/Admin/Children/AdminProblem/AlterProblem.vue')
+const AddProblem = () => import('../pages/Admin/Children/AdminProblem/AddProblem.vue')
 
 const Login = () => import('../pages/User/Login/Login.vue')
 const Register = () => import('../pages/User/Register/Register.vue')
@@ -30,18 +30,18 @@ const AlterPassword = () => import('../pages/User/AlterPassword.vue')
 const Help = () => import('../pages/Help/Help.vue')
 
 const Admin = () => import('../pages/Admin/Admin.vue')
-const AdminProblem = () => import("../pages/Admin/Children/AdminProblem")
+const AdminProblem = () => import("../pages/Admin/Children/AdminProblem/AdminProblem")
 const AdminUser = () => import("../pages/Admin/Children/AdminUser/AdminUser");
-const AdminContest = () => import("../pages/Admin/Children/AdminContest");
+const AdminContest = () => import("../pages/Admin/Children/AdminContest/AdminContest");
 const AdminSolution = () => import("../pages/Admin/Children/AdminSolution");
 const AlterUserPassword = () => import("../pages/Admin/Children/AdminUser/alterUserPassword");
 
 // ------------------------------- admin router------------------------------------------
 //-------------------contest router-----------------
 const ContestSet = () => import("../pages/Contest/ContestSet");
-const AddContest = () => import("../pages/Contest/AddContest");
+const AddContest = () => import("../pages/Admin/Children/AdminContest/AddContest");
 const ContestView = () => import("../pages/Contest/ContestView");
-const AlterContest = () => import("../pages/Contest/AlterContest");
+const AlterContest = () => import("../pages/Admin/Children/AdminContest/AlterContest");
 const ContestProblem = () => import("../components/Contest/ContestProblem")
 const ContestRank = () => import("../components/Contest/ContestRank")
 //-------------------contest router-----------------

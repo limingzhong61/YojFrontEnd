@@ -64,9 +64,10 @@
                     </button>
                     <div class="dropdown-menu">
                       <router-link class="dropdown-item" :to="'/user/update/'+item.userId"><span class="fa fa-edit fa-lg"></span>编辑</router-link>
-                      <a class="dropdown-item" href="#"><span class="fa fa-arrow-up fa-lg"></span>升级</a>
+<!--                      <a class="dropdown-item" href="#"><span class="fa fa-arrow-up fa-lg"></span>升级</a>-->
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#"><span class="fa fa-times fa-lg"></span>删除</a>
+                      <a class="dropdown-item" @click="deleteUser(item.userId)"><span
+                          class="fa fa-times fa-lg"></span>删除</a>
                     </div>
                   </div>
                 </td>
@@ -82,8 +83,9 @@
 
 <script>
 
-import {getAdminUserSet, getUserSet} from "@/api/requeset";
+import {deleteContest, deleteUser, getAdminUserSet, getUserSet} from "@/api/requeset";
 import MyTable from "../../../../components/Table/MyTable.vue";
+import Swal from "sweetalert2";
 
 export default {
   name: "AdminUser",
@@ -95,6 +97,46 @@ export default {
     };
   },
   methods: {
+    deleteUser(delUserId) {
+      Swal.fire({
+        title: '你确定删除该用户吗?',
+        text: "执行操作后，你将不能恢复到之前的状态!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是的，删除它!',
+        cancelButtonText: '取消',
+      }).then((result) => {
+        if (result.value) {
+          deleteUser(delUserId).then(res => {
+                if (res.success) {
+                  Swal.fire(
+                      '删除成功!',
+                      '该用户已经被成功删除',
+                      'success'
+                  )
+                  this.toPage(1)
+                } else {
+                  Swal.fire(
+                      'Fail!',
+                      "Your problem hasn't been deleted.",
+                      'error'
+                  )
+                }
+
+              }
+          ).catch(error => {
+            console.log(error)
+            Swal.fire(
+                'Fail!',
+                "Your problem hasn't been deleted.",
+                'error'
+            )
+          })
+        }
+      })
+    },
     toPage(index) {
       // console.log("topage");
       getAdminUserSet(index, {

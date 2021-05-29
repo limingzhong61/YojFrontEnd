@@ -92,9 +92,9 @@
 </template>
 
 <script>
-    import TextEditor from "../../components/TextEditor/TextEditor.vue";
-    import JudgeCase from "../../components/JudgeCase/JudgeCase.vue";
-    import {alterProblem, getProblemAll} from "../../api/requeset";
+    import TextEditor from "../../../../components/TextEditor/TextEditor.vue";
+    import JudgeCase from "../../../../components/JudgeCase/JudgeCase.vue";
+    import {alterProblem, getProblemAll} from "../../../../api/requeset";
 
     export default {
         data() {

@@ -119,8 +119,8 @@
 </template>
 
 <script>
-    import TextEditor from "../../components/TextEditor/TextEditor.vue";
-    import {addContest} from "../../api/requeset";
+    import TextEditor from "../../../../components/TextEditor/TextEditor.vue";
+    import {addContest} from "../../../../api/requeset";
     import * as Swal from "sweetalert2";
 
     export default {
@@ -175,7 +175,9 @@
                     console.log(res)
                     if (res.success) {
                         console.log("success")
-                        this.$router.push("/contest/view/" + this.contestId)
+                        console.log("/contest/view/" + res.extend.contestId)
+                        this.$router.push("/contest/view/" + res.extend.contestId)
+
                     }else{
                         console.log("fail")
                         Swal.fire({

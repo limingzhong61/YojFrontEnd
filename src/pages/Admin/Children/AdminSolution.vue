@@ -1,73 +1,180 @@
 <template>
   <main>
-    <div class="chartjs-size-monitor">
-      <div class="chartjs-size-monitor-expand">
-        <div class=""></div>
-      </div>
-      <div class="chartjs-size-monitor-shrink">
-        <div class=""></div>
-      </div>
-    </div>
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">评测结果管理</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-          <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-        </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-               class="feather feather-calendar">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          This week
-        </button>
-      </div>
     </div>
-    <div>
+    <div class="container my-set pt-3 px-0">
       <div class="row">
-        <div class="col-md-8 order-md-1 offset-md-2">
-          <form class="needs-validation" novalidate>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="userName">删除评测结果</label>
+        <div class="col-md-12 order-md-1">
+          <div class="panel panel-default">
+            <div class="w-100">
+              <div class="container">
+                <div class="input-group mb-3 col-12 mx-auto">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">用户</span>
+                  </div>
+                  <input
+                      v-model="nickName"
+                      type="text"
+                      class="form-control"
+                      placeholder="请输入正确的用户"
+                      aria-label="Recipient's nickName"
+                      aria-describedby="button-addon2"
+                  />
+                  <div class="input-group-prepend ml-3">
+                    <span class="input-group-text">问题ID</span>
+                  </div>
+                  <input
+                      v-model="problemId"
+                      type="text"
+                      class="form-control"
+                      placeholder="请输入正确的问题ID"
+                      aria-label="Recipient's nickName"
+                      aria-describedby="button-addon2"
+                  />
+                  <div class="input-group-append ml-2">
+                    <button
+                        @click="toPage(1)"
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="button-addon2"
+                    >Go
+                    </button>
+                  </div>
+                </div>
               </div>
-              <input
-                  type="text"
-                  :class="{'form-control': true,'is-invalid': false,'is-valid': false}"
-                  id="userName"
-                  v-model="solutionId"
-                  required="required"
-                  placeholder="删除评测结果ID"
-              />
-              <button type="button" class="btn btn-primary" @click="deleteSolution">确定</button>
+              <MyTable :pageInfo="pageInfo" @toPage="toPage" class="table-txt-size">
+                <thead class="thead-light" slot="thead">
+                <tr class>
+                  <th class>SID</th>
+                  <th class>用户</th>
+                  <th class>问题ID</th>
+                  <th class>
+                    <span class="fa fa-calendar-check-o fa-lg text-secondary"></span>
+                    提交时间
+                  </th>
+                  <th class>
+                    <select v-model="language" @change="toPage(1)" class="custom-select">
+                      <option value selected="selected">语言</option>
+                      <option :value="index" v-for="(item,index) in judgeLanguage" :key="index">
+                        {{ item }}
+                      </option>
+                    </select>
+                  </th>
+                  <th class>
+                    <select v-model="result" @change="toPage(1)" class="custom-select">
+                      <option value selected="selected">评测状态</option>
+                      <option :value="index" v-for="(item,index) in judgeResult" :key="index">
+                        {{ item }}
+                      </option>
+                    </select>
+                  </th>
+                  <th class text="运行时间">
+                    <span class="fa fa-clock-o fa-lg text-secondary"></span>
+                    CPU使用
+                  </th>
+                  <th class>
+                    <span class="fa fa-database fa-lg text-secondary"></span>
+                    内存使用
+                  </th>
+                  <th class>
+                    <span class="fa fa-file-code-o fa-lg text-secondary"></span>
+                    评测详情
+                  </th>
+                  <th scope="col">操作</th>
+                </tr>
+                </thead>
+                <tbody slot="tbody">
+                <tr class v-for="item in solutionList" :key="item.solutionId">
+                  <th scope="row">{{ item.solutionId }}</th>
+                  <td>
+                    <router-link :to="'/user/info/' + item.userId">{{ item.nickName }}</router-link>
+                  </td>
+                  <td>
+                    <router-link
+                        :to="'/problem/view/' + item.problemId"
+                    >{{ item.title ? item.title : item.problemId }}
+                    </router-link>
+                  </td>
+                  <td>{{ item.submitTime | timeFilter }}</td>
+                  <td>{{ judgeLanguage[item.language] }}</td>
+                  <td>
+                    <div :class="getResultClass(item.result)" style="font-size: 100%">
+                      <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+                      {{ judgeResult[item.result] }}
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+                    <button @click="reSubmit(item.solutionId)" class="btn btn-primary mb-1"
+                            v-else-if="item.result == 10">提交重判
+                    </button>
+                    {{ formatResultTime(item.runtime, item.result) }}
+                  </td>
+                  <td>
+                    <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
+                    {{ formatMemory(item.memory, item.result) }}
+                  </td>
+                  <td>
+                    <router-link
+                        :to="'/solution/detail/'+item.solutionId"
+                        href="#"
+                    >评测详情
+                    </router-link>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-danger">信息操作</button>
+                      <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                              data-toggle="dropdown" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu">
+                        <!--                        <router-link class="dropdown-item" :to="'/contest/alter/' + item.contestId"><span-->
+                        <!--                            class="fa fa-edit fa-lg"></span>编辑-->
+                        <!--                        </router-link>-->
+                        <!--                        <div class="dropdown-divider"></div>-->
+                        <a class="dropdown-item" @click="deleteSolution(item.solutionId)"><span
+                            class="fa fa-times fa-lg"></span>删除</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </MyTable>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-
     </div>
-
   </main>
 </template>
 
 <script>
 import Swal from "sweetalert2";
-import {delSolutionById} from "@/api/requeset";
+import {delSolutionById, getSolutionSet, reSubmitSolution} from "@/api/requeset";
+import {JUDGE_LANGUAGE, JUDGE_RESULT} from "@/api/static";
+import {formatMemory, formatRunTime} from "@/api/format";
+import MyTable from "@/components/Table/MyTable";
 
 export default {
   name: "AdminSolution",
   data() {
     return {
       solutionId: null,
+      judgeResult: JUDGE_RESULT,
+      judgeLanguage: JUDGE_LANGUAGE,
+      nickName: null,
+      problemId: null,
+      contestId: 0,
+      language: "",
+      solutionList: [],
+      pageInfo: {},
+      result: null,
     }
   }, methods: {
-    deleteSolution() {
+    deleteSolution(dleteSolutionId) {
       Swal.fire({
         title: '你确定删除该评测结果吗?',
         text: "执行操作后，你将不能恢复到之前的状态!",
@@ -79,13 +186,14 @@ export default {
         cancelButtonText: '取消',
       }).then((result) => {
         if (result.value) {
-          delSolutionById(this.solutionId).then(res => {
+          delSolutionById(dleteSolutionId).then(res => {
                 if (res.success) {
                   Swal.fire(
                       'Deleted!',
                       'Your solution has been deleted.',
                       'success'
                   )
+                  this.toPage(1)
                 } else {
                   Swal.fire(
                       'Fail!',
@@ -105,6 +213,81 @@ export default {
         }
       })
     },
+    toPage(index) {
+      getSolutionSet(index, {
+        nickName: this.nickName,
+        problemId: this.problemId,
+        result: this.result,
+        language: this.language,
+        contestId: this.contestId
+      })
+          .then(res => {
+            console.log(res);
+            this.solutionList = res.extend.pageInfo.list;
+            this.pageInfo = res.extend.pageInfo;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    },
+    getResultClass(result) {
+      if (result == 0 || result == 1) {
+        return "badge badge-success text-wrap"
+      } else if (result == 4) {
+        return "badge badge-danger text-wrap"
+      } else if (result == 9) {
+        return "badge badge-info text-wrap"
+      } else {
+        return "badge badge-warning text-wrap"
+      }
+    },
+    reSubmit(sid) {
+      reSubmitSolution(sid)
+          .then(res => {
+            if (res.success) {
+              // this.$router.replace("/solution");
+            } else {
+              Swal.fire({
+                title: res.msg,
+                icon: "warning"
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    },
+    formatResultTime(time, result) {
+      // console.log(result)
+      //不正确无运行时间
+      if (result != 0) return "--";
+      return formatRunTime(time)
+    },
+    formatMemory(memory, result) {
+      // console.log(result)
+      //不正确,无运行内存
+      if (result != 0) return "--";
+      return formatMemory(memory)
+    }
+  },
+  components: {
+    MyTable: MyTable
+  },
+  created() {
+    // console.log(this.$route)
+    // problemId: this.$route.params.id,
+    //     contestId: this.$route.query.contestId,
+    this.contestId = this.$route.params.id
+    // console.log(contestId)
+    this.nickName = this.$route.query.nickName;
+    this.nickName = this.$route.query.nickName;
+    // console.log(this.$route.query.result)
+    if (/\d/.test(this.$route.query.result)) {
+      this.result = this.$route.query.result;
+    }
+    this.toPage(1);
+  },
+  beforeMount() {
   }
 }
 </script>

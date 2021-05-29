@@ -257,6 +257,17 @@ export function getContestRank(pageNumber, cid) {
     })
 }
 
+/**
+ *
+ * @param{int} cid
+ */
+export function deleteContest(cid) {
+    return request({
+        url: "/admin/contest/" + cid,
+        method: "DELETE"
+    })
+}
+
 // ===============================  Contest    ===============================
 
 
@@ -316,6 +327,17 @@ export function getAdminUserSet(pageNumber, params) {
     return request({
         url: "/admin/user/set/" + pageNumber,
         params: params
+    })
+}
+
+/**
+ *
+ * @param{int} uid
+ */
+export function deleteUser(uid) {
+    return request({
+        url: "/admin/user/" + uid,
+        method: "DELETE"
     })
 }
 

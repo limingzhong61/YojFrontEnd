@@ -78,6 +78,10 @@
                             >修改比赛信息
                             </button>
                         </div>
+                      <div class="sec_header">
+                        比赛题目
+                        <button class="btn btn-primary btn-sm" @click="addContestProblem">添加题目</button>
+                      </div>
                         <div class="col-12 mb-3">
                             <!--                            <div class="mb-3">注意：判题用例最多不能超过10个</div>-->
                             <div>
@@ -115,8 +119,8 @@
 </template>
 
 <script>
-    import TextEditor from "../../components/TextEditor/TextEditor.vue";
-    import {getContestView, updateContest} from "../../api/requeset";
+    import TextEditor from "../../../../components/TextEditor/TextEditor.vue";
+    import {getContestView, updateContest} from "../../../../api/requeset";
 
     export default {
         data() {
@@ -146,6 +150,7 @@
             }
         }, methods: {
             addContestProblem(){
+              // console.log(this.contestProblemList)
                 this.contestProblemList.push({})
                 console.log(this.contestProblemList)
             },
@@ -187,6 +192,9 @@
                 this.endTime = contest.endTime.substr(0,16)
                 this.description = contest.description
                 this.contestProblemList = res.extend.contestProblemList
+              if(!this.contestProblemList){//有可能为空
+                this.contestProblemList = []
+              }
             }).catch(error => {
                 console.log(error)
             })
