@@ -46,7 +46,7 @@
               <img class="user-img ml-auto" :src="appApi+'/image/avatar/'+ user.userId +'.jpg'"/>
             </div>
             <div>
-              <input type="file" ref="file" accept="image/*" @change="updateUserAvatar">
+              <input type="file" ref="file" accept="image/*" @change="updateUserAvatar()">
             </div>
           </div>
           <!----------------------------   update 头像    ---------------   -->
@@ -66,14 +66,14 @@
 </template>
 
 <script>
-import {getCurrentUserInfo, updateUserInfo, updateUserAvatar} from "../../../api/requeset";
+import {getCurrentUserInfo, updateUserInfo, updateUserAvatar, deleteProblem} from "../../../api/requeset";
 import * as Swal from "sweetalert2";
 import {mapState} from "vuex";
 
 export default {
   data() {
     return {
-      userId : this.$route.params.id,
+      userId: this.$route.params.id,
       username: "",
       usernameJudge: true,
       usernameMsg: "",
@@ -99,7 +99,7 @@ export default {
       }
       // console.log(this.imageCode);
       updateUserInfo({
-        userId : this.userId,
+        userId: this.userId,
         username: this.username,
         nickName: this.nickName,
         intro: this.intro,
@@ -111,7 +111,12 @@ export default {
                   '更新成功!',
                   '您的信息已经更新成功.',
                   'success'
-              )
+              ).then((result) => {
+                if (result.value) {
+                  window.location.reload()
+                }
+              })
+
             } else {
               const extend = res.data.extend;
               for (var obj in extend) {
@@ -141,18 +146,39 @@ export default {
       // 把图片或文件添加到data
       updateUserAvatar(data)
           .then(res => {
-            console.log(res);
-            if (res.data.error == 0) {
-              // 如果错误为0
-              this.pics.push(res.data.pic);
-              // 把图片加入到图片pics数组
-            }
-            this.$refs.file.value = "";
-            // 清空表单数据
-            this.pre = 0;
-            // 清空上传进度数据
-          }).catch(err => {
+                console.log(res);
+                if (res.success) {
+                  // if (res.data.error && res.data.error == 0) {
+                  //   // 如果错误为0
+                  //   this.pics.push(res.data.pic);
+                  //   // 把图片加入到图片pics数组
+                  // }
+                  this.$refs.file.value = "";
+                  // 清空表单数据
+                  this.pre = 0;
+                  // 清空上传进度数据}
+                  Swal.fire(
+                      '更新成功!',
+                      '您的头像已经更新成功.',
+                      'success'
+                  ).then((result) => {
+                    if (result.value) {
+                      window.location.reload()
+                    }
+                  })
+                } else {
+                  if(res.extend.bigFile){
+                    Swal.fire(
+                        '上传图片过大!',
+                        '上传图片不能超过1MB.',
+                        'warning'
+                    )
+                  }
+                }
+              }
+          ).catch(err => {
         console.log(err);
+
       });
     },
 
@@ -188,13 +214,12 @@ export default {
   created() {
     getCurrentUserInfo()
         .then(res => {
-          // console.log(res);
+          console.log(res);
           this.user = res.extend.user;
           const user = res.extend.user;
           for (var field in user) {
             this.$data[field] = user[field];
           }
-
           // this.countAccepted = res.extend.accepted;
           // this.countSubmission = res.extend.submission;
         })
@@ -214,9 +239,11 @@ export default {
   text-align: center;
   display: inline-block;
 }
+
 .user-img {
   width: 10rem;
 }
+
 .invalid-feedback {
   text-align: center;
 }

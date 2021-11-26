@@ -22,7 +22,7 @@ export default function request(config) {
         promise.then(function (response) {
             // 成功了调用resolve()
             // console.log(response)
-            const data = response.data
+            // const data = response.data
             // console.log(data.state)
             // 不成功同一提示,front end error info, not equals 0 and 200 means server internal error
             // if(data.state != 0  && data.state != 200){
@@ -39,7 +39,7 @@ export default function request(config) {
         }).catch(function (error) {
             //失败了调用reject()
             reject(error)
-            swal({
+            Swal({
                 title: "error",
                 text: "请重试",
                 icon: "error", // "warning"

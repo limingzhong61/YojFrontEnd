@@ -10,8 +10,8 @@
                         <input
                                 name="title"
                                 type="text"
-                                v-model="title"
-                                :class="{'form-control': true,'is-invalid': title == '','is-valid': title != ''}"
+                                v-model="problem.title"
+                                :class="{'form-control': true,'is-invalid': problem.title == '','is-valid': problem.title != ''}"
                                 placeholder="题目"
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
@@ -25,9 +25,9 @@
                             </div>
                             <input
                                     name="timeLimit"
-                                    v-model="timeLimit"
+                                    v-model="problem.timeLimit"
                                     type="number"
-                                    :class="{'form-control': true,'is-invalid': timeLimit == '','is-valid': timeLimit != ''}"
+                                    :class="{'form-control': true,'is-invalid': problem.timeLimit == '','is-valid': problem.timeLimit != ''}"
                                     placeholder="时间限制(ms)"
                                     aria-label="Username"
                                     aria-describedby="basic-addon1"
@@ -40,9 +40,9 @@
                             </div>
                             <input
                                     name="memoryLimit"
-                                    v-model="memoryLimit"
+                                    v-model="problem.memoryLimit"
                                     type="number"
-                                    :class="{'form-control': true,'is-invalid': memoryLimit == '','is-valid': memoryLimit != ''}"
+                                    :class="{'form-control': true,'is-invalid': problem.memoryLimit == '','is-valid': problem.memoryLimit != ''}"
                                     placeholder="内存限制(MB)"
                                     aria-label="Username"
                                     aria-describedby="basic-addon1"

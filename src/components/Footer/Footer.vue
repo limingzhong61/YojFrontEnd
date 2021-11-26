@@ -6,7 +6,7 @@
             <li class="list-inline-item"><a href="#">Terms</a></li>
             <li class="list-inline-item"><a href="#">Support</a></li>
         </ul>
-        <p class="mb-1"><a href="http://www.beian.miit.gov.cn">蜀ICP备19041645号</a></p>
+        <p class="mb-1"><a href="https://beian.miit.gov.cn/">蜀ICP备19041645号</a></p>
     </footer>
 </template>
 

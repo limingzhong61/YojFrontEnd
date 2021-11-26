@@ -32,7 +32,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <!-- <span class="input-group-text" id="basic-addon1">@</span> -->
-                                <VerifyImg class="m-1"></VerifyImg>
+                                <VerifyImg class="m-1" ref="img"></VerifyImg>
                             </div>
                             <input
                                     v-model="verifyCode"
@@ -114,9 +114,12 @@
                         if (res.success) {
                             this.$store.dispatch("getUser");
                             this.$router.replace("/");
+                            console.log("login successful")
                         } else {
                             this.loginFail = true;
                             this.loginMsg = res.msg;
+                            console.log("刷新验证码")
+                            this.$refs.img.$el.click()
                         }
                     })
                     .catch(err => {

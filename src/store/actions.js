@@ -15,6 +15,7 @@ export default {
             .then(res => {
                 if (res.success) {
                     const user = res.extend.user;
+                    console.log("getUser:" + user)
                     commit(RECEIVE_USER, {
                         user
                     })

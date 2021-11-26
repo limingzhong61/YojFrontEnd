@@ -100,7 +100,7 @@ export default {
     deleteUser(delUserId) {
       Swal.fire({
         title: '你确定删除该用户吗?',
-        text: "执行操作后，你将不能恢复到之前的状态!",
+        text: "执行操作后，你将删除该用户及其判题信息!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

@@ -49,7 +49,7 @@
                   <span class="fa fa-calendar-check-o fa-lg text-secondary"></span>
                   提交时间
                 </th>
-                <th class>
+                <th>
                   <select v-model="language" @change="toPage(1)" class="custom-select">
                     <option value selected="selected">语言</option>
                     <option :value="index" v-for="(item,index) in judgeLanguage" :key="index">
@@ -57,8 +57,8 @@
                     </option>
                   </select>
                 </th>
-                <th class>
-                  <select v-model="result" @change="toPage(1)" class="custom-select">
+                <th>
+                  <select name="评测状态"  v-model="result" @change="toPage(1)" class="custom-select">
                     <option value selected="selected">评测状态</option>
                     <option :value="index" v-for="(item,index) in judgeResult" :key="index">
                       {{ item }}
@@ -104,11 +104,11 @@
                   <button @click="reSubmit(item.solutionId)" class="btn btn-primary mb-1"
                           v-else-if="item.result == 10">提交重判
                   </button>
-                  {{ formatResultTime(item.runtime,item.result) }}
+                  {{ formatResultTime(item.runtime, item.result) }}
                 </td>
                 <td>
                   <i class="fa fa-lg fa-spinner fa-spin" v-if="item.result == 9"></i>
-                  {{ formatMemory(item.memory,item.result) }}
+                  {{ formatMemory(item.memory, item.result) }}
                 </td>
                 <td>
                   <i v-if="!user"><i class="fa fa-lg fa-lock"></i>需要登录</i>
@@ -154,6 +154,8 @@ export default {
   },
   methods: {
     toPage(index) {
+      // console.log(this.result)
+      // if(this.result === null)
       getSolutionSet(index, {
         nickName: this.nickName,
         problemId: this.problemId,
@@ -197,16 +199,16 @@ export default {
             console.log(err);
           });
     },
-    formatResultTime(time,result) {
+    formatResultTime(time, result) {
       // console.log(result)
       //不正确无运行时间
-      if(result != 0) return "--";
+      if (result != 0) return "--";
       return formatRunTime(time)
     },
-    formatMemory(memory,result) {
+    formatMemory(memory, result) {
       // console.log(result)
       //不正确,无运行内存
-      if(result != 0) return "--";
+      if (result != 0) return "--";
       return formatMemory(memory)
     }
   },
